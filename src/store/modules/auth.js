@@ -20,7 +20,7 @@ const actions = {
       .mutate({
         mutation: gql`
           mutation{
-            updateProfile(email: "${payload.email}",firstName: "${payload.firstName}",lastName: "${payload.lastName}",id:"${payload.id}") {
+            updateProfile(email: "${payload.email}",firstName: "${payload.firstName}",lastName: "${payload.lastName}",id:"${payload.id}",phone:"",profilePic:"") {
               payload{
                 id
                 firstName
@@ -45,7 +45,7 @@ const actions = {
 
         commit(types.SAVE_USER, {
           auth: false,
-          ...response.data.tokenAuth.user,
+          ...response.data.updateProfile.payload,
         });
 
         commit(types.SHOW_LOADING, false);

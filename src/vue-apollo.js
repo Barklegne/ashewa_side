@@ -22,7 +22,7 @@ const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `JWT ${token}` : "",
+      Authorization: token ? `JWT ${token}` : "",
     },
   };
 });
@@ -35,7 +35,7 @@ const defaultOptions = {
   // Use `null` to disable subscriptions
   link: authLink,
   // LocalStorage token
-  tokenName: AUTH_TOKEN,
+  //tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
   persisting: false,
   // Use websockets for everything (no HTTP)

@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="myFont">
     <Toolbar />
     <v-main class="text-center">
       <loading />
@@ -78,5 +78,8 @@ export default {
 }
 .lightB {
   background-color: white;
+}
+.myFont {
+  font-family: "Mansalva", cursive;
 }
 </style>

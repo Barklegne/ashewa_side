@@ -28,7 +28,7 @@
             <v-list-item two-line>
               <v-list-item-avatar color="black">
                 <img :src="profilePic" v-if="userData.profilePic.length > 0" />
-                <span v-else class="white--text text-h5">{{
+                <span v-else class="white--text text-h5 ml-3">{{
                   userData.userName[0].toUpperCase()
                 }}</span>
               </v-list-item-avatar>
