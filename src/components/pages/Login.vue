@@ -1,0 +1,95 @@
+<template>
+  <v-container
+    style="background-color:white;min-height:63vh"
+    fluid
+    class="my-10"
+  >
+    <v-layout row wrap class="mx-10">
+      <v-flex xs12 sm6 offset-sm3>
+        <div class="my-4">
+          <h1 style="font-size:50px">Login</h1>
+        </div>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <form @submit.prevent="handleSubmit(submit)">
+            <v-layout column>
+              <v-flex>
+                <ValidationProvider rules="required" v-slot="{ errors }">
+                  <v-text-field
+                    id="userName"
+                    name="userName"
+                    label="User Name"
+                    v-model="userName"
+                    :error="errors.length > 0"
+                    :error-messages="errors[0]"
+                    autocomplete="off"
+                  ></v-text-field>
+                </ValidationProvider>
+              </v-flex>
+              <v-flex>
+                <ValidationProvider rules="required|min:5" v-slot="{ errors }">
+                  <v-text-field
+                    id="password"
+                    name="password"
+                    type="password"
+                    label="Password"
+                    v-model="password"
+                    :error="errors.length > 0"
+                    :error-messages="errors[0]"
+                    autocomplete="off"
+                  ></v-text-field>
+                </ValidationProvider>
+              </v-flex>
+              <v-flex text-xs-center mt-5 mb-3>
+                <SubmitButton buttonText="Login" />
+              </v-flex>
+              <v-flex text-xs-center>
+                <v-btn
+                  :to="{ path: '/signup' }"
+                  small
+                  text
+                  class="btnForgotPassword"
+                  >Don't have account?</v-btn
+                >
+              </v-flex>
+            </v-layout>
+          </form>
+        </ValidationObserver>
+      </v-flex>
+      <ErrorMessage />
+    </v-layout>
+  </v-container>
+</template>
+
+<script>
+import router from "@/router";
+import { mapActions } from "vuex";
+
+export default {
+  metaInfo() {
+    return {
+      title: "Ashewa",
+      titleTemplate: `Ashewa`,
+    };
+  },
+  data() {
+    return {
+      userName: "",
+      password: "",
+    };
+  },
+  methods: {
+    ...mapActions(["userLogin"]),
+    async submit() {
+      await this.userLogin({
+        email: this.userName,
+        password: this.password,
+      });
+    },
+  },
+  created() {
+    if (this.$store.state.auth.isTokenSet) {
+      router.push({ path: "/" });
+    }
+  },
+};
+</script>

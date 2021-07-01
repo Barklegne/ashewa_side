@@ -1,0 +1,283 @@
+<template>
+  <div>
+    <div class="hidden-md-and-down">
+      <v-footer dark padless class="d-block text-center">
+        <v-card flat color="#43DB80" tile class="white--text text-start">
+          <v-card-text>
+            <v-row align="center">
+              <v-spacer></v-spacer>
+              <v-col cols="5">
+                <v-list-item two-line>
+                  <v-list-item-content>
+                    <v-list-item-title>Newsletter</v-list-item-title>
+                    <v-list-item-subtitle
+                      >Subscribe to get information about products and
+                      coupons</v-list-item-subtitle
+                    >
+                  </v-list-item-content>
+                </v-list-item>
+              </v-col>
+              <v-col cols="4">
+                <v-row align="center">
+                  <v-text-field
+                    solo
+                    dense
+                    flat
+                    light
+                    class="mt-7"
+                    height="50px"
+                    placeholder="Email Address"
+                  ></v-text-field>
+                  <v-btn color="black" dark height="50px" tile>Subscribe</v-btn>
+                </v-row>
+              </v-col>
+              <v-spacer></v-spacer>
+            </v-row>
+          </v-card-text>
+
+          <v-divider></v-divider>
+        </v-card>
+        <v-card flat tile color="#43DB80" class="white--text text-center">
+          <v-card-text>
+            <v-btn
+              v-for="icon in icons"
+              :key="icon"
+              class="mx-4 white--text"
+              icon
+            >
+              <v-icon size="24px">
+                {{ icon }}
+              </v-icon>
+            </v-btn>
+          </v-card-text>
+
+          <v-card-text class="white--text pt-0">
+            <v-row>
+              <v-spacer></v-spacer>
+              <v-col>
+                <v-list style="background-color:transparent;" dense flat>
+                  <p
+                    style="font-size:15px;font-weight:600"
+                    class="text-start pl-3 white--text pl-1 mb-1"
+                  >
+                    Our Courses
+                  </p>
+                  <v-list-item-group>
+                    <v-list-item
+                      style="min-height:30px"
+                      v-for="(item, i) in courses"
+                      :key="i"
+                    >
+                      <v-list-item-content class="py-0">
+                        <v-list-item-title
+                          ><p class="text-start mb-0">{{ item }}</p>
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-col>
+              <v-spacer></v-spacer>
+              <v-col>
+                <v-list style="background-color:transparent;" dense flat>
+                  <p
+                    style="font-size:15px;font-weight:600"
+                    class="text-start pl-3 white--text  mb-1"
+                  >
+                    About
+                  </p>
+                  <v-list-item-group>
+                    <v-list-item
+                      style="min-height:30px"
+                      v-for="(item, i) in about"
+                      :key="i"
+                      :to="item.link"
+                    >
+                      <v-list-item-content class="py-0">
+                        <v-list-item-title
+                          ><p class="text-start mb-0">{{ item.name }}</p>
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-col>
+              <v-spacer></v-spacer>
+              <v-col>
+                <v-list style="background-color:transparent;" dense flat>
+                  <p
+                    style="font-size:15px;font-weight:600"
+                    class="text-start pl-3 white--text  mb-1"
+                  >
+                    Our E-commerce
+                  </p>
+                  <v-list-item-group>
+                    <v-list-item
+                      style="min-height:30px"
+                      v-for="(item, i) in ec"
+                      :key="i"
+                    >
+                      <v-list-item-content class="py-0">
+                        <v-list-item-title
+                          ><p class="text-start mb-0">{{ item }}</p>
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-col>
+              <v-spacer></v-spacer>
+              <v-col>
+                <v-list style="background-color:transparent;" dense flat>
+                  <p
+                    style="font-size:15px;font-weight:600"
+                    class="text-start pl-3 white--text pl-1 mb-1"
+                  >
+                    Make Money
+                  </p>
+                  <v-list-item-group>
+                    <v-list-item
+                      style="min-height:30px"
+                      v-for="(item, i) in grow"
+                      :key="i"
+                    >
+                      <v-list-item-content class="py-0">
+                        <v-list-item-title
+                          ><p class="text-start mb-0">{{ item }}</p>
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-col>
+
+              <v-spacer></v-spacer>
+            </v-row>
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-text class="white--text">
+            {{ new Date().getFullYear() }} — <strong>Ashewa</strong>
+          </v-card-text>
+        </v-card>
+      </v-footer>
+    </div>
+    <v-footer
+      v-if="route.name != 'ProductDetails'"
+      style="border:1px solid grey"
+      class="py-2 hidden-lg-and-up"
+      height="60"
+      fixed
+    >
+      <div
+        @click="
+          $router.push({
+            path: item.path,
+          })
+        "
+        v-for="item in footerAll"
+        :key="item.path"
+        style="margin:auto auto;cursor:pointer"
+        class="text-center"
+      >
+        <v-icon
+          :color="route.path == item.path ? '#43DB80' : '#383737'"
+          style="font-size:32px"
+          x-large
+          >{{ item.icon }}</v-icon
+        >
+        <p
+          :style="
+            route.path == item.path
+              ? 'font-size:12px;color:#43DB80'
+              : 'font-size:12px;color:#383737'
+          "
+          class="text-center"
+        >
+          {{ item.name }}
+        </p>
+      </div>
+    </v-footer>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Footer",
+  data() {
+    return {
+      icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
+      courses: [
+        "Digital Marketing",
+        "Web Designer",
+        "MLM Trainings",
+        "Personal Development",
+        "Project Management",
+      ],
+      about: [
+        {
+          name: "About us",
+          link: "about",
+        },
+        {
+          name: "General Policy",
+          link: "policy",
+        },
+        {
+          name: "Team",
+          link: "team",
+        },
+        {
+          name: "Terms of use",
+          link: "termsOfUse",
+        },
+      ],
+      ec: ["Ashewa story", "Community", "Blog", "Job Vacancy", "Contact"],
+      grow: ["Ashewa story", "Community", "Blog", "Job Vacancy", "Contact"],
+      footerAll: [
+        {
+          path: "/",
+          icon: "mdi-home-outline",
+          name: "Home",
+        },
+        {
+          path: "/allCategories",
+          icon: "mdi-format-list-bulleted",
+          name: "Category",
+        },
+        {
+          path: "/messages",
+          icon: "mdi-chat-processing-outline",
+          name: "Messages",
+        },
+        {
+          path: "/cart",
+          icon: "mdi-cart-outline",
+          name: "Cart",
+        },
+        {
+          path: "/profile",
+          icon: "mdi-account-outline",
+          name: "Account",
+        },
+      ],
+    };
+  },
+  computed: {
+    appVersion() {
+      return "this.$store.getters.appVersion";
+    },
+    route() {
+      return { path: this.$route.path, name: this.$route.name };
+    },
+    totalWishList() {
+      return [];
+    },
+    totalCartList() {
+      return [];
+    },
+  },
+};
+</script>
+<style scoped></style>
