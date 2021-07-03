@@ -48,11 +48,15 @@
                 <v-list>
                   <v-list-item
                     style="cursor:pointer"
-                    @click="selected = item.title"
+                    @click="
+                      $router.push({
+                        path: `/subcategory/${item.id}`,
+                      })
+                    "
                     v-for="(item, index) in categories"
                     :key="index"
                   >
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    <v-list-item-title>{{ item.name }}</v-list-item-title>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -213,7 +217,7 @@
                   :key="index"
                   @click="
                     $router.push({
-                      path: `/category/${item.id}`,
+                      path: `/subcategory/${item.id}`,
                     })
                   "
                 >
@@ -420,9 +424,15 @@ export default {
             class: "btnAbout",
           },
           {
-            title: "MY_PROFILE",
+            title: "MY PROFILE",
             link: "/profile",
             icon: "mdi-face",
+            class: "btnProfile",
+          },
+          {
+            title: "SELL ON ASHEWA",
+            link: "/sellOnAshewa",
+            icon: "mdi-storefront-outline",
             class: "btnProfile",
           },
         ];

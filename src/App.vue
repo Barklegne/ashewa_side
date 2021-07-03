@@ -64,6 +64,7 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans");
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.1s;
@@ -80,6 +81,6 @@ export default {
   background-color: white;
 }
 .myFont {
-  font-family: "Mansalva", cursive;
+  font-family: "Nunito Sans";
 }
 </style>

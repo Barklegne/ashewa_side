@@ -1,5 +1,9 @@
 <template>
-  <v-container style="background-color:white" fluid class="mb-3">
+  <v-container
+    style="background-color:white;margin-bottom:80px;"
+    fluid
+    class="mb-25"
+  >
     <v-layout row wrap class="mx-10">
       <v-flex xs12 sm6 offset-sm3>
         <div class="my-5">

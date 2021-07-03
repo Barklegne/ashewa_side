@@ -1,8 +1,13 @@
 <template>
   <div>
-    <div class="hidden-md-and-down">
+    <div>
       <v-footer dark padless class="d-block text-center">
-        <v-card flat color="#43DB80" tile class="white--text text-start">
+        <v-card
+          flat
+          color="#43DB82"
+          tile
+          class="white--text text-start hidden-md-and-down"
+        >
           <v-card-text>
             <v-row align="center">
               <v-spacer></v-spacer>
@@ -52,12 +57,16 @@
           </v-card-text>
 
           <v-card-text class="white--text pt-0">
-            <v-row>
-              <v-spacer></v-spacer>
-              <v-col>
-                <v-list style="background-color:transparent;" dense flat>
+            <v-row justify="center">
+              <v-col cols="6" lg="4">
+                <v-list
+                  class="mx-10"
+                  style="background-color:transparent;"
+                  dense
+                  flat
+                >
                   <p
-                    style="font-size:15px;font-weight:600"
+                    style="font-size:18px;font-weight:600"
                     class="text-start pl-3 white--text pl-1 mb-1"
                   >
                     Our Courses
@@ -70,18 +79,28 @@
                     >
                       <v-list-item-content class="py-0">
                         <v-list-item-title
-                          ><p class="text-start mb-0">{{ item }}</p>
+                          ><p
+                            class="text-start mb-0"
+                            style="font-size:13px;font-weight:400"
+                          >
+                            {{ item }}
+                          </p>
                         </v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
                 </v-list>
               </v-col>
-              <v-spacer></v-spacer>
-              <v-col>
-                <v-list style="background-color:transparent;" dense flat>
+
+              <v-col cols="6" lg="4">
+                <v-list
+                  class="mx-10"
+                  style="background-color:transparent;"
+                  dense
+                  flat
+                >
                   <p
-                    style="font-size:15px;font-weight:600"
+                    style="font-size:18px;font-weight:600"
                     class="text-start pl-3 white--text  mb-1"
                   >
                     About
@@ -95,18 +114,28 @@
                     >
                       <v-list-item-content class="py-0">
                         <v-list-item-title
-                          ><p class="text-start mb-0">{{ item.name }}</p>
+                          ><p
+                            class="text-start mb-0"
+                            style="font-size:13px;font-weight:400"
+                          >
+                            {{ item.name }}
+                          </p>
                         </v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
                 </v-list>
               </v-col>
-              <v-spacer></v-spacer>
-              <v-col>
-                <v-list style="background-color:transparent;" dense flat>
+
+              <v-col cols="12" lg="4">
+                <v-list
+                  class="mx-10"
+                  style="background-color:transparent;"
+                  dense
+                  flat
+                >
                   <p
-                    style="font-size:15px;font-weight:600"
+                    style="font-size:18px;font-weight:600"
                     class="text-start pl-3 white--text  mb-1"
                   >
                     Our E-commerce
@@ -116,34 +145,16 @@
                       style="min-height:30px"
                       v-for="(item, i) in ec"
                       :key="i"
+                      :to="item.link"
                     >
                       <v-list-item-content class="py-0">
                         <v-list-item-title
-                          ><p class="text-start mb-0">{{ item }}</p>
-                        </v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list-item-group>
-                </v-list>
-              </v-col>
-              <v-spacer></v-spacer>
-              <v-col>
-                <v-list style="background-color:transparent;" dense flat>
-                  <p
-                    style="font-size:15px;font-weight:600"
-                    class="text-start pl-3 white--text pl-1 mb-1"
-                  >
-                    Make Money
-                  </p>
-                  <v-list-item-group>
-                    <v-list-item
-                      style="min-height:30px"
-                      v-for="(item, i) in grow"
-                      :key="i"
-                    >
-                      <v-list-item-content class="py-0">
-                        <v-list-item-title
-                          ><p class="text-start mb-0">{{ item }}</p>
+                          ><p
+                            class="text-start mb-0"
+                            style="font-size:13px;font-weight:400"
+                          >
+                            {{ item.name }}
+                          </p>
                         </v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
@@ -213,7 +224,6 @@ export default {
         "Web Designer",
         "MLM Trainings",
         "Personal Development",
-        "Project Management",
       ],
       about: [
         {
@@ -233,7 +243,12 @@ export default {
           link: "termsOfUse",
         },
       ],
-      ec: ["Ashewa story", "Community", "Blog", "Job Vacancy", "Contact"],
+      ec: [
+        { name: "Vendor/Supplier", link: "/vendor-supplier" },
+        { name: "Ashewa Army", link: "/ashewa-army" },
+        { name: "Shipping Policy", link: "/shipping-policy" },
+        { name: "Privacy Policy", link: "/privacy-policy" },
+      ],
       grow: ["Ashewa story", "Community", "Blog", "Job Vacancy", "Contact"],
       footerAll: [
         {

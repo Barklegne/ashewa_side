@@ -35,10 +35,8 @@
             ></v-img>
             <div><h3>Low Fees</h3></div>
             <v-card-text
-              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-              eligendi ipsa, aliquid totam facere enim, facilis assumenda alias,
-              quisquam dolorum ullam? Illum maxime dolores animi tempora tempore
-              nam dicta ratione!</v-card-text
+              >It doesn’t take much to list your items and once you make a sale,
+              Martfury’s transaction fee is just 2.5%.</v-card-text
             >
           </v-card>
         </v-col>
@@ -52,10 +50,10 @@
             ></v-img>
             <div><h3>Powerful Tools</h3></div>
             <v-card-text
-              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-              eligendi ipsa, aliquid totam facere enim, facilis assumenda alias,
-              quisquam dolorum ullam? Illum maxime dolores animi tempora tempore
-              nam dicta ratione!</v-card-text
+              >Optimize your every move with in-depth data and customer insights
+              Improve performance with dashboards detailing product exposure,
+              click volume, spend, average cost, store visits, and
+              more.</v-card-text
             >
           </v-card>
         </v-col>
@@ -69,10 +67,9 @@
             ></v-img>
             <div><h3>Support 24/7</h3></div>
             <v-card-text
-              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-              eligendi ipsa, aliquid totam facere enim, facilis assumenda alias,
-              quisquam dolorum ullam? Illum maxime dolores animi tempora tempore
-              nam dicta ratione!</v-card-text
+              >Know you’re supported throughout your journey From onboarding
+              help to online chats to local support during business hours and
+              account optimization tips -- we’re here for you.</v-card-text
             >
           </v-card>
         </v-col>
@@ -80,34 +77,73 @@
     </div>
     <div class="my-10">
       <v-timeline style="width:80%;margin:auto auto">
-        <v-timeline-item color="#FCB813" v-for="i in 4" :key="i" large>
+        <v-timeline-item
+          color="#FCB813"
+          v-for="(item, i) in items"
+          :key="i"
+          large
+        >
           <template v-slot:icon>
-            <h1 style="color:white">{{ i }}</h1>
+            <h1 style="color:white">{{ i + 1 }}</h1>
           </template>
           <template v-slot:opposite>
             <div class="text-start">
               <div>
-                <h3 class="mb-2">
-                  Lorem ipsum dolor sit amet, consectetur.
-                </h3>
+                <h3 class="mb-2">{{ item.title }}</h3>
                 <p class="text-caption">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-                  impedit, soluta pariatur aperiam aspernatur sequi animi
+                  {{ item.body }}
                 </p>
               </div>
             </div>
           </template>
           <div>
-            <v-img width="300" :src="`/images/milestone-${i}.png`"></v-img>
+            <v-img width="300" :src="`/images/milestone-${i + 1}.png`"></v-img>
           </div>
         </v-timeline-item>
       </v-timeline>
     </div>
+    <v-btn
+      dark
+      href="http://vendors.ashewa.com/signup#"
+      large
+      tile
+      color="#43DB80"
+    >
+      <v-icon left>mdi-storefront-outline</v-icon>
+      Create Your Store
+    </v-btn>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      items: [
+        {
+          title: "Register and list your products",
+          body:
+            "Register your business for free and create a product catalogue. Ashewa Advisors will help you at every step and fully assist you in taking your business online",
+        },
+        {
+          title: "Custom storefront",
+          body:
+            "Set up a store that showcases your brand. Differentiate yourself from the competition with a full store dedicated to your products- no coding or design skills necessary!",
+        },
+        {
+          title: "Deliver with ease",
+          body:
+            "Know you’re supported throughout your journey From onboarding help to online chats to local support during business hours and account optimization tips -- we’re here for you.",
+        },
+        {
+          title: "Advertising tools",
+          body:
+            "Increase exposure by up to 120% with a suite of smart advertising tools. Get your products placed in the right spots to be noticed by the exact audience you are targeting.",
+        },
+      ],
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped></style>
