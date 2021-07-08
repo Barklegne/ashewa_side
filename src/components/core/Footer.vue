@@ -58,7 +58,7 @@
 
           <v-card-text class="white--text pt-0">
             <v-row justify="center">
-              <v-col cols="6" lg="4">
+              <v-col cols="6" lg="3">
                 <v-list
                   class="mx-10"
                   style="background-color:transparent;"
@@ -92,7 +92,7 @@
                 </v-list>
               </v-col>
 
-              <v-col cols="6" lg="4">
+              <v-col cols="6" lg="3">
                 <v-list
                   class="mx-10"
                   style="background-color:transparent;"
@@ -127,7 +127,7 @@
                 </v-list>
               </v-col>
 
-              <v-col cols="12" lg="4">
+              <v-col cols="6" lg="3">
                 <v-list
                   class="mx-10"
                   style="background-color:transparent;"
@@ -144,6 +144,40 @@
                     <v-list-item
                       style="min-height:30px"
                       v-for="(item, i) in ec"
+                      :key="i"
+                      :to="item.link"
+                    >
+                      <v-list-item-content class="py-0">
+                        <v-list-item-title
+                          ><p
+                            class="text-start mb-0"
+                            style="font-size:13px;font-weight:400"
+                          >
+                            {{ item.name }}
+                          </p>
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-col>
+              <v-col cols="6" lg="3">
+                <v-list
+                  class="mx-10"
+                  style="background-color:transparent;"
+                  dense
+                  flat
+                >
+                  <p
+                    style="font-size:18px;font-weight:600"
+                    class="text-start pl-3 white--text  mb-1"
+                  >
+                    Make Money with Us
+                  </p>
+                  <v-list-item-group>
+                    <v-list-item
+                      style="min-height:30px"
+                      v-for="(item, i) in mm"
                       :key="i"
                       :to="item.link"
                     >
@@ -248,6 +282,13 @@ export default {
         { name: "Ashewa Army", link: "/ashewa-army" },
         { name: "Shipping Policy", link: "/shipping-policy" },
         { name: "Privacy Policy", link: "/privacy-policy" },
+      ],
+      mm: [
+        { name: "Sell products on Ashewa", link: "/vendor-supplier" },
+        { name: "Sell on Ashewa Business", link: "/ashewa-army" },
+        { name: "Blog  on Ashewa", link: "/shipping-policy" },
+        { name: "Become an Affiliate", link: "/privacy-policy" },
+        { name: "Advertise Your Products", link: "/privacy-policy" },
       ],
       grow: ["Ashewa story", "Community", "Blog", "Job Vacancy", "Contact"],
       footerAll: [

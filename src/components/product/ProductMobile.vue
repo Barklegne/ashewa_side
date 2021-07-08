@@ -19,6 +19,7 @@
         >
           <div style="background-color: rgba(0, 0, 0, 0.336);">
             <v-rating
+              v-if="productrateSet.length > 0"
               :value="3"
               readonly
               background-color="green lighten-3"
@@ -124,6 +125,10 @@ export default {
     },
     productId: {
       type: String,
+      required: true,
+    },
+    productrateSet: {
+      type: Array,
       required: true,
     },
     productName: {

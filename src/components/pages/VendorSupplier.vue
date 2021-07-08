@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-div style="margin:auto auto;width:80%" class="text-start">
         <h1 style="font-size:40px" class="text-center my-4">
-          VENDOR/SUPPLIER'S ?
+          VENDOR/SUPPLIER'S?
         </h1>
         <p>
           Location? To be a Vendor/supplier on ASHEWA , you must be based in

@@ -1,4 +1,5 @@
 import * as types from "@/store/mutation-types";
+import Vue from "vue";
 
 const getters = {
   totalWishList: (state) => state.wishLists,
@@ -23,7 +24,7 @@ const mutations = {
       ...wl[value],
       quantity: wl[value].quantity + 1,
     };
-    state.wishLists = wl;
+    Vue.set(state, "wishLists", [...wl]);
   },
   [types.DECREMENT_QUANTITY](state, value) {
     if (state.wishLists[value].quantity == 1) {
@@ -31,10 +32,12 @@ const mutations = {
         return product.productId != state.wishLists[value].productId;
       });
     } else {
-      state.wishLists[value] = {
+      let wl = state.wishLists;
+      wl[value] = {
         ...state.wishLists[value],
         quantity: state.wishLists[value].quantity - 1,
       };
+      Vue.set(state, "wishLists", [...wl]);
     }
   },
   [types.ADD_PRODUCT_TO_WISH_LIST](state, value) {

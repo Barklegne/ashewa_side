@@ -20,6 +20,7 @@
       >
         <div style="background-color: rgba(0, 0, 0, 0.336);">
           <v-rating
+            v-if="productrateSet.length > 0"
             :value="5"
             readonly
             background-color="green lighten-3"
@@ -130,6 +131,7 @@
                     >
 
                     <v-rating
+                      v-if="productrateSet.length > 0"
                       v-model="rating"
                       color="yellow darken-3"
                       background-color="grey darken-1"
@@ -308,6 +310,10 @@ export default {
       required: true,
     },
     productImages: {
+      type: Array,
+      required: true,
+    },
+    productrateSet: {
       type: Array,
       required: true,
     },

@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     totalWishList() {
-      return this.$store.getters.totalWishList;
+      return this.$store.state.wishList.wishLists;
     },
   },
   data() {

@@ -38,6 +38,13 @@ const actions = {
                 name
                 id
                 image
+                productrateSet {
+                  user {
+                    username
+                  }
+                  rate
+                  comment
+                }
                 vendor {
                   storeName
                   id
@@ -98,6 +105,13 @@ const actions = {
                 name
                 id
                 image
+                productrateSet{
+                  user{
+                    username
+                  }
+                  rate
+                  comment
+                }
                 vendor {
                   storeName
                   id
@@ -145,6 +159,13 @@ const actions = {
                 name
                 id
                 image
+                productrateSet{
+                  user{
+                    username
+                  }
+                  rate
+                  comment
+                }
                 vendor {
                   storeName
                   id
@@ -181,6 +202,66 @@ const actions = {
       .then((response) => {
         commit(types.GET_A_PRODUCT, response.data.getProductsById);
         commit(types.SHOW_LOADING, false);
+      })
+      .catch((error) => {
+        handleError(error, commit, resp);
+      });
+  },
+  async getRelatedProduct({ commit }, id) {
+    const resp = await apolloClient
+      .query({
+        query: gql`
+          {
+            relatedProducts(productId: "${id.id}") {
+                name
+                id
+                image
+                productrateSet{
+                  user{
+                    username
+                  }
+                  rate
+                  comment
+                }
+                vendor {
+                  storeName
+                  id
+                  productSet {
+                    name
+                    id
+                    image
+                    productimageSet {
+                      image
+                    }
+                    sellingPrice
+                  }
+                }
+                sellingPrice
+                productimageSet {
+                  image
+                }
+                discount
+                description
+                category {
+                  id
+                  name
+                  image
+                }
+                productrateSet {
+                  id
+                  rate
+                }
+                subcategory {
+                  id
+                  name
+                }
+              }
+                       
+          }
+        `,
+      })
+      .then((response) => {
+        commit(types.GET_RELATED_PRODUCT, response.data.relatedProducts);
       })
       .catch((error) => {
         handleError(error, commit, resp);
@@ -253,10 +334,14 @@ const mutations = {
       state.productFound = products;
     }
   },
+  [types.GET_RELATED_PRODUCT](state, products) {
+    state.relatedProducts = products;
+  },
 };
 
 const state = {
   products: [],
+  relatedProducts: [],
   productsVendor: [],
   filteredProducts: [],
   productFound: {},

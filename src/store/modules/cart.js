@@ -1,5 +1,6 @@
 import * as types from "@/store/mutation-types";
 import router from "@/router";
+import Vue from "vue";
 
 const getters = {
   totalCartList: (state) => state.cartItems,
@@ -18,10 +19,26 @@ const mutations = {
     });
   },
   [types.INCREMENT_QUANTITY_CART](state, value) {
-    state.cartItems[value] = {
+    let cl = state.cartItems;
+    cl[value] = {
       ...state.cartItems[value],
       quantity: state.cartItems[value].quantity + 1,
     };
+    Vue.set(state, "cartItems", [...cl]);
+  },
+  [types.DECREMENT_QUANTITY_CART](state, value) {
+    if (state.cartItems[value].quantity == 1) {
+      state.cartItems = state.cartItems.filter(function(product) {
+        return product.productId != state.cartItems[value].productId;
+      });
+    } else {
+      let cl = state.cartItems;
+      cl[value] = {
+        ...state.cartItems[value],
+        quantity: state.cartItems[value].quantity - 1,
+      };
+      Vue.set(state, "cartItems", [...cl]);
+    }
   },
   [types.ADD_PRODUCT_TO_CART_LIST](state, value) {
     console.log(value);
@@ -33,7 +50,7 @@ const mutations = {
         category: value.category,
         price: value.price,
         image: value.image,
-        quantity: 1,
+        quantity: value.quantity ? value.quantity : 1,
       },
     ];
   },

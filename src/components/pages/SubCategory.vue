@@ -80,6 +80,7 @@
                     :dealerPrice="0"
                     :width="150"
                     :height="150"
+                    :productrateSet="n.productrateSet"
                   />
                 </v-slide-item>
               </v-slide-group>
@@ -93,7 +94,6 @@
       justify="space-around"
       v-if="!!category"
     >
-      <p>{{ category.productSet }}</p>
       <v-col class="test1" cols="12">
         <section id="top-categories-of-the-month">
           <p class="text-start mx-5">Shop by Category</p>
@@ -132,6 +132,7 @@
                   :productCategory="n.category"
                   :width="150"
                   :height="150"
+                  :productrateSet="n.productrateSet"
                 />
               </v-col>
             </v-row>

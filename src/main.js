@@ -9,6 +9,7 @@ import VuetifyConfirm from "vuetify-confirm";
 import { createProvider } from "./vue-apollo";
 import ZoomOnHover from "vue-zoom-on-hover";
 
+
 Vue.use(ZoomOnHover);
 Vue.config.productionTip = false;
 Vue.use(VuetifyConfirm, { vuetify });

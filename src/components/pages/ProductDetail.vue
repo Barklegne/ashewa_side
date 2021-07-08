@@ -21,24 +21,39 @@
           >mdi-storefront-outline</v-icon
         >
       </div>
-      <div style="width:90%;background-color:red;height:100%">
-        <v-btn
-          style="text-transform: none;color:white;font-weight:700;"
-          tile
-          color="#0ea54b"
-          elevation="0"
-          height="100%"
-          width="30%"
-          @click="sheetB = true"
-          >Send Inquiry</v-btn
+      <div
+        @click="
+          $router.push({
+            path: '/store',
+          })
+        "
+        style="margin:auto auto"
+      >
+        <v-icon
+          :color="route.path == '/store' ? '#43DB80' : '#383737'"
+          style="font-size:32px"
+          large
+          >mdi-telegram</v-icon
         >
+      </div>
+      <div style="width:80%;background-color:red;height:100%">
         <v-btn
           style="text-transform: none;color:#0ea54b;font-weight:700"
           tile
           color="#e8ffe8"
           elevation="0"
           height="100%"
-          width="35%"
+          width="50%"
+          @click="
+            addToBag({
+              image: product.productimageSet[0].image,
+              price: product.sellingPrice,
+              title: product.name,
+              id: product.id,
+              category: product.category.name,
+              quantity: quantity,
+            })
+          "
           >Add to Bag</v-btn
         >
         <v-btn
@@ -47,8 +62,19 @@
           color="#0ea54b"
           elevation="0"
           height="100%"
-          width="35%"
-          @click="sheetB = true"
+          width="50%"
+          @click="
+            sheetB
+              ? addToCart({
+                  image: product.productimageSet[0].image,
+                  price: product.sellingPrice,
+                  title: product.name,
+                  id: product.id,
+                  category: product.category.name,
+                  quantity: quantity,
+                })
+              : (sheetB = true)
+          "
           >Buy now</v-btn
         >
       </div>
@@ -107,7 +133,13 @@
               </v-row>
               <v-row justify="start" class="ma-4">
                 <span>
-                  Brand: {{ !!product ? product.vendor.storeName : "" }}</span
+                  Brand:
+                  {{
+                    !!product
+                      ? product.vendor.storeName.charAt(0).toUpperCase() +
+                        product.vendor.storeName.slice(1)
+                      : ""
+                  }}</span
                 >
 
                 <v-rating
@@ -176,6 +208,7 @@
                         title: product.name,
                         id: product.id,
                         category: product.category.name,
+                        quantity: quantity,
                       })
                     "
                     style="background-color:white;color:#09b750;border:1px solid #09b750;"
@@ -263,7 +296,14 @@
               style="width:100%; background-color:white;height:50px;border-radius:5px"
               class="text-center"
             >
-              <h1>{{ !!product ? product.vendor.storeName : "" }}</h1>
+              <h1>
+                {{
+                  !!product
+                    ? product.vendor.storeName.charAt(0).toUpperCase() +
+                      product.vendor.storeName.slice(1)
+                    : ""
+                }}
+              </h1>
             </div>
           </v-col>
           <v-spacer></v-spacer>
@@ -292,9 +332,11 @@
                     color="#09b750"
                     rounded
                     elevation="0"
-                    outlined
+                    :outlined="!following"
+                    @click="following = !following"
+                    :dark="following"
                     small
-                    >+ Follow</v-btn
+                    >{{ following ? "Following" : "+ Follow" }}</v-btn
                   >
                   <v-btn
                     class="mx-1 btn"
@@ -310,13 +352,18 @@
 
               <v-col
                 class="mx-auto"
-                v-for="(prod, i) in product.vendor.productSet"
+                v-for="(prod, i) in relatedProducts"
                 :key="i"
                 cols="6"
                 lg="2"
               >
                 <div v-if="prod.productimageSet.length > 0">
-                  <v-card v-if="i < 4" class="mx-auto" width="100">
+                  <v-card
+                    :href="`/ProductDetails/${prod.id}`"
+                    v-if="i < 4"
+                    class="mx-auto"
+                    width="100"
+                  >
                     <v-img
                       :src="
                         prod.productimageSet[0].image[0] == 'h'
@@ -436,7 +483,11 @@
           rounded
           class="my-1"
           width="100%"
-          @click="$router.push({ path: '/messages/2' })"
+          @click="
+            chat({
+              vendorName: product.vendor.storeName,
+            })
+          "
           >Chat Now</v-btn
         >
         <v-btn
@@ -445,29 +496,24 @@
           rounded
           class="my-1"
           width="100%"
-          @click="$router.push({ path: `/messages/${product.name}` })"
+          @click="inquire({ vendorName: product.vendor.storeName })"
           >Send Inquiry</v-btn
         >
       </div>
       <v-divider></v-divider>
       <div class="mx-5 my-2 text-start">
         <p class="ma-0 mb-1" style="font-size:14px;font-weight:500">
-          10 Colors, 4 Size
+          {{ colors.length }} Colors, {{ colors[0].sizes.length }} Size
         </p>
         <v-slide-group v-model="i" active-class="success">
-          <v-slide-item class="mr-2" v-for="(n, i) in 10" :key="i">
+          <v-slide-item class="mr-2" v-for="(n, i) in colors" :key="i">
             <v-card
               style="border:1px solid grey;padding:2px"
               width="60"
               height="60"
               rounded=""
               @click="sheetB = true"
-              ><v-img
-                aspect-ratio="1"
-                :src="
-                  `http://api.ashewa.com/media/${product.productimageSet[0].image}`
-                "
-              ></v-img>
+              ><v-img aspect-ratio="1" :src="n.image"></v-img>
             </v-card>
           </v-slide-item>
         </v-slide-group>
@@ -494,21 +540,19 @@
               hide-delimiters
               :show-arrows="true"
             >
-              <v-carousel-item v-for="(n, i) in 10" :key="i">
+              <v-carousel-item v-for="(n, i) in colors" :key="i">
                 <v-img
                   class="white--text align-end text-end pb-2"
                   style="margin:auto auto"
                   width="70vw"
                   height="245"
-                  :src="
-                    `http://api.ashewa.com/media/${product.productimageSet[0].image}`
-                  "
+                  :src="n.image"
                 >
                   <div
                     class="mr-2 pa-1"
                     style="display:inline;background-color:grey;border-radius:5px;font-size:12px"
                   >
-                    {{ i + 1 }}/{{ 10 }}
+                    {{ i + 1 }}/{{ colors.length }}
                   </div>
                 </v-img>
               </v-carousel-item>
@@ -520,25 +564,21 @@
             <v-row justify="start" class="mx-5">
               <v-col
                 class="pa-0 pt-2"
+                cols="1"
                 style="margin-right:2px"
-                v-for="(n, i) in 10"
+                v-for="(n, i) in colors"
                 :key="i"
               >
                 <v-card
                   :style="
-                    i == 2
+                    i == 1
                       ? 'border:3px solid green;padding:2px'
                       : 'border:1px solid grey;padding:2px'
                   "
                   width="60"
                   height="60"
                   rounded=""
-                  ><v-img
-                    aspect-ratio="1"
-                    :src="
-                      `http://api.ashewa.com/media/${product.productimageSet[0].image}`
-                    "
-                  ></v-img>
+                  ><v-img aspect-ratio="1" :src="n.image"></v-img>
                 </v-card>
               </v-col>
             </v-row>
@@ -618,7 +658,10 @@
         <v-row align="center" justify="center">
           <v-col cols="4">
             <p class="ma-0 pa-0" style="font-size:16px;font-weight:600">
-              {{ product.vendor.storeName }}
+              {{
+                product.vendor.storeName.charAt(0).toUpperCase() +
+                  product.vendor.storeName.slice(1)
+              }}
             </p>
 
             <p class="ma-0 pa-0" style="font-size:13px;font-weight:300">
@@ -631,9 +674,11 @@
               color="#09b750"
               rounded
               elevation="0"
-              outlined
+              :outlined="!following"
+              :dark="following"
+              @click="following = !following"
               small
-              >+ Follow</v-btn
+              >{{ following ? "Following" : "+ Follow" }}</v-btn
             >
             <v-btn
               class="mx-1 btn"
@@ -654,11 +699,11 @@
           <v-col
             cols="6"
             class="pa-0 ma-0"
-            v-for="(prod, i) in product.vendor.productSet"
+            v-for="(prod, i) in relatedProducts"
             :key="i"
           >
             <div v-if="prod.productimageSet.length > 0">
-              <v-card class="mr-1">
+              <v-card :href="`/ProductDetails/${prod.id}`" class="mr-1">
                 <v-img
                   :src="
                     prod.productimageSet[0].image[0] == 'h'
@@ -667,6 +712,11 @@
                   "
                   aspect-ratio="1"
                 ></v-img>
+              </v-card>
+            </div>
+            <div v-else>
+              <v-card :href="`/ProductDetails/${prod.id}`" class="mr-1">
+                <v-img :src="prod.image" aspect-ratio="1"></v-img>
               </v-card>
             </div>
             <div class="my-3 text-center">
@@ -686,7 +736,7 @@
             :key="i"
           >
             <div v-if="prod.productimageSet.length > 0">
-              <v-card class="mr-1">
+              <v-card :href="`/ProductDetails/${prod.id}`" class="mr-1">
                 <v-img
                   :src="
                     prod.productimageSet[0].image[0] == 'h'
@@ -720,14 +770,64 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       index: 0,
       i: 0,
+      following: false,
       model: 0,
       sheetB: false,
       items: ["Overview", "Customer Reviews", "Specification"],
+      colors: [
+        {
+          name: "red",
+          image:
+            "https://media.istockphoto.com/photos/fashion-portrait-of-beautiful-woman-in-waving-red-dress-light-fabric-picture-id1154030121?k=6&m=1154030121&s=612x612&w=0&h=TTAt16gG8IsbHvxM5OyWxQn2ZxcArckKvNV2ys4_Jl8=",
+          sizes: [
+            {
+              name: "Sm",
+              quantity: "1",
+            },
+            {
+              name: "Md",
+              quantity: "1",
+            },
+            {
+              name: "Lg",
+              quantity: "1",
+            },
+            {
+              name: "Xl",
+              quantity: "1",
+            },
+          ],
+        },
+        {
+          name: "Black",
+          image:
+            "https://stylesatlife.com/wp-content/uploads/2018/03/Scalloped-neck-dress.jpg.webp",
+          sizes: [
+            {
+              name: "Sm",
+              quantity: "1",
+            },
+            {
+              name: "Md",
+              quantity: "1",
+            },
+            {
+              name: "Lg",
+              quantity: "1",
+            },
+            {
+              name: "Xl",
+              quantity: "1",
+            },
+          ],
+        },
+      ],
       prices: [
         {
           name: "> 5",
@@ -781,10 +881,15 @@ export default {
   },
   created() {
     this.getProduct();
+    this.getRelatedProduct();
   },
   computed: {
+    ...mapGetters(["isTokenSet"]),
     product() {
       return this.$store.getters.productFound;
+    },
+    relatedProducts() {
+      return this.$store.state.product.relatedProducts;
     },
     route() {
       return { path: this.$route.path, name: this.$route.name };
@@ -826,10 +931,91 @@ export default {
       this.quantity = parseInt(this.quantity, 10) + 1;
       console.log(this.$vuetify.breakpoint.name);
     },
+    chat(data) {
+      if (!this.$store.state.auth.isTokenSet) {
+        this.$router.push({ path: "/login" });
+      } else {
+        this.$store.commit("CREATE_A_MESSAGE", {
+          participants: [
+            {
+              name: data.vendorName,
+              id: 1,
+              profilePicture: "",
+            },
+          ],
+          myself: {
+            name: this.$store.state.auth.user.userName,
+            id: this.$store.state.auth.user.id,
+            profilePicture: "",
+          },
+        });
+
+        this.$router.push({ path: `/messages/${1}` });
+      }
+    },
+    inquire(data) {
+      if (!this.$store.state.auth.isTokenSet) {
+        this.$router.push({ path: "/login" });
+      } else {
+        this.$store.commit("INQUIRE_A_MESSAGE", {
+          participants: [
+            {
+              name: data.vendorName,
+              id: 1,
+              profilePicture: "",
+            },
+          ],
+          myself: {
+            name: this.$store.state.auth.user.userName,
+            id: this.$store.state.auth.user.id,
+            profilePicture: "",
+          },
+          messageContent: [
+            {
+              content: "I would like to inquire about the above product",
+              myself: true,
+              timestamp: {
+                year: 2021,
+                month: 3,
+                day: 5,
+                hour: 10,
+                minute: 10,
+                second: 3,
+                millisecond: 123,
+              },
+              uploaded: true,
+              viewed: true,
+              type: "text",
+            },
+          ],
+        });
+        this.$router.push({ path: `/messages/${1}` });
+      }
+    },
     async getProduct() {
       this.$store.dispatch("getAProduct", { id: this.$route.params.id });
     },
+    async getRelatedProduct() {
+      this.$store.dispatch("getRelatedProduct", { id: this.$route.params.id });
+    },
     addToCart(product) {
+      if (!this.$store.state.auth.isTokenSet) {
+        this.$router.push({ path: "/login" });
+      } else {
+        console.log(this.totalCartList);
+        if (this.totalCartList.find((p) => p.productId == product.id)) {
+          console.log("here");
+          var foundIndex = this.totalCartList.findIndex(
+            (x) => x.productId == product.id
+          );
+          this.$store.commit("INCREMENT_QUANTITY_CART", foundIndex);
+        } else {
+          this.$store.commit("ADD_PRODUCT_TO_CART_LIST", product);
+        }
+      }
+      this.$router.push({ path: "/cart" });
+    },
+    addToBag(product) {
       if (!this.$store.state.auth.isTokenSet) {
         this.$router.push({ path: "/login" });
       } else {

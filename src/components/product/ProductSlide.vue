@@ -44,6 +44,7 @@
             :productCategory="n.category"
             :description="n.description"
             :dealerPrice="0"
+            :productrateSet="n.productrateSet"
           />
         </v-slide-item>
       </v-slide-group>
@@ -67,6 +68,7 @@
           :productCategory="n.category"
           :description="n.description"
           :dealerPrice="0"
+          :productrateSet="n.productrateSet"
         />
       </v-col>
     </v-row>

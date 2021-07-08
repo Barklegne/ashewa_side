@@ -73,6 +73,7 @@
                   :dealerPrice="0"
                   :width="150"
                   :height="150"
+                  :productrateSet="n.productrateSet"
                 />
               </v-slide-item>
             </v-slide-group>
@@ -102,6 +103,7 @@
                   :productCategory="n.category"
                   :width="150"
                   :height="150"
+                  :productrateSet="n.productrateSet"
                 />
               </v-slide-item>
             </v-slide-group>
@@ -125,29 +127,6 @@
                 Products found
               </div>
               <v-spacer></v-spacer>
-              <v-menu open-on-click bottom offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                  <div
-                    :style="
-                      $vuetify.theme.dark
-                        ? 'background-color:#121212;color:white'
-                        : 'background-color:#F5F5F5;'
-                    "
-                    class="dropDown"
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <div class="pl-3">sort</div>
-                  </div>
-                </template>
-
-                <v-list>
-                  <v-list-item v-for="(item, index) in sortBy" :key="index">
-                    <v-list-item-title>{{ item }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
             </v-row>
             <v-row>
               <v-col cols="6" md="3" v-for="(n, index) in dataN" :key="index">
@@ -159,6 +138,7 @@
                   :productId="`${n.id}`"
                   :productCategory="n.category"
                   :width="150"
+                  :productrateSet="n.productrateSet"
                   :height="150"
                 />
               </v-col>

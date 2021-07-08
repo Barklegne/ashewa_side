@@ -1,50 +1,52 @@
 <template>
-  <div style="background-color:#F7F3F3;height:100vh">
-    <v-app-bar fixed dark style="font-weight:600;z-index:2000" color="#43DB80"
-      ><v-icon @click="$router.go(-1)" left>mdi-arrow-left</v-icon> Ashewa
-      Store</v-app-bar
-    >
-    <v-footer style="z-index:1000" class="pa-0 hidden-lg-and-up" fixed>
-      <div style="width:100vw" class="mt-1">
-        <Chat
-          :participants="participants"
-          :myself="myself"
-          :messages="myMessages"
-          :chat-title="chatTitle"
-          :placeholder="placeholder"
-          :colors="colors"
-          :border-style="borderStyle"
-          :hide-close-button="hideCloseButton"
-          :close-button-icon-size="closeButtonIconSize"
-          :submit-icon-size="submitIconSize"
-          :submit-image-icon-size="submitImageIconSize"
-          :load-more-messages="null"
-          :link-options="linkOptions"
-          :async-mode="asyncMode"
-          :scroll-bottom="scrollBottom"
-          :display-header="false"
-          :send-images="true"
-          :profile-picture-config="profilePictureConfig"
-          :timestamp-config="timestampConfig"
-          @onImageClicked="onImageClicked"
-          @onImageSelected="onImageSelected"
-          @onMessageSubmit="onMessageSubmit"
-          @onType="onType"
-          @onClose="onClose"
-        >
-          <template v-slot:header>
-            <div>
-              <p
-                class="mt-2"
-                style="font-weight:600;color:white;font-size:18px"
-              >
-                Ashewa Store
-              </p>
-            </div>
-          </template>
-        </Chat>
-      </div>
-    </v-footer>
+  <div>
+    <div class="hidden-lg-and-up" style="background-color:#F7F3F3;">
+      <v-app-bar fixed dark style="font-weight:600;z-index:2000" color="#43DB80"
+        ><v-icon @click="$router.go(-1)" left>mdi-arrow-left</v-icon> Ashewa
+        Store</v-app-bar
+      >
+      <v-footer style="z-index:1000" class="pa-0 hidden-lg-and-up" fixed>
+        <div style="width:100vw;height:92vh" class="mt-1">
+          <Chat
+            :participants="participants"
+            :myself="myself"
+            :messages="messageContent"
+            :chat-title="chatTitle"
+            :placeholder="placeholder"
+            :colors="colors"
+            :border-style="borderStyle"
+            :hide-close-button="hideCloseButton"
+            :close-button-icon-size="closeButtonIconSize"
+            :submit-icon-size="submitIconSize"
+            :submit-image-icon-size="submitImageIconSize"
+            :load-more-messages="null"
+            :link-options="linkOptions"
+            :async-mode="asyncMode"
+            :scroll-bottom="scrollBottom"
+            :display-header="false"
+            :send-images="true"
+            :profile-picture-config="profilePictureConfig"
+            :timestamp-config="timestampConfig"
+            @onImageClicked="onImageClicked"
+            @onImageSelected="onImageSelected"
+            @onMessageSubmit="onMessageSubmit"
+            @onType="onType"
+            @onClose="onClose"
+          >
+            <template v-slot:header>
+              <div>
+                <p
+                  class="mt-2"
+                  style="font-weight:600;color:white;font-size:18px"
+                >
+                  Ashewa Store
+                </p>
+              </div>
+            </template>
+          </Chat>
+        </div>
+      </v-footer>
+    </div>
   </div>
 </template>
 
@@ -57,176 +59,31 @@ export default {
     Chat,
   },
   computed: {
-    myMessages() {
-      if (this.$route.params.id == 2) {
-        return [
-          {
-            content: "Hello, Thankyou for visiting our store",
-            myself: false,
-            participantId: 2,
-            timestamp: {
-              year: 2011,
-              month: 3,
-              day: 5,
-              hour: 10,
-              minute: 10,
-              second: 3,
-              millisecond: 123,
-            },
-            uploaded: true,
-            viewed: true,
-            type: "text",
-          },
-        ];
+    participants() {
+      if (this.$store.state.message.message) {
+        return this.$store.state.message.message.participants;
       }
-      if (this.$route.params.id == 1) {
-        return [
-          {
-            content: "Hello, Thankyou for visiting our store",
-            myself: false,
-            participantId: 2,
-            timestamp: {
-              year: 2011,
-              month: 3,
-              day: 5,
-              hour: 10,
-              minute: 10,
-              second: 3,
-              millisecond: 123,
-            },
-            uploaded: true,
-            viewed: true,
-            type: "text",
-          },
-          {
-            content: "How much is your product?",
-            myself: true,
-            participantId: 3,
-            timestamp: {
-              year: 2010,
-              month: 0,
-              day: 5,
-              hour: 19,
-              minute: 10,
-              second: 3,
-              millisecond: 123,
-            },
-            uploaded: true,
-            viewed: true,
-            type: "text",
-          },
-        ];
+      return {};
+    },
+    myself() {
+      if (this.$store.state.message.message) {
+        return this.$store.state.message.message.myself;
       }
-      return [
-        {
-          content: "Hello, Thankyou for visiting our store",
-          myself: false,
-          participantId: 2,
-          timestamp: {
-            year: 2011,
-            month: 3,
-            day: 5,
-            hour: 10,
-            minute: 10,
-            second: 3,
-            millisecond: 123,
-          },
-          uploaded: true,
-          viewed: true,
-          type: "text",
-        },
-        {
-          content: `I would like to inquire about ${this.$route.params.id}`,
-          myself: true,
-          participantId: 3,
-          timestamp: {
-            year: 2010,
-            month: 0,
-            day: 5,
-            hour: 19,
-            minute: 10,
-            second: 3,
-            millisecond: 123,
-          },
-          uploaded: true,
-          viewed: true,
-          type: "text",
-        },
-      ];
+      return {};
+    },
+    messageContent() {
+      if (this.$store.state.message.message) {
+        return this.$store.state.message.message.messageContent;
+      }
+      return [];
     },
   },
   data() {
     return {
       visible: true,
-      participants: [
-        {
-          name: "Arnaldo",
-          id: 1,
-          profilePicture:
-            "https://upload.wikimedia.org/wikipedia/en/thumb/a/a1/NafSadh_Profile.jpg/768px-NafSadh_Profile.jpg",
-        },
-        {
-          name: "José",
-          id: 2,
-          profilePicture:
-            "https://lh3.googleusercontent.com/-G1d4-a7d_TY/AAAAAAAAAAI/AAAAAAAAAAA/AAKWJJPez_wX5UCJztzEUeCxOd7HBK7-jA.CMID/s83-c/photo.jpg",
-        },
-      ],
-      myself: {
-        name: "Matheus S.",
-        id: 3,
-        profilePicture:
-          "https://lh3.googleusercontent.com/-G1d4-a7d_TY/AAAAAAAAAAI/AAAAAAAAAAA/AAKWJJPez_wX5UCJztzEUeCxOd7HBK7-jA.CMID/s83-c/photo.jpg",
-      },
-      messages: [
-        // {
-        //   content: "received messages",
-        //   myself: false,
-        //   participantId: 1,
-        //   timestamp: {
-        //     year: 2019,
-        //     month: 3,
-        //     day: 5,
-        //     hour: 20,
-        //     minute: 10,
-        //     second: 3,
-        //     millisecond: 123,
-        //   },
-        //   type: "text",
-        // },
-        // {
-        //   content: "sent messages",
-        //   myself: true,
-        //   participantId: 3,
-        //   timestamp: {
-        //     year: 2019,
-        //     month: 4,
-        //     day: 5,
-        //     hour: 19,
-        //     minute: 10,
-        //     second: 3,
-        //     millisecond: 123,
-        //   },
-        //   type: "text",
-        // },
-        // {
-        //   content: "other received messages",
-        //   myself: false,
-        //   participantId: 2,
-        //   timestamp: {
-        //     year: 2019,
-        //     month: 5,
-        //     day: 5,
-        //     hour: 10,
-        //     minute: 10,
-        //     second: 3,
-        //     millisecond: 123,
-        //   },
-        //   type: "text",
-        // },
-      ],
       chatTitle: "My chat title",
       placeholder: "send your message",
+      messages: [],
       colors: {
         header: {
           bg: "#43DB80",
@@ -258,42 +115,7 @@ export default {
       submitIconSize: 25,
       closeButtonIconSize: "20px",
       asyncMode: false,
-      toLoad: [
-        {
-          content: "Hello, Thankyou for visiting our store",
-          myself: false,
-          participantId: 2,
-          timestamp: {
-            year: 2011,
-            month: 3,
-            day: 5,
-            hour: 10,
-            minute: 10,
-            second: 3,
-            millisecond: 123,
-          },
-          uploaded: true,
-          viewed: true,
-          type: "text",
-        },
-        {
-          content: "How much is your product?",
-          myself: true,
-          participantId: 3,
-          timestamp: {
-            year: 2010,
-            month: 0,
-            day: 5,
-            hour: 19,
-            minute: 10,
-            second: 3,
-            millisecond: 123,
-          },
-          uploaded: true,
-          viewed: true,
-          type: "text",
-        },
-      ],
+      toLoad: [],
       scrollBottom: {
         messageSent: true,
         messageReceived: false,
@@ -370,6 +192,7 @@ export default {
        * It's important to notice that even when your message wasn't send
        * yet to the server you have to add the message into the array
        */
+      console.log(message, "submit");
       this.messages.push(message);
 
       /*
@@ -378,6 +201,7 @@ export default {
       // timeout simulating the request
       setTimeout(() => {
         message.uploaded = true;
+        console.log(message, "submit");
       }, 2000);
     },
     onClose() {
@@ -386,6 +210,7 @@ export default {
     onImageSelected(files, message) {
       let src =
         "https://149364066.v2.pressablecdn.com/wp-content/uploads/2017/03/vue.jpg";
+      console.log(message, "image selected");
       this.messages.push(message);
       /**
        * This timeout simulates a requisition that uploads the image file to the server.

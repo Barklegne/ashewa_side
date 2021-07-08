@@ -29,9 +29,13 @@
               class="py-3 text-center"
               elevation="0"
             >
-              <v-btn x-small text><v-icon>mdi-arrow-up</v-icon></v-btn>
+              <v-btn @click="inc(item.productId)" x-small text
+                ><v-icon>mdi-arrow-up</v-icon></v-btn
+              >
               {{ item.quantity }}
-              <v-btn x-small text><v-icon>mdi-arrow-down</v-icon></v-btn>
+              <v-btn @click="dec(item.productId)" x-small text
+                ><v-icon>mdi-arrow-down</v-icon></v-btn
+              >
             </v-card>
           </template>
           <template v-slot:[`item.action`]="{ item }">
@@ -126,6 +130,14 @@ export default {
     clear() {
       this.$store.commit("CLEAR_CART");
     },
+    inc(id) {
+      var foundIndex = this.totalCartList.findIndex((x) => x.productId == id);
+      this.$store.commit("INCREMENT_QUANTITY_CART", foundIndex);
+    },
+    dec(id) {
+      var foundIndex = this.totalCartList.findIndex((x) => x.productId == id);
+      this.$store.commit("DECREMENT_QUANTITY_CART", foundIndex);
+    },
   },
   computed: {
     totalCartList() {
@@ -139,7 +151,7 @@ export default {
     total() {
       let t = 0;
       this.$store.getters.totalCartList.forEach((element) => {
-        t = t + element.price;
+        t = t + element.price * element.quantity;
       });
       return t;
     },

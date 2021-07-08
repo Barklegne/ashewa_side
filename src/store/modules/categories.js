@@ -36,6 +36,13 @@ const actions = {
                 name
                 id
                 image
+                productrateSet {
+                  user {
+                    username
+                  }
+                  rate
+                  comment
+                }
                 vendor {
                   storeName
                 }
@@ -90,6 +97,13 @@ const actions = {
                 name
                 id
                 image
+                productrateSet{
+                  user{
+                    username
+                  }
+                  rate
+                  comment
+                }
                 vendor {
                   storeName
                 }
