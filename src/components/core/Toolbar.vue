@@ -379,9 +379,9 @@ export default {
       ],
       links: [
         { name: "Home", path: "/" },
-        { name: "Vendor", path: "http://vendors.ashewa.com/" },
-        { name: "Retailer", path: "http://vendors.ashewa.com/signup#" },
-        { name: "Supplier", path: "http://vendors.ashewa.com/signup#" },
+        { name: "Vendor", path: "https://www.seller.ashewa.com/signup" },
+        { name: "Retailer", path: "https://www.seller.ashewa.com/signup" },
+        { name: "Supplier", path: "https://www.seller.ashewa.com/signup" },
       ],
     };
   },

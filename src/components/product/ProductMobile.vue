@@ -20,7 +20,7 @@
           <div style="background-color: rgba(0, 0, 0, 0.336);">
             <v-rating
               v-if="productrateSet.length > 0"
-              :value="3"
+              :value="averageRating"
               readonly
               background-color="green lighten-3"
               color="#09B750"
@@ -104,6 +104,14 @@ export default {
   computed: {
     totalWishList() {
       return this.$store.getters.totalWishList;
+    },
+    averageRating() {
+      if (this.productrateSet.length > 0) {
+        let average = (arr) =>
+          arr.reduce((a, b) => a.rate + b.rate) / arr.length;
+        return average(this.productrateSet);
+      }
+      return 0;
     },
     totalCartList() {
       switch (this.$store.getters.totalCartList.length) {

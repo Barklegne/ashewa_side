@@ -21,7 +21,7 @@
         <div style="background-color: rgba(0, 0, 0, 0.336);">
           <v-rating
             v-if="productrateSet.length > 0"
-            :value="5"
+            :value="averageRating"
             readonly
             background-color="green lighten-3"
             color="#09B750"
@@ -132,7 +132,7 @@
 
                     <v-rating
                       v-if="productrateSet.length > 0"
-                      v-model="rating"
+                      v-model="averageRating"
                       color="yellow darken-3"
                       background-color="grey darken-1"
                       dense
@@ -150,7 +150,7 @@
                       {{ description }}
                     </p>
                   </v-row>
-                  <v-row>
+                  <v-row align="center" justify="center">
                     <v-col cols="6" md="2">Unit Price:</v-col>
                     <v-col cols="6" md="3">
                       <v-row
@@ -166,25 +166,22 @@
                         </h5>
                       </v-row>
                     </v-col>
-                    <v-col cols="12" sm="12" md="3" lg="3" class="">
-                      <v-card elevation="0">
-                        <div class="imgB">
-                          <span class="">Quantity</span>
-                        </div>
-                        <v-row>
-                          <v-col cols="4">
-                            <v-btn icon depressed @click="decrement">
-                              <v-icon> mdi-minus </v-icon>
-                            </v-btn>
-                          </v-col>
-                          <v-col cols="4" align-self="center">
-                            <span>{{ quantity }}</span>
-                          </v-col>
-                          <v-col cols="4">
-                            <v-btn icon depressed @click="increment">
-                              <v-icon> mdi-plus </v-icon>
-                            </v-btn>
-                          </v-col>
+
+                    <v-col cols="5" lg="2">
+                      <v-card class="ma-0 text-center" elevation="0">
+                        <v-card-title class="ma-0 pa-0" style="font-size:16px"
+                          >Quantity</v-card-title
+                        >
+                        <v-row class="mt-1">
+                          <v-btn icon depressed @click="decrement">
+                            <v-icon> mdi-arrow-down </v-icon>
+                          </v-btn>
+
+                          <span class="mt-2">{{ quantity }}</span>
+
+                          <v-btn icon depressed @click="increment">
+                            <v-icon> mdi-arrow-up </v-icon>
+                          </v-btn>
                         </v-row>
                       </v-card>
                     </v-col>
@@ -195,6 +192,16 @@
                         tile
                         elevation="0"
                         color="btn"
+                        @click="
+                          addToCart({
+                            image: productImages[0].image,
+                            price: sellingPrice,
+                            title: productName,
+                            id: `${productId}`,
+                            category: productCategory.name,
+                            quantity: quantity,
+                          })
+                        "
                         style="background-color:white;color:#09b750;border:1px solid #09b750;"
                         >Buy it Now</v-btn
                       >
@@ -208,20 +215,46 @@
                       ></v-col
                     >
                   </v-row>
+
                   <v-divider class="my-6"></v-divider>
-                  <v-card class="mx-13 text-start" color="white" flat>
-                    <v-card-title>Price per Quantity</v-card-title>
-                    <v-simple-table>
-                      <template v-slot:default>
-                        <tbody>
-                          <tr v-for="item in prices" :key="item.name">
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.calories }}</td>
-                          </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
-                  </v-card>
+                  <v-row>
+                    <v-col cols="12" lg="6">
+                      <v-card-title>Price per Quantity</v-card-title>
+                      <v-card class=" text-start" color="white" flat>
+                        <v-simple-table style="border:1px solid black" dense>
+                          <template v-slot:default>
+                            <tbody>
+                              <tr v-for="(item, i) in prices" :key="i">
+                                <td style="background-color:#bbc4bdb4">
+                                  {{ item.name }}
+                                </td>
+                                <td>{{ item.calories }}</td>
+                              </tr>
+                            </tbody>
+                          </template>
+                        </v-simple-table>
+                      </v-card>
+                    </v-col>
+                    <v-col cols="12" lg="6">
+                      <v-card-title class="mx-13 text-start"
+                        >Specification</v-card-title
+                      >
+                      <v-card class="text-start" color="white" flat>
+                        <v-simple-table style="border:1px solid black" dense>
+                          <template v-slot:default>
+                            <tbody>
+                              <tr v-for="(item, i) in desserts" :key="i">
+                                <td style="background-color:#bbc4bdb4">
+                                  {{ item.name }}
+                                </td>
+                                <td>{{ item.calories }}</td>
+                              </tr>
+                            </tbody>
+                          </template>
+                        </v-simple-table>
+                      </v-card></v-col
+                    >
+                  </v-row>
                   <v-divider class="my-6"></v-divider>
                 </v-col>
               </v-col>
@@ -257,7 +290,14 @@ export default {
     totalWishList() {
       return this.$store.getters.totalWishList;
     },
-
+    averageRating() {
+      if (this.productrateSet.length > 0) {
+        let average = (arr) =>
+          arr.reduce((a, b) => a.rate + b.rate) / arr.length;
+        return average([{ rate: 5 }, { rate: 4 }]);
+      }
+      return 0;
+    },
     active: {
       // getter
 
@@ -366,22 +406,6 @@ export default {
           name: "ShoesShoe Widt",
           calories: "Medium(B, M)",
         },
-        {
-          name: "Brand Nam",
-          calories: "KevinSmithGender",
-        },
-        {
-          name: "MENOrigi",
-          calories: "CN(Origin)",
-        },
-        {
-          name: "Athleti Shoe Type",
-          calories: "Basketball",
-        },
-        {
-          name: "ShoesSoe Width",
-          calories: "Medium(B, M)",
-        },
       ],
       text:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -420,6 +444,7 @@ export default {
           this.$store.commit("ADD_PRODUCT_TO_CART_LIST", product);
         }
       }
+      this.$router.push({ path: "/cart" });
     },
     increment() {
       this.quantity = parseInt(this.quantity, 10) + 1;

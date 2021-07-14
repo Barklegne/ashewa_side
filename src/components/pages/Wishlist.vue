@@ -56,6 +56,7 @@
   </v-container>
 </template>
 <script>
+import router from "@/router";
 export default {
   props: {
     col: {
@@ -66,6 +67,11 @@ export default {
       default: "Wish List",
       type: String,
     },
+  },
+  created() {
+    if (!this.$store.state.auth.isTokenSet) {
+      router.push({ path: "/login" });
+    }
   },
   computed: {
     totalWishList() {

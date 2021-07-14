@@ -79,7 +79,7 @@
                 class="btn"
                 depressed
                 color="primary"
-                @click="clear"
+                @click="checkout"
               >
                 Proceed to checkout
               </v-btn>
@@ -92,6 +92,7 @@
 </template>
 
 <script>
+import router from "@/router";
 export default {
   data() {
     return {
@@ -123,12 +124,27 @@ export default {
       ],
     };
   },
+  created() {
+    if (!this.$store.state.auth.isTokenSet) {
+      router.push({ path: "/login" });
+    }
+  },
   methods: {
     removeProduct(id) {
       this.$store.commit("REMOVE_PRODUCT_FROM_CART_LIST", id);
     },
     clear() {
       this.$store.commit("CLEAR_CART");
+    },
+    checkout() {
+      if (!this.$store.state.auth.isTokenSet) {
+        this.$router.push({ path: "/login" });
+      } else {
+        const ids = this.totalCartList.map((p) => {
+          return p.productId;
+        });
+        this.$store.dispatch("checkout", ids);
+      }
     },
     inc(id) {
       var foundIndex = this.totalCartList.findIndex((x) => x.productId == id);

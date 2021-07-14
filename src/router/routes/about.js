@@ -35,4 +35,28 @@ export default [
     component: () =>
       import(/* webpackChunkName: "AboutP" */ "@/components/pages/Policy.vue"),
   },
+  {
+    path: "/sell-on-products-on-ashewa",
+    name: "SellOnAshewaBusiness",
+    component: () =>
+      import(
+        /* webpackChunkName: "AboutPB" */ "@/components/pages/SellOnAshewaBusiness.vue"
+      ),
+  },
+  {
+    path: "/sell-on-ashewa-business",
+    name: "SellProductOnAshewa",
+    component: () =>
+      import(
+        /* webpackChunkName: "AboutPOA" */ "@/components/pages/SellProductOnAshewa.vue"
+      ),
+  },
+  {
+    path: "/become-an-affiliate",
+    name: "BecomeAnAffiliate",
+    component: () =>
+      import(
+        /* webpackChunkName: "AboutBA" */ "@/components/pages/BecomeAnAffiliate.vue"
+      ),
+  },
 ];

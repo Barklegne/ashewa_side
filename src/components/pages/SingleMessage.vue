@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="hidden-lg-and-up" style="background-color:#F7F3F3;">
+    <div style="background-color:#F7F3F3;">
       <v-app-bar fixed dark style="font-weight:600;z-index:2000" color="#43DB80"
         ><v-icon @click="$router.go(-1)" left>mdi-arrow-left</v-icon> Ashewa
         Store</v-app-bar
       >
-      <v-footer style="z-index:1000" class="pa-0 hidden-lg-and-up" fixed>
+      <v-footer style="z-index:1000" class="pa-0" fixed>
         <div style="width:100vw;height:92vh" class="mt-1">
           <Chat
             :participants="participants"

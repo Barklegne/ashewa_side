@@ -23,8 +23,14 @@
       </div>
       <div
         @click="
-          $router.push({
-            path: '/store',
+          inquire({
+            vendorName: product.vendor.storeName,
+            image:
+              product.productimageSet[index].image[0] == 'h'
+                ? product.productimageSet[index].image
+                : `http://api.ashewa.com/media/${product.productimageSet[index].image}`,
+
+            id: product.vendor.id,
           })
         "
         style="margin:auto auto"
@@ -273,6 +279,16 @@
                   color="btn"
                   style="background-color:white;color:#09b750;border:1px solid #09b750;"
                   class="btn mr-3"
+                  @click="
+                    inquire({
+                      vendorName: product.vendor.storeName,
+                      image:
+                        product.productimageSet[index].image[0] == 'h'
+                          ? product.productimageSet[index].image
+                          : `http://api.ashewa.com/media/${product.productimageSet[index].image}`,
+                      id: product.vendor.id,
+                    })
+                  "
                   >Make Offer</v-btn
                 >
 
@@ -280,6 +296,15 @@
                   elevation="0"
                   color="btn"
                   style="background-color:white;color:#09b750;border:1px solid #09b750;"
+                  @click="
+                    chat({
+                      vendorName: product.vendor.storeName,
+                      image:
+                        product.productimageSet[index].image[0] == 'h'
+                          ? product.productimageSet[index].image
+                          : `http://api.ashewa.com/media/${product.productimageSet[index].image}`,
+                    })
+                  "
                   >Chat Now
                 </v-btn>
                 <v-spacer></v-spacer>
@@ -315,7 +340,16 @@
             style="background-color:white;border-radius:5px"
             class="text-start hidden-md-and-down"
             ><div><h4>Store Categories</h4></div>
-            <div v-for="(cat, i) in categories" :key="i">
+            <div
+              @click="
+                $router.push({
+                  path: `/category/${cat.id}`,
+                })
+              "
+              style="cursor:pointer"
+              v-for="(cat, i) in product.category.subcategorySet"
+              :key="i"
+            >
               <h5>{{ cat.name }}</h5>
             </div>
           </v-col>
@@ -324,8 +358,10 @@
             <v-row justify="center">
               <v-col cols="8" lg="4" style="" class="text-start">
                 <div><h4>Store Categories</h4></div>
-                <div><h5>97.6% Positive Feedback</h5></div>
-                <div><h5>169 Followers</h5></div>
+                <div><h5>100% Positive Feedback</h5></div>
+                <div>
+                  <h5>{{ followers }}</h5>
+                </div>
                 <div class="mt-5">
                   <v-btn
                     class="mx-1 btn"
@@ -486,6 +522,10 @@
           @click="
             chat({
               vendorName: product.vendor.storeName,
+              image:
+                product.productimageSet[index].image[0] == 'h'
+                  ? product.productimageSet[index].image
+                  : `http://api.ashewa.com/media/${product.productimageSet[index].image}`,
             })
           "
           >Chat Now</v-btn
@@ -496,14 +536,24 @@
           rounded
           class="my-1"
           width="100%"
-          @click="inquire({ vendorName: product.vendor.storeName })"
+          @click="
+            inquire({
+              vendorName: product.vendor.storeName,
+              image:
+                product.productimageSet[index].image[0] == 'h'
+                  ? product.productimageSet[index].image
+                  : `http://api.ashewa.com/media/${product.productimageSet[index].image}`,
+              id: product.vendor.id,
+            })
+          "
           >Send Inquiry</v-btn
         >
       </div>
       <v-divider></v-divider>
       <div class="mx-5 my-2 text-start">
         <p class="ma-0 mb-1" style="font-size:14px;font-weight:500">
-          {{ colors.length }} Colors, {{ colors[0].sizes.length }} Size
+          {{ colors.length }} Colors,
+          {{ colors.length > 0 ? colors[0].productsizeSet.length : 0 }} Size
         </p>
         <v-slide-group v-model="i" active-class="success">
           <v-slide-item class="mr-2" v-for="(n, i) in colors" :key="i">
@@ -534,29 +584,22 @@
                 Product Option
               </p></v-app-bar
             >
-            <v-carousel
-              class="mt-10"
-              height="250"
-              hide-delimiters
-              :show-arrows="true"
+
+            <v-img
+              class="white--text align-end text-end pb-2"
+              style="margin:auto auto"
+              width="70vw"
+              height="245"
+              :src="colors.length > 0 ? colors[colorI].image : ''"
             >
-              <v-carousel-item v-for="(n, i) in colors" :key="i">
-                <v-img
-                  class="white--text align-end text-end pb-2"
-                  style="margin:auto auto"
-                  width="70vw"
-                  height="245"
-                  :src="n.image"
-                >
-                  <div
-                    class="mr-2 pa-1"
-                    style="display:inline;background-color:grey;border-radius:5px;font-size:12px"
-                  >
-                    {{ i + 1 }}/{{ colors.length }}
-                  </div>
-                </v-img>
-              </v-carousel-item>
-            </v-carousel>
+              <div
+                class="mr-2 pa-1"
+                style="display:inline;background-color:grey;border-radius:5px;font-size:12px"
+              >
+                {{ colorI + 1 }}/{{ colors.length }}
+              </div>
+            </v-img>
+
             <p class="my-2 text-center" style="font-size:18px;font-weight:700">
               ETB {{ !!product ? product.sellingPrice + 500.55 : "" }}
             </p>
@@ -571,42 +614,37 @@
               >
                 <v-card
                   :style="
-                    i == 1
+                    colorI == i
                       ? 'border:3px solid green;padding:2px'
                       : 'border:1px solid grey;padding:2px'
                   "
+                  @click="colorI = i"
                   width="60"
                   height="60"
                   rounded=""
-                  ><v-img aspect-ratio="1" :src="n.image"></v-img>
+                  ><v-img
+                    width="50"
+                    height="50"
+                    aspect-ratio="1"
+                    :src="n.image"
+                  ></v-img>
                 </v-card>
               </v-col>
             </v-row>
             <p class="mx-5 mt-5 mb-2">Size</p>
-            <div class="mx-5 mb-2">
+            <div class="mx-5 mb-2" v-if="colors.length > 0">
               <v-chip
                 class="mr-2 pa-5"
                 label
-                style="border:2px solid green;font-size:20px;font-weight:300"
-                >S</v-chip
-              >
-              <v-chip
-                class="mr-2 pa-5"
-                label
-                style="font-size:20px;font-weight:300"
-                >M</v-chip
-              >
-              <v-chip
-                class="mr-2 pa-5"
-                label
-                style="font-size:20px;font-weight:300"
-                >L</v-chip
-              >
-              <v-chip
-                class="mr-2 pa-5"
-                label
-                style="font-size:20px;font-weight:300"
-                >XL</v-chip
+                :style="
+                  sizeI == i
+                    ? 'border:2px solid green;font-size:18px;font-weight:300'
+                    : 'font-size:14px;font-weight:300'
+                "
+                @click="sizeI = i"
+                v-for="(n, i) in colors[0].productsizeSet"
+                :key="i"
+                >{{ n.name }}</v-chip
               >
             </div>
             <p class="mx-5 mt-5 mb-2">Quantity</p>
@@ -665,7 +703,7 @@
             </p>
 
             <p class="ma-0 pa-0" style="font-size:13px;font-weight:300">
-              169 Followers
+              {{ followers }}
             </p>
           </v-col>
           <v-col>
@@ -776,58 +814,13 @@ export default {
     return {
       index: 0,
       i: 0,
+      sizeI: 0,
+      colorI: 0,
       following: false,
       model: 0,
       sheetB: false,
       items: ["Overview", "Customer Reviews", "Specification"],
-      colors: [
-        {
-          name: "red",
-          image:
-            "https://media.istockphoto.com/photos/fashion-portrait-of-beautiful-woman-in-waving-red-dress-light-fabric-picture-id1154030121?k=6&m=1154030121&s=612x612&w=0&h=TTAt16gG8IsbHvxM5OyWxQn2ZxcArckKvNV2ys4_Jl8=",
-          sizes: [
-            {
-              name: "Sm",
-              quantity: "1",
-            },
-            {
-              name: "Md",
-              quantity: "1",
-            },
-            {
-              name: "Lg",
-              quantity: "1",
-            },
-            {
-              name: "Xl",
-              quantity: "1",
-            },
-          ],
-        },
-        {
-          name: "Black",
-          image:
-            "https://stylesatlife.com/wp-content/uploads/2018/03/Scalloped-neck-dress.jpg.webp",
-          sizes: [
-            {
-              name: "Sm",
-              quantity: "1",
-            },
-            {
-              name: "Md",
-              quantity: "1",
-            },
-            {
-              name: "Lg",
-              quantity: "1",
-            },
-            {
-              name: "Xl",
-              quantity: "1",
-            },
-          ],
-        },
-      ],
+
       prices: [
         {
           name: "> 5",
@@ -885,6 +878,18 @@ export default {
   },
   computed: {
     ...mapGetters(["isTokenSet"]),
+    followers() {
+      if (this.following) {
+        return 1;
+      }
+      return 0;
+    },
+    colors() {
+      if (this.product.productcolorSet.length > 0) {
+        return this.product.productcolorSet;
+      }
+      return [];
+    },
     product() {
       return this.$store.getters.productFound;
     },
@@ -929,7 +934,6 @@ export default {
   methods: {
     increment() {
       this.quantity = parseInt(this.quantity, 10) + 1;
-      console.log(this.$vuetify.breakpoint.name);
     },
     chat(data) {
       if (!this.$store.state.auth.isTokenSet) {
@@ -971,6 +975,64 @@ export default {
             profilePicture: "",
           },
           messageContent: [
+            {
+              content: "I would like to inquire about the above product",
+              myself: true,
+              timestamp: {
+                year: 2021,
+                month: 3,
+                day: 5,
+                hour: 10,
+                minute: 10,
+                second: 3,
+                millisecond: 123,
+              },
+              uploaded: true,
+              viewed: true,
+              type: "image",
+              src: data.image,
+            },
+            {
+              content: "I would like to inquire about the above product",
+              myself: true,
+              timestamp: {
+                year: 2021,
+                month: 3,
+                day: 5,
+                hour: 10,
+                minute: 10,
+                second: 3,
+                millisecond: 123,
+              },
+              uploaded: true,
+              viewed: true,
+              type: "text",
+            },
+          ],
+        });
+        this.$store.commit("PUSH_A_MESSAGE", {
+          title: data.vendorName,
+          last: "I would like to inquire about the above product",
+          src: data.image,
+          id: data.id,
+          messageContent: [
+            {
+              content: "I would like to inquire about the above product",
+              myself: true,
+              timestamp: {
+                year: 2021,
+                month: 3,
+                day: 5,
+                hour: 10,
+                minute: 10,
+                second: 3,
+                millisecond: 123,
+              },
+              uploaded: true,
+              viewed: true,
+              type: "image",
+              src: data.image,
+            },
             {
               content: "I would like to inquire about the above product",
               myself: true,

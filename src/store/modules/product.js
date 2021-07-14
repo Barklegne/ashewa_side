@@ -106,11 +106,23 @@ const actions = {
                 id
                 image
                 productrateSet{
+                  id
                   user{
                     username
+                    id
                   }
                   rate
                   comment
+                }
+                productcolorSet{
+                  id
+                  name
+                  image
+                  productsizeSet{
+                    id
+                    name
+                    quantity
+                  }
                 }
                 vendor {
                   storeName
@@ -160,11 +172,23 @@ const actions = {
                 id
                 image
                 productrateSet{
+                  id
                   user{
                     username
+                    id
                   }
                   rate
                   comment
+                }
+                productcolorSet{
+                  id
+                  name
+                  image
+                  productsizeSet{
+                    id
+                    name
+                    quantity
+                  }
                 }
                 vendor {
                   storeName
@@ -189,6 +213,10 @@ const actions = {
                   id
                   name
                   image
+                  subcategorySet{
+                    name
+                    id
+                  }
                 }
                 subcategory {
                   id
@@ -217,11 +245,23 @@ const actions = {
                 id
                 image
                 productrateSet{
+                  id
                   user{
                     username
+                    id
                   }
                   rate
                   comment
+                }
+                productcolorSet{
+                  id
+                  name
+                  image
+                  productsizeSet{
+                    id
+                    name
+                    quantity
+                  }
                 }
                 vendor {
                   storeName

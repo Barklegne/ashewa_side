@@ -109,53 +109,6 @@
                   ></v-text-field>
                 </ValidationProvider>
               </v-flex>
-              <v-flex>
-                <v-select
-                  id="accountType"
-                  label="Account Type"
-                  name="accountType"
-                  v-model="accountType"
-                  :items="[
-                    'Customer',
-                    'Vendor',
-                    'Supplier',
-                    'Delivery Personal',
-                    'Affiliate',
-                  ]"
-                  color="#09B750"
-                />
-              </v-flex>
-              <div
-                v-if="
-                  accountType == 'Vendor' ||
-                    accountType == 'Supplier' ||
-                    accountType == 'Affiliate'
-                "
-              >
-                <v-flex>
-                  <v-text-field
-                    label="Phone Number"
-                    name="phoneNumber"
-                    type="text"
-                    color="#09B750"
-                  />
-                </v-flex>
-                <v-flex>
-                  <v-text-field
-                    label="Commission"
-                    name="commission"
-                    type="text"
-                    color="#09B750"
-                  />
-                </v-flex>
-                <v-flex>
-                  <v-text-field
-                    label="License Number"
-                    name="licenseNumber"
-                    type="text"
-                  />
-                </v-flex>
-              </div>
               <v-flex text-xs-center mt-5>
                 <SubmitButton buttonText="Signup" />
               </v-flex>

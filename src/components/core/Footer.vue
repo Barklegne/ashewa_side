@@ -179,7 +179,8 @@
                       style="min-height:30px"
                       v-for="(item, i) in mm"
                       :key="i"
-                      :to="item.link"
+                      :href="i === 2 ? item.link : ''"
+                      :to="i !== 2 ? item.link : ''"
                     >
                       <v-list-item-content class="py-0">
                         <v-list-item-title
@@ -279,16 +280,18 @@ export default {
       ],
       ec: [
         { name: "Vendor/Supplier", link: "/vendor-supplier" },
-        { name: "Ashewa Army", link: "/ashewa-army" },
+        { name: "Ashewa Community", link: "/ashewa-army" },
         { name: "Shipping Policy", link: "/shipping-policy" },
         { name: "Privacy Policy", link: "/privacy-policy" },
       ],
       mm: [
-        { name: "Sell products on Ashewa", link: "/vendor-supplier" },
-        { name: "Sell on Ashewa Business", link: "/ashewa-army" },
-        { name: "Blog  on Ashewa", link: "/shipping-policy" },
-        { name: "Become an Affiliate", link: "/privacy-policy" },
-        { name: "Advertise Your Products", link: "/privacy-policy" },
+        {
+          name: "Sell products on Ashewa",
+          link: "/sell-on-products-on-ashewa",
+        },
+        { name: "Sell on Ashewa Business", link: "/sell-on-ashewa-business" },
+        { name: "Blog  on Ashewa", link: "http://suppliers.ashewa.com/Blogs" },
+        { name: "Become an Affiliate", link: "/become-an-affiliate" },
       ],
       grow: ["Ashewa story", "Community", "Blog", "Job Vacancy", "Contact"],
       footerAll: [

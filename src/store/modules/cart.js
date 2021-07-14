@@ -1,9 +1,44 @@
 import * as types from "@/store/mutation-types";
 import router from "@/router";
 import Vue from "vue";
+import { createProvider } from "../../vue-apollo";
+import { handleError } from "@/utils/utils.js";
+import { gql } from "graphql-tag";
+
+let apolloClient = createProvider().defaultClient;
 
 const getters = {
   totalCartList: (state) => state.cartItems,
+};
+
+const actions = {
+  async checkout(ctx, value) {
+    const ids = JSON.stringify(JSON.stringify(value));
+    console.log(`
+    mutation{
+      createBoaTransaction(products:${ids},userId:"${ctx.rootState.auth.user.id}"){
+        payload
+      }
+    }
+  `);
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+        mutation{
+          createBoaTransaction(products:${ids},userId:"${ctx.rootState.auth.user.id}"){
+            payload
+          }
+        }
+      `,
+      })
+      .then((response) => {
+        console.log(response.data.createBoaTransaction.payload);
+        ctx.commit(types.CHECKOUT, ...response.data.tokenAuth.user);
+      })
+      .catch((error) => {
+        handleError(error, ctx.commit, resp);
+      });
+  },
 };
 
 const mutations = {
@@ -17,6 +52,10 @@ const mutations = {
     router.push({
       name: "landing",
     });
+  },
+  [types.CHECKOUT](state, value) {
+    const str = JSON.parse(value);
+    console.log(str, value);
   },
   [types.INCREMENT_QUANTITY_CART](state, value) {
     let cl = state.cartItems;
@@ -64,6 +103,7 @@ const state = {
 
 export default {
   state,
+  actions,
   getters,
   mutations,
 };
