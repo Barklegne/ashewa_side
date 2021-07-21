@@ -291,10 +291,13 @@ export default {
       return this.$store.getters.totalWishList;
     },
     averageRating() {
+      if (this.productrateSet.length === 1) {
+        return this.productrateSet[0].rate;
+      }
       if (this.productrateSet.length > 0) {
         let average = (arr) =>
           arr.reduce((a, b) => a.rate + b.rate) / arr.length;
-        return average([{ rate: 5 }, { rate: 4 }]);
+        return average([...this.productrateSet]);
       }
       return 0;
     },
@@ -375,38 +378,8 @@ export default {
     return {
       index: 0,
       items: ["Overview", "Customer Reviews", "Specification"],
-      prices: [
-        {
-          name: "One Item",
-          calories: 5000,
-        },
-        {
-          name: "Two Items",
-          calories: 9900,
-        },
-        {
-          name: "Three Items",
-          calories: 14500,
-        },
-      ],
-      desserts: [
-        {
-          name: "Brand Name",
-          calories: "KevinSmithGender",
-        },
-        {
-          name: "MENOrigin",
-          calories: "CN(Origin)",
-        },
-        {
-          name: "Athletic Shoe Typ",
-          calories: "Basketball",
-        },
-        {
-          name: "ShoesShoe Widt",
-          calories: "Medium(B, M)",
-        },
-      ],
+      prices: [],
+      desserts: [],
       text:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       tab: null,

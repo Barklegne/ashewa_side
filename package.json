@@ -28,6 +28,7 @@
     "vue-quick-chat": "^1.2.8",
     "vue-resize-text": "^0.1.1",
     "vue-router": "^3.2.0",
+    "vue-tawk": "^1.0.1",
     "vue-zoom-on-hover": "^1.0.5",
     "vue2-google-maps": "^0.10.7",
     "vuetify": "^2.4.3",

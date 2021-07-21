@@ -8,7 +8,15 @@ import { store } from "@/store";
 import VuetifyConfirm from "vuetify-confirm";
 import { createProvider } from "./vue-apollo";
 import ZoomOnHover from "vue-zoom-on-hover";
+import Tawk from "vue-tawk";
 
+// this.$Tawk.$updateChatUser({
+//   name: "alehegn",
+//   email: "alehegntefera@gmail.com",
+//   hash: "",
+// });
+
+//this.$Tawk.$endChat()
 
 Vue.use(ZoomOnHover);
 Vue.config.productionTip = false;
@@ -27,6 +35,10 @@ const app = new Vue({
     }
   },
 }).$mount("#app");
+
+Vue.use(Tawk, {
+  tawkSrc: "https://embed.tawk.to/60f08fb1649e0a0a5ccc6b78/1falr2jms",
+});
 
 if (window.Cypress) {
   // Only available during E2E tests

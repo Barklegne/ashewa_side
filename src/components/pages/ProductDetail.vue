@@ -149,7 +149,7 @@
                 >
 
                 <v-rating
-                  v-model="rating"
+                  :value="averageRating"
                   color="yellow darken-3"
                   background-color="grey darken-1"
                   dense
@@ -158,7 +158,9 @@
                   hover
                   size="18"
                 ></v-rating>
-                <span class="caption ml-2 mt-1">({{ 3 }} review)</span>
+                <span class="caption ml-2 mt-1"
+                  >({{ product.productrateSet.length }} review)</span
+                >
               </v-row>
               <v-divider></v-divider>
 
@@ -271,7 +273,7 @@
               </v-row>
 
               <v-divider class="my-6"></v-divider>
-              <v-row>
+              <v-row class="ma-0">
                 <v-spacer></v-spacer>
                 <v-btn
                   dark
@@ -309,10 +311,55 @@
                 </v-btn>
                 <v-spacer></v-spacer>
               </v-row>
+              <v-divider class="my-2"></v-divider>
+              <v-row class="ma-0">
+                <h3 class="mt-3">
+                  Reviews ({{ product.productrateSet.length }} total reviews)
+                </h3>
+                <div
+                  v-for="(rev1, i) in product.productrateSet"
+                  :key="i"
+                  class="text-start my-5"
+                  style="width:600px"
+                >
+                  <v-avatar class="profile mr-2" color="grey" size="40">
+                    <v-img
+                      src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png"
+                    ></v-img>
+                  </v-avatar>
+                  {{ rev1.user.username }}
+                  <v-row class="ma-0">
+                    <v-rating
+                      color="green"
+                      size="x-small"
+                      :value="rev1.rate"
+                    ></v-rating>
+                    {{ rev1.comment }}
+                  </v-row>
+                </div>
+                <div style="width:100%" class="text-start">
+                  <v-rating v-model="rev" size="small"></v-rating>
+                  <v-textarea
+                    outlined
+                    v-model="com"
+                    class="ma-0"
+                    name="input-7-4"
+                    label="Write a Review"
+                  ></v-textarea>
+                  <v-btn
+                    :disabled="com == ''"
+                    @click="addCom"
+                    class="ma-0 btn"
+                    color="#09b750"
+                    >Submit</v-btn
+                  >
+                </div>
+              </v-row>
             </v-container>
           </v-col>
         </v-col>
       </v-row>
+
       <div class="mb-10 py-10" style="background-color:#F2F2F2">
         <v-row class="mb-4">
           <v-spacer></v-spacer>
@@ -333,6 +380,7 @@
           </v-col>
           <v-spacer></v-spacer>
         </v-row>
+
         <v-row class="mb-10" align="start">
           <v-spacer></v-spacer>
           <v-col
@@ -443,45 +491,13 @@
         </v-carousel-item>
       </v-carousel>
       <div class="mx-5 text-start">
-        <v-slide-group v-model="model" class="pa-0" active-class="success">
-          <v-slide-item class="mr-6">
+        <v-slide-group v-model="model" class="pa-0">
+          <v-slide-item class="mr-5">
             <div>
               <p class="ma-0" style="font-size:18px;font-weight:700">
                 ETB {{ !!product ? product.sellingPrice : "" }}
               </p>
-              <p class="mb-1" style="font-size:11px;color:grey;">
-                Min. Order:3 Pieces
-              </p>
-            </div>
-          </v-slide-item>
-          <v-slide-item class="mr-5">
-            <div>
-              <p class="ma-0" style="font-size:18px;font-weight:700">
-                ETB {{ !!product ? product.sellingPrice - 500 : "" }}
-              </p>
-              <p class="mb-1" style="font-size:11px;color:grey;">
-                500-1999 Pieces
-              </p>
-            </div>
-          </v-slide-item>
-          <v-slide-item class="mr-5">
-            <div>
-              <p class="ma-0" style="font-size:18px;font-weight:700">
-                ETB {{ !!product ? product.sellingPrice - 700 : "" }}
-              </p>
-              <p class="mb-1" style="font-size:11px;color:grey;">
-                2000-4999 Pieces
-              </p>
-            </div>
-          </v-slide-item>
-          <v-slide-item class="mr-5">
-            <div>
-              <p class="ma-0" style="font-size:18px;font-weight:700">
-                ETB {{ !!product ? product.sellingPrice - 900 : "" }}
-              </p>
-              <p class="mb-1" style="font-size:11px;color:grey;">
-                >5000 Pieces
-              </p>
+              <p class="mb-1" style="font-size:11px;color:grey;"></p>
             </div>
           </v-slide-item>
         </v-slide-group>
@@ -493,7 +509,7 @@
         </p>
         <v-row class="mx-1 mt-1">
           <v-rating
-            v-model="rating"
+            v-model="averageRating"
             color="green darken-3"
             class="text-start"
             background-color="grey darken-1"
@@ -504,7 +520,7 @@
             size="12"
           ></v-rating>
           <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
-            {{ "4.7" }}
+            {{ averageRating }}
           </p>
           <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
             {{ "| 320 orders" }}
@@ -689,7 +705,46 @@
       <v-divider></v-divider>
       <div class="mx-5 my-2 text-start">
         <p class="mb-2 ">Item Description</p>
-        <v-img width="100%" src="/product-img.jpg"></v-img>
+        <v-img width="100%" src=""></v-img>
+      </div>
+      <v-divider></v-divider>
+      <div class="mx-5 my-2 text-start">
+        <h3 class="mt-3 mx-2">
+          Reviews ({{ product.productrateSet.length }} total reviews)
+        </h3>
+        <div
+          v-for="(rev, i) in product.productrateSet"
+          :key="i"
+          class="text-start my-5"
+          style="max-width:600px"
+        >
+          <v-avatar class="profile mr-2" color="grey" size="40">
+            <v-img
+              src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png"
+            ></v-img>
+          </v-avatar>
+          {{ rev.user.username }}
+          <v-row class="ma-0">
+            <v-rating color="green" size="x-small" :value="rev.rate"></v-rating>
+            {{ rev.comment }}
+          </v-row>
+        </div>
+        <h3>Review</h3>
+        <v-rating v-model="rev" size="small"></v-rating>
+        <v-textarea
+          outlined
+          v-model="com"
+          class="ma-0"
+          name="input-7-4"
+          label="Write a Review"
+        ></v-textarea>
+        <v-btn
+          :disabled="com == ''"
+          @click="addCom"
+          class="ma-0 btn"
+          color="#09b750"
+          >Submit</v-btn
+        >
       </div>
       <v-divider></v-divider>
       <div class="mx-5 my-2 text-start">
@@ -814,6 +869,8 @@ export default {
     return {
       index: 0,
       i: 0,
+      rev: 0,
+      com: "",
       sizeI: 0,
       colorI: 0,
       following: false,
@@ -821,38 +878,8 @@ export default {
       sheetB: false,
       items: ["Overview", "Customer Reviews", "Specification"],
 
-      prices: [
-        {
-          name: "> 5",
-          calories: "10%",
-        },
-        {
-          name: "> 10",
-          calories: "15%",
-        },
-        {
-          name: "> 20",
-          calories: "20%",
-        },
-      ],
-      desserts: [
-        {
-          name: "Brand Name",
-          calories: "KevinSmithGender",
-        },
-        {
-          name: "MENOrigin",
-          calories: "CN(Origin)",
-        },
-        {
-          name: "Athletic Shoe Typ",
-          calories: "Basketball",
-        },
-        {
-          name: "ShoesShoe Widt",
-          calories: "Medium(B, M)",
-        },
-      ],
+      prices: [],
+      desserts: [],
       text:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       tab: null,
@@ -892,6 +919,18 @@ export default {
     },
     product() {
       return this.$store.getters.productFound;
+    },
+    averageRating() {
+      if (this.product.productrateSet.length === 1) {
+        return this.product.productrateSet[0].rate;
+      }
+      if (this.product.productrateSet.length > 0) {
+        let average = (arr) =>
+          arr.reduce((a, b) => a.rate + b.rate) / arr.length;
+        return average([...this.product.productrateSet]);
+      }
+
+      return 0;
     },
     relatedProducts() {
       return this.$store.state.product.relatedProducts;
@@ -934,6 +973,14 @@ export default {
   methods: {
     increment() {
       this.quantity = parseInt(this.quantity, 10) + 1;
+    },
+    addCom() {
+      console.log({ rate: this.rev, comment: this.com });
+      this.$store.dispatch("addReview", {
+        rate: this.rev,
+        comment: this.com,
+        productId: this.product.id,
+      });
     },
     chat(data) {
       if (!this.$store.state.auth.isTokenSet) {

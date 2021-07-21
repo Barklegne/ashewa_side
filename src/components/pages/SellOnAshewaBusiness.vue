@@ -6,51 +6,36 @@
           Selling on Ashewa Business
         </h1>
         <p>
-          Manufacturers and distributors who are new to Ashewa or are existing
-          Professional sellers now have a targeted way to reach business
-          customers on Ashewa. With a specialized suite of tools to enable B2B
-          e-commerce, small businesses to large enterprises will find new ways
-          to engage incremental business customers through a trusted Ashewa
-          experience.
-        </p>
-      </v-div>
-
-      <v-div style="margin:auto auto;width:80%" class="text-start">
-        <h2 class="ml-1 mb-2">What is Ashewa Business?</h2>
-        <p>
-          Ashewa Business is the B2B marketplace on Ashewa, providing business
-          customers with the pricing, selection, and convenience of Ashewa, with
-          features and benefits designed for businesses of all sizes.
-        </p>
-      </v-div>
-      <v-div style="margin:auto auto;width:80%" class="text-start">
-        <h2 class="ml-1 mb-2">Start selling on Ashewa</h2>
-        <p>
-          Ashewa Business is the B2B marketplace on Ashewa, providing business
-          customers with the pricing, selection and convenience of Ashewa, with
-          features and benefits designed for businesses of all sizes.
-        </p>
-        <h2 class="ml-1 mb-2">Step 1 Register to sell on Ashewa</h2>
-        <p>
-          Register for a Professional Selling Account on Ashewa.com. For
-          existing sellers, you can add Ashewa Business features easily through
-          Seller Central.
-        </p>
-        <h2 class="ml-1 mb-2">Step 2 Create a Business Profile</h2>
-        <p>
-          Tell your unique story using our Profile Editor. You can add your
-          quality certifications and diversity credentials for discerning
-          business customers.
-        </p>
-        <h2 class="ml-1 mb-2">Step 3 Set up your products</h2>
-        <p>
-          Use our simple listing tools to add your entire catalog and the
-          Enhanced Content feature to display additional product information to
-          your customers.
-        </p>
-        <h2 class="ml-1 mb-2">Step 4 Start Selling</h2>
-        <p>
-          Reach millions of business customers already shopping on Ashewa.
+          Sell products on Ashewa What you’ll need to get started In order to
+          complete your registration, make sure you have access to: Bank account
+          number and bank routing number Chargeable credit card Government
+          issued national ID Tax information Phone number Get to know Seller
+          Central What is Seller Central?Once you register as an Ashewa seller,
+          you’ll have access to your Seller Central account. Think of Seller
+          Central as your go-to resource for selling on Ashewa. It’s a portal to
+          your ashewa business and a one-stop shop for managing your selling
+          account, adding product information, making inventory updates,
+          managing payments, and finding helpful content to help you navigate
+          your ashewa business. It’s also where you list all your products.
+          Below are a just few of the things you can do from Seller Central.
+          Keep track of your inventory and update your listings from the
+          Inventory tab Download custom business reports and bookmark templates
+          you use often Use customer metrics tools to monitor your seller
+          performance Contact Selling Partner Support and open help tickets
+          using the Case Log Keep track of your daily sales for all the products
+          you sell on Ashewa Listing your first product To sell a product on
+          ashewa, you must first create a product listing. Either match an
+          existing listing (if somebody else is already selling the same product
+          on ashewa), or create a new listing (if you are the first or only
+          seller). The specific way sellers upload and list their products
+          varies depending on their selling plan. To put it simply: Sellers
+          using a Professional seller account have the option of listing their
+          products in large batches using bulk uploading or inventory management
+          with third-party systems, while Individual sellers list products one
+          at a time. Once you successfully list your product, it will become
+          available to both B2C and B2B customers. This enables you to extend
+          the reach of your offers from a single account and without any
+          additional fees.
         </p>
       </v-div>
     </v-layout>

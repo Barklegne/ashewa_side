@@ -6,6 +6,30 @@ export default [
       import(/* webpackChunkName: "About" */ "@/components/pages/About.vue"),
   },
   {
+    path: "/services",
+    name: "Services",
+    component: () =>
+      import(
+        /* webpackChunkName: "Services" */ "@/components/pages/Services.vue"
+      ),
+  },
+  {
+    path: "/suppliers",
+    name: "Suppliers",
+    component: () =>
+      import(
+        /* webpackChunkName: "Suppliers" */ "@/components/pages/Suppliers.vue"
+      ),
+  },
+  {
+    path: "/retailers",
+    name: "Retailers",
+    component: () =>
+      import(
+        /* webpackChunkName: "Retailers" */ "@/components/pages/Retailers.vue"
+      ),
+  },
+  {
     path: "/vendor-supplier",
     name: "VendorSupplier",
     component: () =>

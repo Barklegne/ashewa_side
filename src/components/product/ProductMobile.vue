@@ -106,10 +106,13 @@ export default {
       return this.$store.getters.totalWishList;
     },
     averageRating() {
+      if (this.productrateSet.length === 1) {
+        return this.productrateSet[0].rate;
+      }
       if (this.productrateSet.length > 0) {
         let average = (arr) =>
           arr.reduce((a, b) => a.rate + b.rate) / arr.length;
-        return average(this.productrateSet);
+        return average([...this.productrateSet]);
       }
       return 0;
     },

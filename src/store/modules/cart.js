@@ -1,6 +1,7 @@
 import * as types from "@/store/mutation-types";
 import router from "@/router";
 import Vue from "vue";
+import axios from "axios";
 import { createProvider } from "../../vue-apollo";
 import { handleError } from "@/utils/utils.js";
 import { gql } from "graphql-tag";
@@ -33,7 +34,15 @@ const actions = {
       })
       .then((response) => {
         console.log(response.data.createBoaTransaction.payload);
-        ctx.commit(types.CHECKOUT, ...response.data.tokenAuth.user);
+        axios
+          .post(
+            "https://testsecureacceptance.cybersource.com/pay",
+            response.data.createBoaTransaction.payload
+          )
+          .then((response) => {
+            console.log(response.data);
+          });
+        ctx.commit(types.CHECKOUT, response.data.createBoaTransaction.payload);
       })
       .catch((error) => {
         handleError(error, ctx.commit, resp);

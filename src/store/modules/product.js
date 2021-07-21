@@ -3,6 +3,7 @@ import * as types from "@/store/mutation-types";
 import { createProvider } from "../../vue-apollo";
 import { handleError } from "@/utils/utils.js";
 import { gql } from "graphql-tag";
+import router from "@/router";
 
 let apolloClient = createProvider().defaultClient;
 
@@ -23,6 +24,35 @@ const getters = {
 };
 
 const actions = {
+  async addReview(ctx, value) {
+    ctx.commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            addOrUpdateProductRate(
+              comment: "${value.comment}"
+              productId: "${value.productId}"
+              rate: ${value.rate}
+              userId: "${ctx.rootState.auth.user.id}"
+            ) {
+              payload {
+                id
+                rate
+                comment
+              }
+            }
+          }
+        `,
+      })
+      .then(() => {
+        router.go();
+      })
+      .catch((error) => {
+        handleError(error, ctx.commit, resp);
+      });
+  },
+
   async getAllProducts({ commit }) {
     const resp = await apolloClient
       .query({

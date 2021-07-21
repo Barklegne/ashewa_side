@@ -66,9 +66,17 @@
                 flat
                 light
                 height="50px"
+                v-model="searchF"
                 placeholder="I'm shopping for..."
               ></v-text-field>
-              <v-btn color="black" dark height="50px" tile>search</v-btn>
+              <v-btn
+                :href="`/search/${searchF}`"
+                color="black"
+                dark
+                height="50px"
+                tile
+                >search</v-btn
+              >
             </v-row>
           </v-col>
           <v-spacer></v-spacer>
@@ -227,26 +235,17 @@
             </v-menu>
           </v-col>
           <v-spacer></v-spacer>
-          <v-col v-for="(n, i) in 1" :key="i" style="">
+          <v-col v-for="(n, i) in 4" :key="i" style="">
             <router-link
               style="text-decoration:none;font-weight:500"
-              :to="{ path: links[0].path }"
+              :to="{ path: links[i].path }"
             >
               <div style="color:black;" dark>
-                {{ links[0].name }}
+                {{ links[i].name }}
               </div>
             </router-link>
           </v-col>
-          <v-col v-for="(n, i) in 3" :key="i" style="">
-            <a
-              style="text-decoration:none;font-weight:500"
-              :href="links[i + 1].path"
-            >
-              <div style="color:black;" dark>
-                {{ links[i + 1].name }}
-              </div>
-            </a>
-          </v-col>
+
           <v-spacer></v-spacer>
           <v-col class="hidden-sm-and-down">
             <div
@@ -290,9 +289,17 @@
             flat
             light
             height="40px"
+            v-model="searchF"
             placeholder="I'm shopping for..."
           ></v-text-field>
-          <v-btn color="black" dark height="40px" tile>search</v-btn>
+          <v-btn
+            :href="`/search/${searchF}`"
+            color="black"
+            dark
+            height="40px"
+            tile
+            >search</v-btn
+          >
         </div>
       </v-col>
       <v-spacer></v-spacer>
@@ -366,6 +373,7 @@ export default {
   data() {
     return {
       selected: "All",
+      searchF: "",
       sidebar: false,
       isDark: false,
       color1: "black",
@@ -379,9 +387,9 @@ export default {
       ],
       links: [
         { name: "Home", path: "/" },
-        { name: "Vendor", path: "https://www.seller.ashewa.com/signup" },
-        { name: "Retailer", path: "https://www.seller.ashewa.com/signup" },
-        { name: "Supplier", path: "https://www.seller.ashewa.com/signup" },
+        { name: "Services", path: "/services" },
+        { name: "Retailers", path: "/retailers" },
+        { name: "Suppliers", path: "/suppliers" },
       ],
     };
   },
