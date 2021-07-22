@@ -45,10 +45,11 @@
         <v-card flat tile color="#43DB80" class="white--text text-center">
           <v-card-text>
             <v-btn
-              v-for="icon in icons"
+              v-for="(icon, i) in icons"
               :key="icon"
               class="mx-4 white--text"
               icon
+              :href="lnk[i]"
             >
               <v-icon size="24px">
                 {{ icon }}
@@ -253,7 +254,13 @@ export default {
   name: "Footer",
   data() {
     return {
-      icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
+      icons: ["mdi-facebook", "mdi-twitter", "mdi-telegram", "mdi-instagram"],
+      lnk: [
+        "https://facebook.com/ashewabusiness",
+        "",
+        "https://t.me/ashewatechnologies",
+        "https://instagram.com/ashewagroup",
+      ],
       courses: [
         "Digital Marketing",
         "Web Designer",

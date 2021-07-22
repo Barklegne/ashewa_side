@@ -223,6 +223,12 @@ const actions = {
                 vendor {
                   storeName
                   id
+                  followerSet{
+                    user{
+                      id
+                    }
+                    id
+                  }
                   productSet {
                     name
                     id
