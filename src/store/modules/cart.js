@@ -1,7 +1,6 @@
 import * as types from "@/store/mutation-types";
 import router from "@/router";
 import Vue from "vue";
-import axios from "axios";
 import { createProvider } from "../../vue-apollo";
 import { handleError } from "@/utils/utils.js";
 import { gql } from "graphql-tag";
@@ -34,15 +33,30 @@ const actions = {
       })
       .then((response) => {
         console.log(response.data.createBoaTransaction.payload);
-        axios
-          .post(
-            "https://testsecureacceptance.cybersource.com/pay",
-            response.data.createBoaTransaction.payload
-          )
-          .then((response) => {
-            console.log(response.data);
-          });
-        ctx.commit(types.CHECKOUT, response.data.createBoaTransaction.payload);
+        // const http = new Http()
+        // http({
+        //   method: "POST",
+        //   url: "https://testsecureacceptance.cybersource.com/pay",
+        //   data: response.data.createBoaTransaction.payload,
+        // });
+        // this.vm
+        //   .then((response) => {
+        //     console.log(response);
+        //     this.postResults = response.data.createBoaTransaction.payload;
+        //     this.ajaxRequest = false;
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
+        // axios
+        //   .post(
+        //     "https://testsecureacceptance.cybersource.com/pay",
+        //     response.data.createBoaTransaction.payload
+        //   )
+        //   .then((response) => {
+        //     console.log(response.data);
+        //   });
+        // ctx.commit(types.CHECKOUT, response.data.createBoaTransaction.payload);
       })
       .catch((error) => {
         handleError(error, ctx.commit, resp);

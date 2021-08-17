@@ -32,8 +32,16 @@
                     class="mt-7"
                     height="50px"
                     placeholder="Email Address"
+                    v-model="email"
                   ></v-text-field>
-                  <v-btn color="black" dark height="50px" tile>Subscribe</v-btn>
+                  <v-btn
+                    @click="addSubscriber"
+                    color="black"
+                    dark
+                    height="50px"
+                    tile
+                    >Subscribe</v-btn
+                  >
                 </v-row>
               </v-col>
               <v-spacer></v-spacer>
@@ -254,6 +262,7 @@ export default {
   name: "Footer",
   data() {
     return {
+      email: "",
       icons: ["mdi-facebook", "mdi-twitter", "mdi-telegram", "mdi-instagram"],
       lnk: [
         "https://facebook.com/ashewabusiness",
@@ -330,6 +339,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    addSubscriber() {
+      this.$store.dispatch("addSubscriber", this.email);
+    },
   },
   computed: {
     appVersion() {

@@ -15,15 +15,61 @@ const getters = {
   filteredProducts: (state) => state.filteredProducts,
   totalProducts: (state) => state.products.length,
   dealOfTheDay: (state) => state.products.slice(0, 6),
-  electronics: (state) => state.products.slice(7, 13),
-  clothings: (state) => state.products.slice(14, 20),
-  home: (state) => state.products.slice(19, 25),
   getProductId: (state) => (id) => {
     return state.products.find((p) => p.id == id);
   },
 };
 
 const actions = {
+  async addSubscriber(ctx, value) {
+    ctx.commit(types.SHOW_LOADING, true);
+
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            addEmailSubscription(input: { email: "${value}" }) {
+              payload {
+                id
+                email
+              }
+            }
+          }
+        `,
+      })
+      .then(() => {
+        ctx.commit(types.SHOW_LOADING, false);
+      })
+      .catch((error) => {
+        handleError(error, ctx.commit, resp);
+      });
+  },
+  async addFollower(ctx, value) {
+    ctx.commit(types.SHOW_LOADING, true);
+
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            addVendorFollower(userId: "${ctx.rootState.auth.user.id}", vendorId: "${value.id}") {
+              payload {
+                id
+                user {
+                  username
+                }
+              }
+            }
+          }
+        `,
+      })
+      .then(() => {
+        router.go();
+      })
+      .catch((error) => {
+        router.go();
+        handleError(error, ctx.commit, resp);
+      });
+  },
   async addReview(ctx, value) {
     ctx.commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
@@ -201,6 +247,11 @@ const actions = {
                 name
                 id
                 image
+                productpriceoptionSet{
+                  id
+                  quantity
+                  price
+                }
                 productrateSet{
                   id
                   user{

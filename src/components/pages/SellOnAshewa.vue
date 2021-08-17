@@ -104,7 +104,7 @@
     </div>
     <v-btn
       dark
-      href="http://vendors.ashewa.com/signup#"
+      href="https://seller.ashewa.com/signup2"
       large
       tile
       color="#43DB80"

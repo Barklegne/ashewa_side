@@ -165,9 +165,10 @@
               <v-divider></v-divider>
 
               <v-row class="mt-3 ml-2">
-                <p class="text-caption text-start">
-                  {{ !!product ? product.description : "" }}
-                </p>
+                <p
+                  v-html="!!product ? product.description : ''"
+                  class="text-caption text-start"
+                ></p>
               </v-row>
               <v-row align="center" justify="center">
                 <v-col cols="6" md="2">Unit Price:</v-col>
@@ -240,11 +241,14 @@
                     <v-simple-table style="border:1px solid black" dense>
                       <template v-slot:default>
                         <tbody>
-                          <tr v-for="(item, i) in prices" :key="i">
+                          <tr
+                            v-for="(item, i) in product.productpriceoptionSet"
+                            :key="i"
+                          >
                             <td style="background-color:#bbc4bdb4">
-                              {{ item.name }}
+                              {{ item.quantity }}
                             </td>
-                            <td>{{ item.calories }}</td>
+                            <td>{{ item.price }}</td>
                           </tr>
                         </tbody>
                       </template>
@@ -408,7 +412,7 @@
                 <div><h4>Store Categories</h4></div>
                 <div><h5>100% Positive Feedback</h5></div>
                 <div>
-                  <h5>{{ followers }}</h5>
+                  <h5>{{ product.vendor.followerSet.length }}</h5>
                 </div>
                 <div class="mt-5">
                   <v-btn
@@ -417,7 +421,7 @@
                     rounded
                     elevation="0"
                     :outlined="!following"
-                    @click="following = !following"
+                    @click="addFollower"
                     :dark="following"
                     small
                     >{{ following ? "Following" : "+ Follow" }}</v-btn
@@ -504,9 +508,11 @@
       </div>
       <v-divider></v-divider>
       <div class="mx-5 my-2">
-        <p style="font-size:14px;" class="text-start">
-          {{ !!product ? product.description : "" }}
-        </p>
+        <p
+          v-html="!!product ? product.description : ''"
+          style="font-size:14px;"
+          class="text-start"
+        ></p>
         <v-row class="mx-1 mt-1">
           <v-rating
             v-model="averageRating"
@@ -873,7 +879,6 @@ export default {
       com: "",
       sizeI: 0,
       colorI: 0,
-      following: false,
       model: 0,
       sheetB: false,
       items: ["Overview", "Customer Reviews", "Specification"],
@@ -905,6 +910,20 @@ export default {
   },
   computed: {
     ...mapGetters(["isTokenSet"]),
+    following() {
+      if (this.isTokenSet) {
+        if (!this.product) {
+          return false;
+        }
+        if (this.product.vendor.followerSet.length === 0) {
+          return false;
+        }
+        return !!this.product.vendor.followerSet.find(
+          (x) => x.user.id === this.$store.state.auth.user.id
+        );
+      }
+      return false;
+    },
     followers() {
       if (this.following) {
         return 1;
@@ -981,6 +1000,13 @@ export default {
         comment: this.com,
         productId: this.product.id,
       });
+    },
+    addFollower() {
+      if (!this.following) {
+        this.$store.dispatch("addFollower", {
+          id: this.product.vendor.id,
+        });
+      }
     },
     chat(data) {
       if (!this.$store.state.auth.isTokenSet) {

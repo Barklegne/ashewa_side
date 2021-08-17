@@ -71,7 +71,6 @@ const actions = {
                 phone
                 email
                 profilePic
-                password
               }
             }
           }
