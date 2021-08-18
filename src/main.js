@@ -9,6 +9,7 @@ import VuetifyConfirm from "vuetify-confirm";
 import { createProvider } from "./vue-apollo";
 import ZoomOnHover from "vue-zoom-on-hover";
 import Tawk from "vue-tawk";
+import './registerServiceWorker'
 
 // this.$Tawk.$updateChatUser({
 //   name: "alehegn",

@@ -14,7 +14,9 @@
     "basic-vue-chat": "^0.3.5",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
+    "register-service-worker": "^1.7.1",
     "remark-cli": "^9.0.0",
+    "serve": "^12.0.0",
     "shelljs": "^0.8.4",
     "vee-validate": "^3.4.5",
     "vue": "^2.6.11",
@@ -41,6 +43,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
