@@ -121,7 +121,9 @@ const actions = {
                   rate
                   comment
                 }
+                supplierDomain
                 vendor {
+                  domain
                   storeName
                   id
                   productSet {
@@ -200,6 +202,7 @@ const actions = {
                     quantity
                   }
                 }
+                supplierDomain
                 vendor {
                   storeName
                   id
@@ -250,7 +253,7 @@ const actions = {
                 productpriceoptionSet{
                   id
                   quantity
-                  price
+                  discount
                 }
                 productrateSet{
                   id
@@ -271,7 +274,9 @@ const actions = {
                     quantity
                   }
                 }
+                supplierDomain
                 vendor {
+                  domain
                   storeName
                   id
                   followerSet{
@@ -350,7 +355,9 @@ const actions = {
                     quantity
                   }
                 }
+                supplierDomain
                 vendor {
+                  domain
                   storeName
                   id
                   productSet {
@@ -415,6 +422,7 @@ const actions = {
                 productId
                 productName
                 sellingPrice
+                supplierDomain
                 vendor{
                   storeName
                   id

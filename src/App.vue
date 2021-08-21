@@ -124,7 +124,7 @@ import Loading from "@/components/core/Loading.vue";
 import Footer from "@/components/core/Footer.vue";
 
 export default {
-  name: "Ashewa Wholesale",
+  name: "Ashewa Market Place",
   data() {
     return {
       vis: false,
@@ -141,7 +141,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Ashewa Wholesale",
+      title: "Ashewa Market Place",
       meta: [
         { name: "msapplication-TileColor", content: "#ffc40d" },
         { name: "Referrer-Policy", content: "same-origin" },

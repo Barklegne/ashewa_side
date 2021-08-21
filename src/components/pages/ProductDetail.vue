@@ -229,6 +229,11 @@
                     dark
                     elevation="0"
                     color="success"
+                    :href="
+                      product.vendor.domain
+                        ? `https://ashewa.com/${product.vendor.domain}`
+                        : `https://${product.supplierDomain}`
+                    "
                     >Visit Store</v-btn
                   ></v-col
                 >
@@ -248,7 +253,7 @@
                             <td style="background-color:#bbc4bdb4">
                               {{ item.quantity }}
                             </td>
-                            <td>{{ item.price }}</td>
+                            <td>{{ item.discount }}</td>
                           </tr>
                         </tbody>
                       </template>
@@ -275,7 +280,122 @@
                   </v-card></v-col
                 >
               </v-row>
+              <v-row class="ma-3">
+                <p class="ma-0 mb-1" style="font-size:18px;font-weight:600">
+                  {{ colors.length }} Colors,
+                  {{ colors.length > 0 ? colors[0].productsizeSet.length : 0 }}
+                  Size Available
+                </p>
+              </v-row>
+              <v-row class="ma-3">
+                <v-slide-group v-model="i" active-class="success">
+                  <v-slide-item class="mr-2" v-for="(n, i) in colors" :key="i">
+                    <v-card
+                      style="border:1px solid grey;padding:2px"
+                      width="60"
+                      height="60"
+                      rounded=""
+                      @click="vis = true"
+                      ><v-img aspect-ratio="1" :src="n.image"></v-img>
+                    </v-card>
+                  </v-slide-item>
+                </v-slide-group>
+              </v-row>
+              <v-dialog
+                v-model="vis"
+                style="background-color:red"
+                :overlay-opacity="0.8"
+                width="500"
+                transition="dialog-bottom-transition"
+              >
+                <v-sheet
+                  style="overflow-y:scroll;padding-bottom:70px"
+                  class="text-start"
+                >
+                  <v-img
+                    class="white--text align-end text-end pb-2"
+                    style="margin:auto auto"
+                    width="70vw"
+                    height="245"
+                    :src="colors.length > 0 ? colors[colorI].image : ''"
+                  >
+                    <div
+                      class="mr-2 pa-1"
+                      style="display:inline;background-color:grey;border-radius:5px;font-size:12px"
+                    >
+                      {{ colorI + 1 }}/{{ colors.length }}
+                    </div>
+                  </v-img>
 
+                  <p
+                    class="my-2 text-center"
+                    style="font-size:18px;font-weight:700"
+                  >
+                    ETB {{ !!product ? product.sellingPrice + 500.55 : "" }}
+                  </p>
+                  <p class="mx-5">Color</p>
+                  <v-row justify="start" class="mx-5">
+                    <v-col
+                      class="pa-0 pt-2"
+                      cols="1"
+                      style="margin-right:2px"
+                      v-for="(n, i) in colors"
+                      :key="i"
+                    >
+                      <v-card
+                        :style="
+                          colorI == i
+                            ? 'border:3px solid green;padding:2px'
+                            : 'border:1px solid grey;padding:2px'
+                        "
+                        @click="colorI = i"
+                        width="60"
+                        height="60"
+                        rounded=""
+                        ><v-img
+                          width="50"
+                          height="50"
+                          aspect-ratio="1"
+                          :src="n.image"
+                        ></v-img>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                  <p class="mx-5 mt-5 mb-2">Size</p>
+                  <div class="mx-5 mb-2" v-if="colors.length > 0">
+                    <v-chip
+                      class="mr-2 pa-5"
+                      label
+                      :style="
+                        sizeI == i
+                          ? 'border:2px solid green;font-size:18px;font-weight:300'
+                          : 'font-size:14px;font-weight:300'
+                      "
+                      @click="sizeI = i"
+                      v-for="(n, i) in colors[0].productsizeSet"
+                      :key="i"
+                      >{{ n.name }}</v-chip
+                    >
+                  </div>
+                  <p class="mx-5 mt-5 mb-2">Quantity</p>
+
+                  <v-row class="mt-1 mx-1">
+                    <v-btn
+                      :disabled="quantity == 1"
+                      icon
+                      depressed
+                      @click="decrement"
+                    >
+                      <v-icon> mdi-minus-circle-outline</v-icon>
+                    </v-btn>
+
+                    <span class="mt-2 mx-1">{{ quantity }}</span>
+                    <v-btn icon depressed @click="increment">
+                      <v-icon> mdi-plus-circle-outline </v-icon>
+                    </v-btn>
+                  </v-row>
+                </v-sheet>
+              </v-dialog>
               <v-divider class="my-6"></v-divider>
               <v-row class="ma-0">
                 <v-spacer></v-spacer>
@@ -433,6 +553,11 @@
                     elevation="0"
                     rounded
                     small
+                    :href="
+                      product.vendor.domain
+                        ? `https://ashewa.com/${product.vendor.domain}`
+                        : `https://${product.supplierDomain}`
+                    "
                     >Visit Store</v-btn
                   >
                 </div>
@@ -471,6 +596,64 @@
           <v-spacer></v-spacer>
         </v-row>
       </div>
+
+      <p class="mx-5">Color</p>
+      <v-row justify="start" class="mx-5">
+        <v-col
+          class="pa-0 pt-2"
+          cols="1"
+          style="margin-right:2px"
+          v-for="(n, i) in colors"
+          :key="i"
+        >
+          <v-card
+            :style="
+              colorI == i
+                ? 'border:3px solid green;padding:2px'
+                : 'border:1px solid grey;padding:2px'
+            "
+            @click="colorI = i"
+            width="60"
+            height="60"
+            rounded=""
+            ><v-img
+              width="50"
+              height="50"
+              aspect-ratio="1"
+              :src="n.image"
+            ></v-img>
+          </v-card>
+        </v-col>
+      </v-row>
+      <p class="mx-5 mt-5 mb-2">Size</p>
+      <div class="mx-5 mb-2" v-if="colors.length > 0">
+        <v-chip
+          class="mr-2 pa-5"
+          label
+          :style="
+            sizeI == i
+              ? 'border:2px solid green;font-size:18px;font-weight:300'
+              : 'font-size:14px;font-weight:300'
+          "
+          @click="sizeI = i"
+          v-for="(n, i) in colors[0].productsizeSet"
+          :key="i"
+          >{{ n.name }}</v-chip
+        >
+      </div>
+      <p class="mx-5 mt-5 mb-2">Quantity</p>
+
+      <v-row class="mt-1 mx-1">
+        <v-btn :disabled="quantity == 1" icon depressed @click="decrement">
+          <v-icon> mdi-minus-circle-outline</v-icon>
+        </v-btn>
+
+        <span class="mt-2 mx-1">{{ quantity }}</span>
+
+        <v-btn icon depressed @click="increment">
+          <v-icon> mdi-plus-circle-outline </v-icon>
+        </v-btn>
+      </v-row>
     </v-container>
     <div
       style="padding-bottom:30px"
@@ -572,23 +755,23 @@
         >
       </div>
       <v-divider></v-divider>
+      <p class="ma-0 mb-1" style="font-size:14px;font-weight:500">
+        {{ colors.length }} Colors,
+        {{ colors.length > 0 ? colors[0].productsizeSet.length : 0 }} Size
+      </p>
+      <v-slide-group v-model="i" active-class="success">
+        <v-slide-item class="mr-2" v-for="(n, i) in colors" :key="i">
+          <v-card
+            style="border:1px solid grey;padding:2px"
+            width="60"
+            height="60"
+            rounded=""
+            @click="sheetB = true"
+            ><v-img aspect-ratio="1" :src="n.image"></v-img>
+          </v-card>
+        </v-slide-item>
+      </v-slide-group>
       <div class="mx-5 my-2 text-start">
-        <p class="ma-0 mb-1" style="font-size:14px;font-weight:500">
-          {{ colors.length }} Colors,
-          {{ colors.length > 0 ? colors[0].productsizeSet.length : 0 }} Size
-        </p>
-        <v-slide-group v-model="i" active-class="success">
-          <v-slide-item class="mr-2" v-for="(n, i) in colors" :key="i">
-            <v-card
-              style="border:1px solid grey;padding:2px"
-              width="60"
-              height="60"
-              rounded=""
-              @click="sheetB = true"
-              ><v-img aspect-ratio="1" :src="n.image"></v-img>
-            </v-card>
-          </v-slide-item>
-        </v-slide-group>
         <v-bottom-sheet scrollable v-model="sheetB">
           <v-sheet
             style="overflow-y:scroll;padding-bottom:70px"
@@ -786,6 +969,11 @@
               elevation="0"
               rounded
               small
+              :href="
+                product.vendor.domain
+                  ? `https://ashewa.com/${product.vendor.domain}`
+                  : `https://${product.supplierDomain}`
+              "
               >Visit Store</v-btn
             >
           </v-col>
@@ -876,6 +1064,7 @@ export default {
       index: 0,
       i: 0,
       rev: 0,
+      vis: false,
       com: "",
       sizeI: 0,
       colorI: 0,

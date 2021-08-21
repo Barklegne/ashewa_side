@@ -55,7 +55,9 @@ const actions = {
                     quantity
                   }
                 }
+                supplierDomain
                 vendor {
+                  domain
                   storeName
                 }
                 sellingPrice
@@ -128,7 +130,9 @@ const actions = {
                     quantity
                   }
                 }
+                supplierDomain
                 vendor {
+                  domain
                   storeName
                 }
                 sellingPrice

@@ -146,9 +146,7 @@
                   <v-divider></v-divider>
 
                   <v-row class="mt-3 ml-2">
-                    <p class="text-caption text-start">
-                      {{ description }}
-                    </p>
+                    <p class="text-caption text-start" v-html="description"></p>
                   </v-row>
                   <v-row align="center" justify="center">
                     <v-col cols="6" md="2">Unit Price:</v-col>
@@ -211,6 +209,11 @@
                         dark
                         elevation="0"
                         color="success"
+                        :href="
+                          vendor.domain
+                            ? `https://ashewa.com/${vendor.domain}`
+                            : `https://${supplierDomain}`
+                        "
                         >Visit Store</v-btn
                       ></v-col
                     >
@@ -330,6 +333,10 @@ export default {
   props: {
     vendor: {
       type: Object,
+      required: true,
+    },
+    supplierDomain: {
+      type: String,
       required: true,
     },
     sellingPrice: {

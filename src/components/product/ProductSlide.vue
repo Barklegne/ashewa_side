@@ -37,6 +37,7 @@
         <v-slide-item class="mr-5 mb-4" v-for="(n, i) in dataN" :key="i">
           <ProductCard
             :vendor="n.vendor"
+            :supplierDomain="n.supplierDomain"
             :productName="n.name"
             :productImages="n.productimageSet"
             :sellingPrice="n.sellingPrice"
@@ -61,6 +62,7 @@
       >
         <ProductMobile
           :vendor="n.vendor"
+          :supplierDomain="n.supplierDomain"
           :productName="n.name"
           :productImages="n.productimageSet"
           :sellingPrice="n.sellingPrice"

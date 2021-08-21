@@ -78,7 +78,8 @@
                 height="50"
                 class="btn"
                 depressed
-                color="primary"
+                color="#09b750"
+                dark
                 @click="vis = true"
               >
                 Proceed to checkout
@@ -349,7 +350,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .apply-btn:hover {
   background-color: #07a04b;
   color: white;
@@ -357,6 +358,12 @@ export default {
 
 .btn {
   text-transform: none;
+}
+.v-list .v-list-item--active {
+  background-color: #07a04b !important;
+}
+.v-list .v-list-item--active .v-list-item__title {
+  color: white !important;
 }
 </style>
 

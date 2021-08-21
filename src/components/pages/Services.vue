@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="mt-10">Services</h1>
+    <h1 class="mt-10">News</h1>
     <v-row justify="center" class="mx-5 my-10">
       <v-col v-for="(x, i) in services" :key="i">
         <v-card class="mx-auto" width="500">
@@ -16,7 +16,7 @@
             <v-card-title>{{ x.title }}</v-card-title>
           </v-img>
           <v-card-text class="text--primary text-start">
-            <div>{{ x.content }}</div>
+            <div v-html="x.content"></div>
           </v-card-text>
         </v-card>
       </v-col>
