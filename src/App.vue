@@ -136,7 +136,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.vis = false;
+      this.vis = true;
     }, 30000);
   },
   metaInfo() {

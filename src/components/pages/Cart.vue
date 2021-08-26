@@ -156,7 +156,7 @@
             'DHL(Adrian Dalsey, Larry Hillblom)',
             'RIDE DELIVERY ',
             'MOTOR CYCLE DELIVERY',
-            'BUS DELIVERY ',
+            'BUS DELIVERY',
             'PHYSICAL PICK UP',
           ]"
           v-model="delivery"
