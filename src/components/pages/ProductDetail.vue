@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-footer
-      style="z-index:1000"
-      class="pa-0 hidden-lg-and-up"
-      height="55"
-      fixed
-    >
+    <v-footer style="z-index:1000" class="pa-4" height="70" fixed>
       <div
         @click="
           $router.push({
@@ -16,7 +11,7 @@
       >
         <v-icon
           :color="route.path == '/store' ? '#43DB80' : '#383737'"
-          style="font-size:32px"
+          style="font-size:32px "
           large
           >mdi-storefront-outline</v-icon
         >
@@ -42,14 +37,15 @@
           >mdi-telegram</v-icon
         >
       </div>
-      <div style="width:80%;background-color:red;height:100%">
+      <div style="width:80%;height:100%;">
         <v-btn
+          class="rounded-l"
+          outlined
           style="text-transform: none;color:#0ea54b;font-weight:700"
-          tile
           color="#e8ffe8"
           elevation="0"
           height="100%"
-          width="50%"
+          width="45%"
           @click="
             addToBag({
               image: product.productimageSet[0].image,
@@ -60,15 +56,16 @@
               quantity: quantity,
             })
           "
-          >Add to Bag</v-btn
+          >Add to Zembil</v-btn
         >
         <v-btn
-          style="text-transform: none;color:white;font-weight:700;"
+          style="text-transform: none;color:white;font-weight:700;margin-left:10px;"
           tile
+          class="rounded-l"
           color="#0ea54b"
           elevation="0"
           height="100%"
-          width="50%"
+          width="45%"
           @click="
             sheetB
               ? addToCart({
@@ -656,40 +653,106 @@
       </v-row>
     </v-container>
     <div
-      style="padding-bottom:30px"
+      style="padding-bottom:60px"
       v-if="!!product.name"
       class="mb-10 hidden-lg-and-up"
     >
-      <v-carousel height="350" hide-delimiters :show-arrows="false">
+      <v-carousel
+        class="align-center text-center"
+        height="350"
+        hide-delimiters
+        :show-arrows="false"
+      >
         <v-carousel-item v-for="(n, i) in product.productimageSet" :key="i">
           <v-img
-            class="white--text align-end text-end pb-2"
-            width="100vw"
-            height="345"
+            class="white--text align-start text-end ma-4 pa-2 rounded-xl"
+            width="90vw"
+            height="330"
             :src="`http://api.ashewa.com/media/${n.image}`"
           >
-            <div
-              class="mr-2 pa-1"
-              style="display:inline;background-color:grey;border-radius:5px;font-size:12px"
-            >
-              {{ i + 1 }}/{{ product.productimageSet.length }}
-            </div>
+            <v-chip x-small class="ma-1 pa-2" color="white">
+              <v-rating
+                v-model="averageRating"
+                readonly
+                background-color="green lighten-3"
+                color="#09B750"
+                x-small
+              ></v-rating>
+            </v-chip>
+
+            <!-- <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
+            {{ averageRating }}
+          </p>
+          <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
+            {{ "| 320 orders" }}
+          </p> -->
           </v-img>
         </v-carousel-item>
       </v-carousel>
       <div class="mx-5 text-start">
-        <v-slide-group v-model="model" class="pa-0">
-          <v-slide-item class="mr-5">
-            <div>
-              <p class="ma-0" style="font-size:18px;font-weight:700">
-                ETB {{ !!product ? product.sellingPrice : "" }}
-              </p>
-              <p class="mb-1" style="font-size:11px;color:grey;"></p>
-            </div>
-          </v-slide-item>
-        </v-slide-group>
+        <v-row>
+          <v-col class="pb-0">
+            <v-slide-group v-model="model" class="pt-4">
+              <v-slide-item class="mr-5">
+                <div>
+                  <p
+                    class="ma-0"
+                    style="font-size:22px;font-weight:900; color: #43DB80"
+                  >
+                    ETB {{ !!product ? product.sellingPrice : "" }}
+                    <sub>.00</sub>
+                  </p>
+                </div>
+              </v-slide-item>
+            </v-slide-group>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col class="pr-1 pb-0">
+            <v-slide-group v-model="model" class="pt-2">
+              <v-slide-item class="mr-5">
+                <div>
+                  <v-btn class="ma-2" outlined color="#43DB08"
+                    ><v-icon>mdi-store-outline</v-icon>
+                    visit store
+                  </v-btn>
+                </div>
+              </v-slide-item>
+            </v-slide-group>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="py-0 ">
+            <v-slide-group v-model="model">
+              <v-slide-item class="mr-5">
+                <div>
+                  <p
+                    class=""
+                    style="font-size:30px;font-weight:900; color: #000000"
+                  >
+                    {{ !!product ? product.name : "" }}
+                  </p>
+                </div>
+              </v-slide-item>
+            </v-slide-group>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col class=" pl-1 py-0">
+            <v-slide-group v-model="model">
+              <v-slide-item class="mr-5">
+                <div>
+                  <div class="text-center">
+                    <v-btn rounded color="#43DB80" dark>
+                      <v-icon>mdi-account-check-outline</v-icon>
+                      Follow
+                    </v-btn>
+                  </div>
+                </div>
+              </v-slide-item>
+            </v-slide-group>
+          </v-col>
+        </v-row>
       </div>
-      <v-divider></v-divider>
+      <!-- <v-divider></v-divider> -->
       <div class="mx-5 my-2">
         <p
           v-html="!!product ? product.description : ''"
@@ -706,55 +769,17 @@
             readonly
             half-increments
             hover
-            size="12"
+            size="25"
           ></v-rating>
-          <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
+          <p style="font-size:25px;color:grey;" class="ml-1">
             {{ averageRating }}
           </p>
-          <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
-            {{ "| 320 orders" }}
+          <p style="font-size:25px;color:grey;" class="ml-1">
+            {{ "  | 320 orders" }}
           </p>
         </v-row>
       </div>
-      <v-divider></v-divider>
-      <div class="mx-5 my-1 mb-2">
-        <v-btn
-          style="text-transform: none;color:white;"
-          color="#0ea54b"
-          rounded
-          class="my-1"
-          width="100%"
-          @click="
-            chat({
-              vendorName: product.vendor.storeName,
-              image:
-                product.productimageSet[index].image[0] == 'h'
-                  ? product.productimageSet[index].image
-                  : `http://api.ashewa.com/media/${product.productimageSet[index].image}`,
-            })
-          "
-          >Chat Now</v-btn
-        >
-        <v-btn
-          style="text-transform: none;color:#0ea54b;"
-          color="#e8ffe8"
-          rounded
-          class="my-1"
-          width="100%"
-          @click="
-            inquire({
-              vendorName: product.vendor.storeName,
-              image:
-                product.productimageSet[index].image[0] == 'h'
-                  ? product.productimageSet[index].image
-                  : `http://api.ashewa.com/media/${product.productimageSet[index].image}`,
-              id: product.vendor.id,
-            })
-          "
-          >Send Inquiry</v-btn
-        >
-      </div>
-      <v-divider></v-divider>
+
       <p class="ma-0 mb-1" style="font-size:14px;font-weight:500">
         {{ colors.length }} Colors,
         {{ colors.length > 0 ? colors[0].productsizeSet.length : 0 }} Size
