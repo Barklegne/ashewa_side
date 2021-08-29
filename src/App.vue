@@ -74,15 +74,7 @@
             </p>
           </v-row>
         </div>
-        <v-btn
-          block
-          style="background-color:transparent"
-          class="text-center mt-5"
-          dark
-          v-if="not"
-          @click="not = false"
-          >Read More before subscribing?</v-btn
-        >
+
         <v-row class="mx-4" align="center">
           <v-text-field
             solo
@@ -136,7 +128,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.vis = true;
+      this.$router.push("/comingSoon");
     }, 30000);
   },
   metaInfo() {
@@ -171,6 +163,8 @@ export default {
   methods: {
     addSubscriber() {
       this.$store.dispatch("addSubscriber", this.email);
+      this.vis = false;
+      this.$router.push("/comingSoon");
     },
     async getAllProducts() {
       if (this.$store.getters.categories.length === 0) {

@@ -37,8 +37,10 @@ const actions = {
           }
         `,
       })
-      .then(() => {
+      .then((res) => {
         ctx.commit(types.SHOW_LOADING, false);
+        ctx.state.email = res.data.addEmailSubscription.payload.email;
+        ctx.state.vis = true;
       })
       .catch((error) => {
         handleError(error, ctx.commit, resp);
@@ -476,6 +478,8 @@ const mutations = {
 
 const state = {
   products: [],
+  vis: false,
+  email: "",
   relatedProducts: [],
   productsVendor: [],
   filteredProducts: [],

@@ -83,4 +83,12 @@ export default [
         /* webpackChunkName: "AboutBA" */ "@/components/pages/BecomeAnAffiliate.vue"
       ),
   },
+  {
+    path: "/comingSoon",
+    name: "ComingSoon",
+    component: () =>
+      import(
+        /* webpackChunkName: "AboutBA" */ "@/components/pages/ComingSoon.vue"
+      ),
+  },
 ];
