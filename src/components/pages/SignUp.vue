@@ -7,7 +7,10 @@
     <v-layout row wrap class="mx-10">
       <v-flex xs12 sm6 offset-sm3>
         <div class="my-5">
-          <h1 style="font-size:50px">Signup</h1>
+          <h1 style="font-size:50px; font-color:#4DBA87;" >Sign Up</h1>
+        </div>
+        <div>
+          <v-subheader dense>Please fill the form to create your Ashewa Account</v-subheader>
         </div>
         <ValidationObserver v-slot="{ handleSubmit }">
           <form @submit.prevent="handleSubmit(submit)">
@@ -22,6 +25,10 @@
                     :error="errors.length > 0"
                     :error-messages="errors[0]"
                     autocomplete="off"
+                    outlined
+                    dense
+                    color="#4DBA87"
+                    prepend-inner-icon="mdi-account-circle-outline"
                   ></v-text-field>
                 </ValidationProvider>
               </v-flex>
@@ -36,6 +43,10 @@
                     :error="errors.length > 0"
                     :error-messages="errors[0]"
                     autocomplete="off"
+                    outlined
+                    dense
+                    color="#4DBA87"
+                    prepend-inner-icon="mdi-account-circle-outline"
                   ></v-text-field>
                 </ValidationProvider>
               </v-flex>
@@ -51,6 +62,10 @@
                     :error="errors.length > 0"
                     :error-messages="errors[0]"
                     autocomplete="off"
+                    outlined
+                    dense
+                    color="#4DBA87"
+                    prepend-inner-icon="mdi-email"
                   ></v-text-field>
                 </ValidationProvider>
               </v-flex>
@@ -64,10 +79,14 @@
                     :error="errors.length > 0"
                     :error-messages="errors[0]"
                     autocomplete="off"
+                    outlined
+                    dense
+                    color="#4DBA87"
+                    prepend-inner-icon="mdi-account"
                   ></v-text-field>
                 </ValidationProvider>
               </v-flex>
-              <v-flex>
+              <v-flex mb-5>
                 <VuePhoneNumberInput
                   default-country-code="ET"
                   v-model="yourValue"
@@ -89,6 +108,10 @@
                     :error-messages="errors[0]"
                     ref="password"
                     autocomplete="off"
+                    outlined
+                    dense
+                    color="#4DBA87"
+                    prepend-inner-icon="mdi-lock-outline"
                   ></v-text-field>
                 </ValidationProvider>
               </v-flex>
@@ -106,12 +129,37 @@
                     :error="errors.length > 0"
                     :error-messages="errors[0]"
                     autocomplete="off"
+                    outlined
+                    dense
+                    color="#4DBA87"
+                    prepend-inner-icon="mdi-lock-outline"
                   ></v-text-field>
                 </ValidationProvider>
               </v-flex>
-              <v-flex text-xs-center mt-5>
-                <SubmitButton buttonText="Signup" />
-              </v-flex>
+              <v-row>
+                <v-col
+                  cols="auto"
+                  class="mr-auto"
+                >
+                  <v-btn
+                    :to="{ path: '/signup' }"
+                    small
+                    text
+                    class="btnForgotPassword"
+                    >Sign Up as Business</v-btn
+                  >
+                </v-col>
+                <v-col cols="auto">
+                  <SubmitButton buttonText="Signup" color="#4DBA87" class="white--text"/>
+                </v-col>
+              </v-row>
+              <v-btn
+                    :to="{ path: '/login' }"
+                    small
+                    text
+                    class="btnForgotPassword"
+                    >Already have an account? <span style="color:#4DBA87;">Login</span></v-btn
+                  >
             </v-layout>
           </form>
         </ValidationObserver>

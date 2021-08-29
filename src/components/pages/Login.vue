@@ -7,8 +7,14 @@
     <v-layout row wrap class="mx-10">
       <v-flex xs12 sm6 offset-sm3>
         <div class="my-4">
-          <h1 style="font-size:50px">Login</h1>
+          <h1 style="font-size:50px; text-color:#4DBA87;" class="">
+            Log In
+          </h1>
         </div>
+        <div>
+          <v-subheader dense>Please Sign in to your Ashewa Account</v-subheader>
+        </div>
+        <v-divider inset></v-divider>
         <ValidationObserver v-slot="{ handleSubmit }">
           <form @submit.prevent="handleSubmit(submit)">
             <v-layout column>
@@ -22,7 +28,12 @@
                     :error="errors.length > 0"
                     :error-messages="errors[0]"
                     autocomplete="off"
-                  ></v-text-field>
+                    outlined
+                    dense
+                    prepend-inner-icon="mdi-account"
+                    color="#4DBA87"
+                  >
+                  </v-text-field>
                 </ValidationProvider>
               </v-flex>
               <v-flex>
@@ -36,21 +47,31 @@
                     :error="errors.length > 0"
                     :error-messages="errors[0]"
                     autocomplete="off"
+                    outlined
+                    dense
+                    color="#4DBA87"
+                    prepend-inner-icon="mdi-account"
                   ></v-text-field>
                 </ValidationProvider>
               </v-flex>
-              <v-flex text-xs-center mt-5 mb-3>
-                <SubmitButton buttonText="Login" />
-              </v-flex>
-              <v-flex text-xs-center>
-                <v-btn
-                  :to="{ path: '/signup' }"
-                  small
-                  text
-                  class="btnForgotPassword"
-                  >Don't have account?</v-btn
+              <v-row>
+                <v-col
+                  cols="auto"
+                  class="mr-auto"
                 >
-              </v-flex>
+                  <v-btn
+                    :to="{ path: '/signup' }"
+                    small
+                    text
+                    class="btnForgotPassword"
+                    >Don't have account?</v-btn
+                  >
+                </v-col>
+                <v-col cols="auto">
+                  <SubmitButton class="white--text" buttonText="Login" color="#4DBA87" />
+                </v-col>
+              </v-row>
+              
             </v-layout>
           </form>
         </ValidationObserver>

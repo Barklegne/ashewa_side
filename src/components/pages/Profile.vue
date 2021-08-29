@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row class="pr-0 hidden-lg-and-up" justify="center"
+    <v-row class="px-0 hidden-lg-and-up" justify="center"
       ><v-slide-group>
         <v-slide-item
           class="ml-2 mt-8"
@@ -10,10 +10,11 @@
         >
           <v-chip
             label
+            style="backgroundColor:#66DC81;color:#ffffff"
             @click="
               item.title != 'Logout' ? (title = item.title) : userLogout()
             "
-            ><v-icon left>
+            ><v-icon color="white" left>
               {{ item.icon }}
             </v-icon>
             {{ item.title }}
@@ -21,6 +22,7 @@
         </v-slide-item>
       </v-slide-group></v-row
     >
+
     <v-row>
       <v-col class="pr-0 hidden-md-and-down" cols="3">
         <v-card class="mx-0 mb-10" elevation="5">
@@ -71,7 +73,50 @@
             <v-row class="mt-10 mx-10 text-start" justify="space-around">
               <v-col cols="12" lg="6">
                 <v-row>
-                  <v-col>
+                  <v-col class="text-center">
+                    <v-avatar size="120">
+                      <img
+                        src="https://cdn.vuetifyjs.com/images/john.jpg"
+                        alt="John"
+                      />
+                    </v-avatar>
+                  </v-col>
+                  <v-col align-self="center" cols="12" md="4">
+                    <v-card class="pa-0" color="#ebe9e9">
+                      <v-img
+                        class="ma-0"
+                        :src="
+                          userData.firstName.length > 0
+                            ? userData.firstName
+                            : imageUrl
+                        "
+                      ></v-img>
+                    </v-card>
+                    <v-row justify="center" class="my-5">
+                      <v-btn
+                        color="blue-grey"
+                        class="white--text"
+                        @click="onPickFile"
+                      >
+                        Upload Image
+                        <v-icon right dark>
+                          mdi-cloud-upload
+                        </v-icon>
+                      </v-btn>
+                      <input
+                        type="file"
+                        style="display: none"
+                        ref="fileInput"
+                        multiple
+                        accept="image/*"
+                        @change="onFilePicked"
+                      />
+                    </v-row>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-divider></v-divider>
+                  </v-col>
+                  <v-col cols="12">
                     <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
                       First Name
                     </p>
@@ -85,7 +130,7 @@
                       :value="userData.firstName"
                     ></v-text-field
                   ></v-col>
-                  <v-col>
+                  <v-col cols="12">
                     <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
                       Last Name
                     </p>
@@ -99,76 +144,55 @@
                       :value="userData.lastName"
                     ></v-text-field
                   ></v-col>
+                  <v-col cols="12">
+                    <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
+                      Email
+                    </p>
+                    <v-text-field
+                      background-color="#ebe9e9"
+                      class="mb-0"
+                      height="50"
+                      solo
+                      flat
+                      v-model="email"
+                      :value="userData.email"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
+                      New Password
+                    </p>
+                    <v-text-field
+                      background-color="#ebe9e9"
+                      class="mb-0"
+                      height="50"
+                      solo
+                      flat
+                      type="password"
+                    ></v-text-field>
+                  </v-col>
                 </v-row>
-                <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
-                  Email
-                </p>
-                <v-text-field
-                  background-color="#ebe9e9"
-                  class="mb-0"
-                  height="50"
-                  solo
-                  flat
-                  v-model="email"
-                  :value="userData.email"
-                ></v-text-field>
-                <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
-                  New Password
-                </p>
-                <v-text-field
-                  background-color="#ebe9e9"
-                  class="mb-0"
-                  height="50"
-                  solo
-                  flat
-                  type="password"
-                ></v-text-field>
-                <v-btn
-                  @click="updateUser"
-                  color="success"
-                  class="ma-2 white--text"
-                >
-                  Save
-                </v-btn>
-                <v-btn color="error" class="ma-2 white--text">
-                  Cancel
-                </v-btn>
-              </v-col>
-              <v-col align-self="center" cols="12" md="4">
-                <p
-                  class="text-center text-subtitle-1 font-weight-bold mb-1 subTitle"
-                >
-                  Change Profile
-                </p>
-                <v-card class="pa-0" color="#ebe9e9">
-                  <v-img
-                    class="ma-0"
-                    :src="
-                      userData.firstName.length > 0
-                        ? userData.firstName
-                        : imageUrl
-                    "
-                  ></v-img>
-                </v-card>
-                <v-row justify="center" class="my-5">
-                  <v-btn
-                    color="blue-grey"
-                    class="ma-2 white--text"
-                    @click="onPickFile"
-                  >
-                    Upload Image
-                    <v-icon right dark>
-                      mdi-cloud-upload
-                    </v-icon>
-                  </v-btn>
-                  <input
-                    type="file"
-                    style="display: none"
-                    ref="fileInput"
-                    multiple
-                    accept="image/*"
-                    @change="onFilePicked"
-                  />
+                <v-row>
+                  <v-col class="ml-2" col="6">
+                    <v-btn
+                      color="white"
+                      outlined
+                      block
+                      class="ma-2 green--text"
+                    >
+                      Cancel
+                    </v-btn>
+                  </v-col>
+                  <v-col col="6">
+                    <v-btn
+                      @click="updateUser"
+                      color="success"
+                      block
+                      class="ma-2 white--text"
+                    >
+                      Save
+                    </v-btn>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -193,6 +217,7 @@
     </v-row>
   </div>
 </template>
+
 <script>
 import WishList from "../pages/Wishlist.vue";
 import Cart from "../pages/Cart.vue";

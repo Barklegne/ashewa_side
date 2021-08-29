@@ -29,7 +29,7 @@
           <v-spacer></v-spacer>
           <v-col
             style="background-color:white;height:50px"
-            class="pa-0"
+            class="pa-0 rounded-pill"
             cols="6"
           >
             <v-row class="ma-0 pa-0">
@@ -63,7 +63,6 @@
               <v-text-field
                 solo
                 dense
-                flat
                 light
                 height="50px"
                 v-model="searchF"
@@ -71,12 +70,14 @@
               ></v-text-field>
               <v-btn
                 :href="`/search/${searchF}`"
-                color="black"
+                color="#4DBA87"
                 dark
                 height="50px"
                 tile
-                >search</v-btn
+                class="rounded-r-xl"
               >
+                <v-icon>mdi-magnify</v-icon>
+              </v-btn>
             </v-row>
           </v-col>
           <v-spacer></v-spacer>
@@ -89,7 +90,7 @@
                 >
                   <router-link :to="{ path: '/' }"
                     ><v-badge bottom overlap color="black" content="0"
-                      ><v-icon size="40" :color="color1"
+                      ><v-icon size="40" color="#ffffff"
                         >mdi-chart-box-outline</v-icon
                       ></v-badge
                     ></router-link
@@ -111,7 +112,7 @@
                       <v-icon
                         :style="`cursor: pointer; text-decoration:none;`"
                         size="40"
-                        :color="color2"
+                        color="#ffffff"
                         >mdi-heart-outline</v-icon
                       ></v-badge
                     ></router-link
@@ -282,27 +283,48 @@
         </span>
       </v-col>
       <v-col cols="8">
-        <div class="dropDownM">
+        <div class="dropDownM rounded-pill transparent">
           <v-text-field
             solo
             dense
-            flat
             light
             height="40px"
             v-model="searchF"
-            placeholder="I'm shopping for..."
+            placeholder="Search..."
+            class="rounded-l-xl"
           ></v-text-field>
           <v-btn
             :href="`/search/${searchF}`"
-            color="black"
+            color="#4DBA87"
             dark
             height="40px"
             tile
-            >search</v-btn
+            class="rounded-r-xl"
+            ><v-icon>
+              mdi-magnify
+            </v-icon></v-btn
           >
         </div>
       </v-col>
-      <v-spacer></v-spacer>
+      <v-col class="mt-1" cols="1">
+        <div @mouseenter="color3 = 'white'" @mouseleave="color3 = 'black'">
+          <router-link :to="{ path: 'cart' }">
+            <v-badge
+              bottom
+              overlap
+              color="green"
+              :content="`${totalCartList.length}`"
+            >
+              <v-icon
+                :style="`cursor: pointer; text-decoration:none;`"
+                size="30"
+                :color="(color3 = '#ffffff')"
+                >mdi-cart-outline</v-icon
+              ></v-badge
+            ></router-link
+          >
+        </div>
+      </v-col>
     </v-row>
     <v-navigation-drawer v-model="sidebar" absolute disable-resize-watcher>
       <v-list>

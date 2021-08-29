@@ -3,7 +3,11 @@
     <v-row class="mt-5" justify="center">
       <v-col cols="12" md="8">
         <v-row justify="end">
-          <v-col><h1 class="mx-auto text-h4 mb-4">Shopping Cart</h1></v-col>
+          <v-col
+            ><h1 class="mx-auto text-h4 mb-4" style="color:#43DB80">
+              Shopping Cart
+            </h1></v-col
+          >
         </v-row>
 
         <v-data-table
@@ -15,11 +19,24 @@
             <v-img
               height="200"
               width="200"
+              :lazy-src="
+                item.image[0] == 'h'
+                  ? item.image
+                  : `http://api.ashewa.com/media/${item.image}`
+              "
               :src="
                 item.image[0] == 'h'
                   ? item.image
                   : `http://api.ashewa.com/media/${item.image}`
               "
+            >
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-5"
+                  ></v-progress-circular>
+                </v-row> </template
             ></v-img>
           </template>
           <template v-slot:[`item.quantity`]="{ item }">

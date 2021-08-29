@@ -247,7 +247,7 @@
                       light
                       height="40px"
                       style="width:50px"
-                      placeholder="I'm shopping for..."
+                      placeholder="I'm shopping ..."
                     ></v-text-field>
                     <v-btn color="black" dark height="40px" tile>search</v-btn>
                   </v-row>
