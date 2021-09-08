@@ -211,8 +211,8 @@
                         color="success"
                         :href="
                           vendor.domain
-                            ? `https://ashewa.com/${vendor.domain}`
-                            : `https://${supplierDomain}`
+                            ? `${vendor.domain}`
+                            : `${supplierDomain}`
                         "
                         >Visit Store</v-btn
                       ></v-col
@@ -421,7 +421,8 @@ export default {
           );
           this.$store.commit("INCREMENT_QUANTITY_CART", foundIndex);
         } else {
-          this.$store.commit("ADD_PRODUCT_TO_CART_LIST", product);
+          // this.$store.commit("ADD_PRODUCT_TO_CART_LIST", product);
+          this.$store.dispatch("addToCart", product);
         }
       }
       this.$router.push({ path: "/cart" });

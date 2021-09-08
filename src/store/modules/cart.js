@@ -12,12 +12,82 @@ const getters = {
 };
 
 const actions = {
+  async getDelivery(ctx) {
+    ctx.commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .query({
+        query: gql`
+          {
+            deliveryProviders {
+              id
+              name
+            }
+          }
+        `,
+      })
+      .then((response) => {
+        ctx.commit(types.SET_DELIVERY, response.data.deliveryProviders);
+
+        ctx.commit(types.SHOW_LOADING, false);
+      })
+      .catch((error) => {
+        handleError(error, ctx.commit, resp);
+      });
+  },
+  async addToCart(ctx, value) {
+    ctx.commit(types.SHOW_LOADING, true);
+
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            addToCart(
+              productId: "${value.id}"
+              quantity: ${value.quantity ? value.quantity : 1}
+            ) {
+              payload {
+                id
+                product {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        `,
+      })
+      .then((resp) => {
+        ctx.commit(types.SHOW_LOADING, false);
+        ctx.commit(types.ADD_PRODUCT_TO_CART_LIST, {
+          id: value.id,
+          title: value.title,
+          category: value.category,
+          price: value.price,
+          image: value.image,
+          quantity: value.quantity ? value.quantity : 1,
+        });
+        console.log(resp.data.addToCart.payload);
+      })
+      .catch((error) => {
+        handleError(error, ctx.commit, resp);
+      });
+  },
+
   async checkout(ctx, value) {
-    const ids = JSON.stringify(JSON.stringify(value));
+    ctx.commit(types.SHOW_LOADING, true);
     console.log(`
-    mutation{
-      createBoaTransaction(products:${ids},userId:"${ctx.rootState.auth.user.id}"){
-        payload
+    mutation {
+      addToCart(
+        productId: "${value.id}"
+        quantity: ${value.quantity ? value.quantity : 1}
+      ) {
+        payload {
+          id
+          product {
+            id
+            name
+          }
+        }
       }
     }
   `);
@@ -25,38 +95,54 @@ const actions = {
       .mutate({
         mutation: gql`
         mutation{
-          createBoaTransaction(products:${ids},userId:"${ctx.rootState.auth.user.id}"){
-            payload
+          checkoutOrder(deliveryProviderId: "${value.deliveryId}", userLocation: "${value.loc}"){
+            payload{
+              order{
+                id
+              }
+              deliveryOption{
+                provider{
+                  id
+                }
+              }
+            }
           }
         }
       `,
       })
-      .then((response) => {
-        console.log(response.data.createBoaTransaction.payload);
-        // const http = new Http()
-        // http({
-        //   method: "POST",
-        //   url: "https://testsecureacceptance.cybersource.com/pay",
-        //   data: response.data.createBoaTransaction.payload,
-        // });
-        // this.vm
-        //   .then((response) => {
-        //     console.log(response);
-        //     this.postResults = response.data.createBoaTransaction.payload;
-        //     this.ajaxRequest = false;
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
-        // axios
-        //   .post(
-        //     "https://testsecureacceptance.cybersource.com/pay",
-        //     response.data.createBoaTransaction.payload
-        //   )
-        //   .then((response) => {
-        //     console.log(response.data);
-        //   });
-        // ctx.commit(types.CHECKOUT, response.data.createBoaTransaction.payload);
+      .then(async (r) => {
+        console.log(`
+        mutation {
+          createBoaTransaction(
+            orderId: "${r.data.checkoutOrder.payload.order.id}"
+          ) {
+            payload
+          }
+        }
+      `);
+        const res = await apolloClient
+          .mutate({
+            mutation: gql`
+              mutation {
+                createBoaTransaction(
+                  orderId: "${r.data.checkoutOrder.payload.order.id}"
+                ) {
+                  payload
+                }
+              }
+            `,
+          })
+          .then((response) => {
+            ctx.commit(types.SHOW_LOADING, false);
+            console.log(response.data.createBoaTransaction.payload);
+            ctx.commit(
+              types.CHECKOUT_SUCCESS,
+              response.data.createBoaTransaction.payload
+            );
+          })
+          .catch((error) => {
+            handleError(error, ctx.commit, res);
+          });
       })
       .catch((error) => {
         handleError(error, ctx.commit, resp);
@@ -69,6 +155,13 @@ const mutations = {
     state.cartItems = state.cartItems.filter(function(product) {
       return product.productId != value;
     });
+  },
+  [types.SET_DELIVERY](state, value) {
+    state.deliveryItems = value;
+  },
+  [types.CHECKOUT_SUCCESS](state, value) {
+    state.success = true;
+    state.text = value;
   },
   [types.CLEAR_CART](state) {
     state.cartItems = [];
@@ -103,7 +196,6 @@ const mutations = {
     }
   },
   [types.ADD_PRODUCT_TO_CART_LIST](state, value) {
-    console.log(value);
     state.cartItems = [
       ...state.cartItems,
       {
@@ -122,6 +214,9 @@ const state = {
   test: "test",
   cartItems: [],
   totalProducts: 8,
+  deliveryItems: [],
+  success: false,
+  text: {},
 };
 
 export default {

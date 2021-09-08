@@ -4,6 +4,7 @@ import router from "@/router";
 import { onLogin, createProvider, onLogout } from "../../vue-apollo";
 import { buildSuccess, handleError } from "@/utils/utils.js";
 import { gql } from "graphql-tag";
+import VueCookies from "vue-cookies";
 
 let apolloClient = createProvider().defaultClient;
 
@@ -87,6 +88,7 @@ const actions = {
           "token",
           JSON.stringify(response.data.tokenAuth.token)
         );
+
         commit(types.SAVE_USER, {
           auth: false,
           ...response.data.tokenAuth.user,
@@ -131,6 +133,7 @@ const mutations = {
   [types.SAVE_TOKEN](state, token) {
     state.token = token;
     state.isTokenSet = true;
+    VueCookies.set("token", token, "12h");
   },
   [types.LOGOUT](state) {
     state.user = null;

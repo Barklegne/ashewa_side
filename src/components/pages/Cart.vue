@@ -167,15 +167,7 @@
           solo
           flat
           placeholder="Please select a delivery option"
-          :items="[
-            'Cash on Delivery (COD)',
-            'EMS(Express Mail Service)',
-            'DHL(Adrian Dalsey, Larry Hillblom)',
-            'RIDE DELIVERY ',
-            'MOTOR CYCLE DELIVERY',
-            'BUS DELIVERY',
-            'PHYSICAL PICK UP',
-          ]"
+          :items="deliveryItem"
           v-model="delivery"
         ></v-select>
         <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
@@ -188,28 +180,15 @@
           solo
           flat
           placeholder="Please select a payment method"
-          :items="[
-            'Bank of Abyssinia ',
-            'Commercial bank of Ethiopian/CBE',
-            'Tele birr',
-            'Mbirr',
-            'Amole',
-            'Abyssinia Bank',
-            'Amole',
-            'Telegraphic transfer',
-            'PayPal',
-            'Online bank payment (Bank transfer)',
-            'Western Union',
-            'Cash on delivery',
-          ]"
+          :items="['Bank of Abyssinia ']"
           v-model="payment"
         ></v-select>
         <v-row justify="center">
           <v-btn
-            @click="vis = false"
-            dark
+            @click="checkout"
             class="mx-5"
             style="text-transform:none"
+            :disabled="!address || !delivery || !payment"
             color="#43DB80"
             >Proceed</v-btn
           >
@@ -223,6 +202,14 @@
         </v-row>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="success" width="500">
+      <v-card class="pa-5">
+        <div>
+          {{ text }}
+        </div>
+      </v-card>
+    </v-dialog>
+    <ErrorMessage />
   </v-container>
 </template>
 
@@ -270,10 +257,25 @@ export default {
     if (!this.$store.state.auth.isTokenSet) {
       router.push({ path: "/login" });
     }
+    this.getDelivery();
   },
   methods: {
     removeProduct(id) {
       this.$store.commit("REMOVE_PRODUCT_FROM_CART_LIST", id);
+    },
+    async getDelivery() {
+      await this.$store.dispatch("getDelivery");
+    },
+    checkout() {
+      this.$store.dispatch("checkout", {
+        deliveryId: this.getId,
+        loc: this.address,
+      });
+      console.log({
+        deliveryId: this.getId,
+        loc: this.address,
+      });
+      this.vis = false;
     },
     locatorButtonPressed() {
       navigator.geolocation.getCurrentPosition(
@@ -312,16 +314,6 @@ export default {
     clear() {
       this.$store.commit("CLEAR_CART");
     },
-    checkout() {
-      if (!this.$store.state.auth.isTokenSet) {
-        this.$router.push({ path: "/login" });
-      } else {
-        const ids = this.totalCartList.map((p) => {
-          return p.productId;
-        });
-        this.$store.dispatch("checkout", ids);
-      }
-    },
     inc(id) {
       var foundIndex = this.totalCartList.findIndex((x) => x.productId == id);
       this.$store.commit("INCREMENT_QUANTITY_CART", foundIndex);
@@ -339,6 +331,25 @@ export default {
         default:
           return this.$store.getters.totalCartList;
       }
+    },
+    deliveryItem() {
+      const deliveryName = this.$store.state.cart.deliveryItems.map(
+        (delivery) => delivery.name
+      );
+      return deliveryName;
+    },
+    getId() {
+      //function to find one by name and get Id from array
+      const id = this.$store.state.cart.deliveryItems.find(
+        (x) => x.name == this.delivery
+      ).id;
+      return id;
+    },
+    success() {
+      return this.$store.state.cart.success;
+    },
+    text() {
+      return this.$store.state.cart.text;
     },
     total() {
       let t = 0;

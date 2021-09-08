@@ -228,8 +228,8 @@
                     color="success"
                     :href="
                       product.vendor.domain
-                        ? `https://ashewa.com/${product.vendor.domain}`
-                        : `https://${product.supplierDomain}`
+                        ? `${product.vendor.domain}`
+                        : `${product.supplierDomain}`
                     "
                     >Visit Store</v-btn
                   ></v-col
@@ -552,8 +552,8 @@
                     small
                     :href="
                       product.vendor.domain
-                        ? `https://ashewa.com/${product.vendor.domain}`
-                        : `https://${product.supplierDomain}`
+                        ? `${product.vendor.domain}`
+                        : `${product.supplierDomain}`
                     "
                     >Visit Store</v-btn
                   >
@@ -996,8 +996,8 @@
               small
               :href="
                 product.vendor.domain
-                  ? `https://ashewa.com/${product.vendor.domain}`
-                  : `https://${product.supplierDomain}`
+                  ? `${product.vendor.domain}`
+                  : `${product.supplierDomain}`
               "
               >Visit Store</v-btn
             >

@@ -175,7 +175,7 @@
     </div>
     <h3 class="my-3 mx-5">
       If you want to sell your products using our platform call us at
-      <a href="”tel:+251976005100″">+251976005100</a>
+      <a href="tel:+251944070860">+251944070860</a>
     </h3>
     <v-dialog v-model="vis" persistent width="500">
       <v-card class="pa-5">
