@@ -5,6 +5,7 @@
         <v-carousel
           hide-delimiters
           show-arrows-on-hover
+          autoplay
           height="420"
           class="py-5"
         >
