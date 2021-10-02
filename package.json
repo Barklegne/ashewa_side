@@ -1,10 +1,11 @@
 {
-  "name": "ashewa_front_end",
+  "name": "Ashewa",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "postbuild": "node src/updateManifest.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
