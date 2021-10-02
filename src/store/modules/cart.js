@@ -72,8 +72,32 @@ const actions = {
         handleError(error, ctx.commit, resp);
       });
   },
-
+  async finalizeCheckout(ctx, value) {
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            finalizeLocalTransferTransaction(
+              depositedBy: "${value.user}"
+              reference: "${value.reference}"
+              transactionId: "${value.transaction}"
+            ) {
+              payload {
+                id
+              }
+            }
+          }
+        `,
+      })
+      .then((resp) => {
+        console.log(resp.data.finalizeLocalTransferTransaction.payload.id);
+      })
+      .catch((error) => {
+        handleError(error, ctx.commit, resp);
+      });
+  },
   async checkout(ctx, value) {
+    console.log(value);
     ctx.commit(types.SHOW_LOADING, true);
     console.log(`
     mutation {
@@ -120,9 +144,10 @@ const actions = {
           }
         }
       `);
-        const res = await apolloClient
-          .mutate({
-            mutation: gql`
+        if (value.payment === "BOA") {
+          const res = await apolloClient
+            .mutate({
+              mutation: gql`
               mutation {
                 createBoaTransaction(
                   orderId: "${r.data.checkoutOrder.payload.order.id}"
@@ -131,18 +156,114 @@ const actions = {
                 }
               }
             `,
-          })
-          .then((response) => {
-            ctx.commit(types.SHOW_LOADING, false);
-            console.log(response.data.createBoaTransaction.payload);
-            ctx.commit(
-              types.CHECKOUT_SUCCESS,
-              response.data.createBoaTransaction.payload
-            );
-          })
-          .catch((error) => {
-            handleError(error, ctx.commit, res);
-          });
+            })
+            .then((response) => {
+              ctx.commit(types.SHOW_LOADING, false);
+              console.log(response.data.createBoaTransaction.payload);
+              ctx.commit(
+                types.CHECKOUT_SUCCESS,
+                response.data.createBoaTransaction.payload
+              );
+            })
+            .catch((error) => {
+              handleError(error, ctx.commit, res);
+            });
+        } else if (value.payment === "Hello Cash") {
+          console.log(`mutation{
+            createHelloCashTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}", phone: "${value.phone}"){
+              payload{
+                amount
+                id
+              }
+            }
+
+          }`);
+          const res = await apolloClient
+            .mutate({
+              mutation: gql`
+              mutation{
+                createHelloCashTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}", phone: "${value.phone}"){
+                  payload{
+                    amount
+                    id
+                  }
+                }
+              }
+              
+              `,
+            })
+            .then((response) => {
+              ctx.commit(types.SHOW_LOADING, false);
+              console.log(response.data.createHelloCashTransaction.payload.id);
+              ctx.commit(
+                types.CHECKOUT_SUCCESS,
+                response.data.createHelloCashTransaction.payload.id
+              );
+            })
+            .catch((error) => {
+              handleError(error, ctx.commit, res);
+            });
+        } else if (value.payment === "Mbirr") {
+          console.log(`
+          mutation{
+            createMbirrTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}"){
+              payload{
+                id
+              }
+            }
+          }
+          `);
+          const res = await apolloClient
+            .mutate({
+              mutation: gql`
+              mutation{
+                createMbirrTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}"){
+                  payload{
+                    id
+                  }
+                }
+              }
+              }
+              `,
+            })
+            .then((response) => {
+              ctx.commit(types.SHOW_LOADING, false);
+              console.log(response.data.createMbirrTransaction.payload.id);
+              ctx.commit(
+                types.CHECKOUT_SUCCESS,
+                response.data.createMbirrTransaction.payload.id
+              );
+            })
+            .catch((error) => {
+              handleError(error, ctx.commit, res);
+            });
+        } else {
+          const res = await apolloClient
+            .mutate({
+              mutation: gql`
+              mutation{
+                createLocalTransferTransaction(orderId: "${r.data.checkoutOrder.payload.order.id}"){
+                  payload{
+                    id
+                  }
+                }
+              }
+              `,
+            })
+            .then((response) => {
+              ctx.commit(types.SHOW_LOADING, false);
+              console.log(
+                response.data.createLocalTransferTransaction.payload.id
+              );
+              ctx.commit(
+                types.CHECKOUT_SUCCESS,
+                response.data.createLocalTransferTransaction.payload.id
+              );
+            })
+            .catch((error) => {
+              handleError(error, ctx.commit, res);
+            });
+        }
       })
       .catch((error) => {
         handleError(error, ctx.commit, resp);

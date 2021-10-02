@@ -61,20 +61,15 @@
         }}
       </p>
       <v-row>
-        <v-col cols="8">
+        <v-col cols="6">
           <v-card-title
             class="text-md-h6 ma-0 pa-0 pl-1 text-subtitle-1 "
-            style="font-size:14px;font-weight:550;color:#09B750"
+            style="font-size:12px;font-weight:550;color:#09B750"
             >{{ sellingPrice - 1 }}<sub>.99 ETB </sub>
           </v-card-title>
-
-          <p
-            class="text-caption ma-1 pa-0 ml-2 text-start grey-darken-4--text"
-            style="font-weight:bold;color:#09B750"
-          ></p>
         </v-col>
-        <v-col cols="4">
-          <v-row class="pa-0">
+        <v-col cols="6">
+          <v-row class="pa-0 ma-0">
             <v-col cols="4"
               ><v-btn
                 @click="
@@ -108,7 +103,7 @@
                 ></v-btn
               ></v-col
             > -->
-            <v-col cols="4"
+            <v-col cols="6"
               ><v-btn
                 @click="
                   addToWish({

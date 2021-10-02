@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-footer style="z-index:1000" class="pa-4" height="70" fixed>
+    <v-footer
+      style="z-index:1000"
+      class="hidden-lg-and-up pa-4"
+      height="70"
+      fixed
+    >
       <div
         @click="
           $router.push({
@@ -265,11 +270,14 @@
                     <v-simple-table style="border:1px solid black" dense>
                       <template v-slot:default>
                         <tbody>
-                          <tr v-for="(item, i) in desserts" :key="i">
+                          <tr
+                            v-for="item in product.productSpecification"
+                            :key="item.name"
+                          >
                             <td style="background-color:#bbc4bdb4">
-                              {{ item.name }}
+                              {{ item.specificationTitle }}
                             </td>
-                            <td>{{ item.calories }}</td>
+                            <td>{{ item.specificationDetail }}</td>
                           </tr>
                         </tbody>
                       </template>
@@ -504,25 +512,7 @@
 
         <v-row class="mb-10" align="start">
           <v-spacer></v-spacer>
-          <v-col
-            cols="2"
-            style="background-color:white;border-radius:5px"
-            class="text-start hidden-md-and-down"
-            ><div><h4>Store Categories</h4></div>
-            <div
-              @click="
-                $router.push({
-                  path: `/category/${cat.id}`,
-                })
-              "
-              style="cursor:pointer"
-              v-for="(cat, i) in product.category.subcategorySet"
-              :key="i"
-            >
-              <h5>{{ cat.name }}</h5>
-            </div>
-          </v-col>
-          <v-spacer></v-spacer>
+
           <v-col cols="8" style="background-color:white;border-radius:5px">
             <v-row justify="center">
               <v-col cols="8" lg="4" style="" class="text-start">
@@ -905,11 +895,14 @@
           <v-simple-table style="border:1px solid black" dense>
             <template v-slot:default>
               <tbody>
-                <tr v-for="item in desserts" :key="item.name">
+                <tr
+                  v-for="item in product.productSpecification"
+                  :key="item.name"
+                >
                   <td style="background-color:#bbc4bdb4">
-                    {{ item.name }}
+                    {{ item.specificationTitle }}
                   </td>
-                  <td>{{ item.calories }}</td>
+                  <td>{{ item.specificationDetail }}</td>
                 </tr>
               </tbody>
             </template>

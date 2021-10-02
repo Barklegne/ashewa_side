@@ -286,10 +286,6 @@ export default {
           link: "policy",
         },
         {
-          name: "Team",
-          link: "team",
-        },
-        {
           name: "Terms of use",
           link: "termsOfUse",
         },

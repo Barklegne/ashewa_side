@@ -5,7 +5,7 @@
         <v-carousel
           hide-delimiters
           show-arrows-on-hover
-          autoplay
+          continuous
           height="420"
           class="py-5"
         >
@@ -17,26 +17,36 @@
         </v-carousel>
       </v-col>
       <v-col cols="12" md="4" class="py-5 pl-5">
-        <div class="pb-5">
-          <v-img src="/images/ad1.jpg" height="190"></v-img>
+        <div style="cursor:pointer" class="pb-5">
+          <a href="https://seller.ashewa.com/promotions">
+            <v-img src="/images/ad1.jpg" height="190"></v-img
+          ></a>
         </div>
-        <div>
-          <v-img src="/images/ad2.jpg" height="190"></v-img>
+        <div style="cursor:pointer">
+          <a href="https://seller.ashewa.com/promotions">
+            <v-img src="/images/ad2.jpg" height="190"></v-img
+          ></a>
         </div>
       </v-col>
     </v-row>
     <v-row class="hidden-lg-and-up" no-gutters justify="space-between">
-      <v-col cols="12" md="8">
-        <v-img src="images/ad4.jpg" aspect-ratio="2.5"></v-img>
+      <v-col style="cursor:pointer" cols="12" md="8">
+        <a href="https://seller.ashewa.com/promotions">
+          <v-img src="images/ad4.jpg" aspect-ratio="2.5"></v-img
+        ></a>
       </v-col>
       <v-col cols="6" md="4" class="py-2 pr-1">
         <div class="pb-5">
-          <v-img src="/images/ad1.jpg" aspect-ratio="2.5"></v-img>
+          <a href="https://seller.ashewa.com/promotions">
+            <v-img src="/images/ad1.jpg" aspect-ratio="2.5"></v-img
+          ></a>
         </div>
       </v-col>
       <v-col cols="6" md="4" class="py-2 pl-1">
         <div>
-          <v-img src="/images/ad2.jpg" aspect-ratio="2.5"></v-img>
+          <a href="https://seller.ashewa.com/promotions">
+            <v-img src="/images/ad2.jpg" aspect-ratio="2.5"></v-img>
+          </a>
         </div>
       </v-col>
     </v-row>

@@ -51,12 +51,12 @@ export default {
   },
   methods: {
     searchBy(id) {
-      this.$store.dispatch("searchFilter", id);
+      this.$store.dispatch("getSupplierProducts", id);
     },
   },
   computed: {
     products() {
-      return this.$store.state.services.filteredProducts;
+      return this.$store.state.services.supplierProducts;
     },
   },
 };

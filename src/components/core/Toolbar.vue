@@ -33,32 +33,49 @@
             cols="6"
           >
             <v-row class="ma-0 pa-0">
-              <v-menu open-on-click bottom offset-y>
+              <v-menu
+                :close-on-content-click="false"
+                open-on-click
+                bottom
+                offset-y
+              >
                 <template v-slot:activator="{ on, attrs }">
                   <div class="dropDown" dark v-bind="attrs" v-on="on">
                     <div class="pl-3">
-                      {{ selected.length > 12 ? "All" : selected }}
+                      Filter
                     </div>
                     <v-icon color="#b5b5b5">
                       mdi-chevron-down
                     </v-icon>
                   </div>
                 </template>
-
-                <v-list>
-                  <v-list-item
-                    style="cursor:pointer"
-                    @click="
-                      $router.push({
-                        path: `/subcategory/${item.id}`,
-                      })
-                    "
-                    v-for="(item, index) in categories"
-                    :key="index"
-                  >
-                    <v-list-item-title>{{ item.name }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
+                <div
+                  class="pa-5"
+                  style="width:400px;background-color:white;height:200px;border"
+                >
+                  <v-row>
+                    <v-slider
+                      v-model="price"
+                      class="mt-5"
+                      label="Maximum Price"
+                      color="#43DB80"
+                      thumb-color="#43DB80"
+                      tick-labels=""
+                      :min="100"
+                      :max="1000000"
+                    ></v-slider>
+                    <p style="font-size:15px;font-weight:600" class="mt-5">
+                      {{ price }} birr
+                    </p>
+                  </v-row>
+                  <v-row align="center" justify="center ">
+                    <v-chip-group column multiple active-class="primary--text">
+                      <v-chip label v-for="tag in tags" :key="tag">
+                        {{ tag }}
+                      </v-chip>
+                    </v-chip-group>
+                  </v-row>
+                </div>
               </v-menu>
               <v-text-field
                 solo
@@ -68,8 +85,13 @@
                 v-model="searchF"
                 placeholder="I'm shopping for..."
               ></v-text-field>
+              <v-btn @click="startSpeechToTxt" height="50px" tile>
+                <v-icon>{{
+                  recording ? "mdi-record" : "mdi-microphone"
+                }}</v-icon>
+              </v-btn>
               <v-btn
-                :href="`/search/${searchF}`"
+                :href="`/search/${price}`"
                 color="#4DBA87"
                 dark
                 height="50px"
@@ -216,7 +238,9 @@
             <v-menu open-on-hover bottom offset-y>
               <template v-slot:activator="{ on, attrs }">
                 <div style="font-weight:600" dark v-bind="attrs" v-on="on">
-                  <div class="pl-2 py-1">Shop by Category</div>
+                  <div class="pl-2 py-1">
+                    {{ $t("toolbar.SHOP BY CATEGORY") }}
+                  </div>
                 </div>
               </template>
 
@@ -242,7 +266,7 @@
               :to="{ path: links[i].path }"
             >
               <div style="color:black;" dark>
-                {{ links[i].name }}
+                {{ $t(`toolbar.${links[i].name}`) }}
               </div>
             </router-link>
           </v-col>
@@ -257,14 +281,12 @@
               "
               style="width:120px;font-weight:600;cursor:pointer"
             >
-              Sell on Ashewa
+              {{ $t("toolbar.SELL ON ASHEWA") }}
             </div>
           </v-col>
           <v-divider light vertical style="color:black;"></v-divider>
           <v-col>
-            <div>
-              English
-            </div>
+            <LocaleChanger></LocaleChanger>
           </v-col>
         </v-row>
       </v-col>
@@ -293,6 +315,9 @@
             placeholder="Search..."
             class="rounded-l-xl"
           ></v-text-field>
+          <v-btn @click="startSpeechToTxt" height="40px" tile>
+            <v-icon>{{ recording ? "mdi-record" : "mdi-microphone" }}</v-icon>
+          </v-btn>
           <v-btn
             :href="`/search/${searchF}`"
             color="#4DBA87"
@@ -345,7 +370,9 @@
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
-          <v-list-item-content>{{ item.title }}</v-list-item-content>
+          <v-list-item-content>{{
+            $t(`toolbar.${item.title}`)
+          }}</v-list-item-content>
         </v-list-item>
 
         <v-list-group v-if="admin" prepend-icon="mdi-lock" no-action>
@@ -372,7 +399,7 @@
             <v-icon>mdi-exit-to-app</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            LOGOUT
+            {{ $t("toolbar.LOGOUT") }}
           </v-list-item-content>
         </v-list-item>
 
@@ -384,9 +411,6 @@
           </v-list-item-action>
           <v-icon>mdi-weather-night</v-icon>
         </v-list-item>
-        <v-list-item>
-          <LocaleChanger></LocaleChanger>
-        </v-list-item>
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -394,7 +418,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import LocaleChanger from "@/components/LocaleChanger";
+import LocaleChanger from "@/components/core/LocaleChanger";
 export default {
   components: {
     LocaleChanger,
@@ -441,6 +465,12 @@ export default {
   data() {
     return {
       selected: "All",
+      price: 0,
+      tags: ["manufacturer", "wholeseller", "retailer", "exporter", "importer"],
+      runtimeTranscription_: "",
+      transcription_: [],
+      lang_: "en-EN",
+      recording: false,
       searchF: "",
       sidebar: false,
       isDark: false,
@@ -454,10 +484,10 @@ export default {
         { name: "Logout", link: "/login" },
       ],
       links: [
-        { name: "Home", path: "/" },
-        { name: "Services", path: "/services" },
-        { name: "Retailers", path: "/retailers" },
-        { name: "Suppliers", path: "/suppliers" },
+        { name: "HOME", path: "/" },
+        { name: "SERVICES", path: "/services" },
+        { name: "RETAILERS", path: "/retailers" },
+        { name: "SUPPLIERS", path: "/suppliers" },
       ],
     };
   },
@@ -549,6 +579,33 @@ export default {
   methods: {
     userLogout() {
       this.$store.dispatch("userLogout");
+    },
+    startSpeechToTxt() {
+      // initialisation of voicereco
+      this.recording = true;
+      window.SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new window.SpeechRecognition();
+
+      recognition.interimResults = true;
+
+      // event current voice reco word
+      recognition.addEventListener("result", (event) => {
+        var text = Array.from(event.results)
+          .map((result) => result[0])
+          .map((result) => result.transcript)
+          .join("");
+        this.runtimeTranscription_ = text;
+      });
+      // end of transcription
+      recognition.addEventListener("end", () => {
+        this.transcription_.push(this.runtimeTranscription_);
+        this.searchF = this.runtimeTranscription_;
+        this.runtimeTranscription_ = "";
+        recognition.stop();
+        this.recording = false;
+      });
+      recognition.start();
     },
   },
 };

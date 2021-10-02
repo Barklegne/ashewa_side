@@ -1,0 +1,234 @@
+{
+  "toolbar": {
+    "HOME": "መግቢያ",
+    "ABOUT": "ስለ እኛ",
+    "LOGIN": "ግባ",
+    "SIGNUP": "ይመዝገቡ",
+    "MY PROFILE": "የግል ማህደሬ",
+    "SELL ON ASHEWA": "በአሸዋ ላይ ይሽጡ",
+    "LOGOUT": "ውጣ",
+    "SERVICES": "አገልግሎቶች",
+    "RETAILERS": "ቸርቻሪዎች",
+    "SUPPLIERS": "አቅራቢዎች",
+    "SHOP BY CATEGORY": "Shop by Category"
+  },
+  "generalPolicy": {
+    "GENERAL POLICY": "አጠቃላይ የተመላሽ ዕቃ ፖሊሲ",
+    "1": "የተመላሽ ዕቃ አሰራር በቀጥታ በዚህ ፖሊሲ መሰረት ሻጮች ቀደም ሲል የሸጡትን እቃ በሌላ የመለወጥ፣ የመቀየር እና/ወይም የዕቃውን ገንዘብ የመመለስ  አማራጭ የሚሰጡበት አሰራር ነው፡፡",
+    "2": "ከዚህ በታች የተጠቀሱ ዕቃዎች ተመላሽ ሊደረጉ የማይችሉ ናቸው፡፡ እንደዚህ አይነት  ዕቃዎች ግዢን በተመለከተ  እቃው እንደደረስዎት በጥንቃቄ እንዲፈትሹ እና አስፈላጊ ከሆነ እቃውን ሳይረከቡ በቦታው እቃውን የማይቀበሉ መሆንዎን እንዲያሳውቁ በአክብሮት እናሳስባለን፡፡ የውስጥ አልባሳት፣ የዋና አልባሳት፣ የጂም አልባሳት፣ የመኝታ አልባሳት እና የሴቶች የውስጥ አልባሳት (ላንዠሬ) ሽቶዎች እና የመዋቢያ ምርቶች. ጌጣ ጌጦች የጤና እና ጤንነት መጠበቂያ ምርቶች. የህጻናት እንክብካቤ ምርቶች፡ የጡጦ ጫፍ፣ የጡት ጫፍ እክብካ መውርቶች፣ የጡት ወተት ፓም፣ ዳይፐሮች፣ ናፒ፣ የህጻናት ማጸጃዎች እና እና ማጽጃ ማሞቂያዎች የግል ንጽህና መጠበቂያዎች.፡ ኮንዲሽነሮች፣ ክሬሞች፣ ዲዮድራንትስ፣ የሰውነት እና ቆዳ እንክብካቤ ምርቶች  ኤሌክተሮኒክስ እና የቤት ዕቃዎች  ጸጉር እና የጸጉር ምርቶች ",
+    "3": "ለጎደሉ እና ለተጎዱ ዕቃዎች በተለይ ለተሰበሩ ስክሪኖች ከመልዕክት አድራሽ ሰራተኞቻችን ጋር በጋራ በመሆን እቃዎቹን እንዲፈትሹ እና ወዲያውኑ በቦታው እንዲመልሱ እንጠይቃለን፡፡",
+    "PRE": "ዕቃ/ምርት ተመላሽ ለማድረግ መሟላት ያለባቸው ቅደመ ሁኔታዎች ",
+    "4": "የእቃዎች ተመላሽ አገልግሎት የሚሰጠው ብልሽት ላለባቸው ወይም የተሳሳቱ እቃዎች ብቻ ነው፡፡ ዕቃዎቹ ለእርስዎ በደረሱ በ7 ቀናት  ውስጥ ተመላሽ መደረግ የሚችሉ ሲሆን እቃዎቹ ሲመለሱ ከሚከተሉት ማስረጃዎች ጋር መሆን ይኖርበታል  የግዢ ማስረጃ - ዕቃውን በሚረከቡበት ወቅት ከዕቃው ጋር አብሮ የሚሰጥዎት ሰነድ  ኢጂናል ማሸጊያ  ማናቸውም ከዕቃው ጋር የቀረቡ ተጨማሪ የማስተዋወቂያ ነጻ እቃዎች - ከተገዛው ዕቃ ጋር አንድ ላይ የቀረቡ ስጦታዎች ወይም ተጓዳኝ ዕቃዎችs",
+    "5": "አንድ እቃን ለመመለስ እባክዎ ወደ አካውንትዎ በመግባት የትዕዛዝ ታሪክ የሚለውን ቁልፍ ይጫኑ፡፡ በዚህ ጊዜ ዕቃውን ተመላሽ የማድረጊያ አማራጭን ያገኛሉ፡፡ አመቺ ሆነው ካገኙት ደግሞ ወደ ጥሪ ማዕከላችን በስልክ ቁጥር 0976 005100  በመደወል የተመላሽ ዕቃ ጥያቄዎን ማቅረብ ይችላሉ፡፡ የዕቃ ይመለስልኝ ጥያቄዎ ያለበትን ወቅታዊ ሂደት በተመለከተ በአጭር የጽሑፍ መልዕክት በየጊዜው የምናሳውቅዎ ይሆናል፡፡ ",
+    "6": "ዕቃውን ሲመለስ በአሸዋ የቅድመ ሁኔታ ፍተሻ ማዕከላችን በሚገኘው የሽያጭ ቡድናችን የጥራት ፍተሻ ይደረግበታል፡፡ ከጥራት ፍተሻ በኋላ ለተመላሽ ዕቃዎች የተቀመጡትን ቅድመ ሁኔታዎችን የማያሟሉ ዕቃዎች  ለደንበኛው እንዲመለሱ የሚደረጉ በመሆናቸው ተመላሽ የሚያደርጓቸው ዕቃዎች ከዚህ በታች የተጠቀሱትን ተመላሽ እዕቃዎች ማሟላት ያለባቸውን ቅድመ ሁኔታዎች የሚያሟሉ መሆናቸውን እባክዎ ያረጋግጡ፡፡ ",
+    "7": "ተመላሽ ያደረጉት እቃ ከተቀበልን እና በእቃዎ ላይ ፍተሻ ካደረግን በኋላ የቅያሬ ወይም የገንዘብ ተመላሽ ሂደቱን በአስራ የስራ ቀናት ውስጥ የምንጀምር ሲሆን ሂደቱ ያለበትን ወቅታዊ መረጃ በተመለከተ በአካውንትዎ፣ ኢሜይል እና በአጭር የጽሑፍ መልዕክት አማካኝነት የምናሳውቅዎ ይሆናል፡፡ ጥያቄዎ አስፈላጊውን ሂደት ካለፈ እንደምርጫዎ በኋላ ቅያሬ ፣ የገንዘብ ተመላሽ ወይም የመደብር የግዢ ሂሳብ (ክሬዲት) የሚያገኙ ይሆናል፡፡",
+    "RETURN CRITERIA": "የተመላሽ ዕቃዎች ተቀባይነት መስፈርቶች",
+    "8": "ከዚህ በታች የተቀመጡትን መስፍርቶች የሚያሟሉ ከሆነ ዕቃዎች በ7 ቀናት ውስጥ ተመላሽ መደረግ ይችላሉ፡፡",
+    "ELE": "ኤሌክትሮኒክስ እና መጠናቸው ተለቅ ያለ የቤት መገልገያ እቃዎች",
+    "9": "ሀሳብዎን መለወጥ ከፈለጉ፡ እቃዎቹ በኦሪጂናል ማሸጊያዎቻቸው እንደታሸጉ መሆን ምንም አይነት ጥቅም ላይ የመዋል ምልክት የማያሳዩ መሆን እንዲሁም ሁሉንም ተጓዳኝ ዕቃዎች ያካተቱ (የነጻ ጥቅል ስጦታዎችን ጨምሮ) መሆን አለባቸው፡፡  እንከት ያለባቸው ምርቶች፡፡  እቃዎቹ በኦሪጂናል ማሸጊያዎቻቸው እንደታሸጉና ከሁሉም ተጓዳኝ ዕቃዎች ጋር መመለስ አለባቸው፡፡ የተሳሳቱ ዕቃዎች፡ እቃዎቹ በኦሪጂናል ማሸጊያዎቻቸው እንደታሸጉ መሆን ምንም አይነት ጥቅም ላይ የመዋል ምልክት የማያሳዩ መሆን እንዲሁም ሁሉንም ተጓዳኝ ዕቃዎች ያካተቱ (የነጻ ጥቅል ስጦታዎችን ጨምሮ) መሆን አለባቸው፡፡",
+    "FR": "የፋሽን እና ሌሎች ተመላሽ መደረግ የሚችሉ እቃዎች",
+    "10": "በማናቸውም ምክንያት ተመላሽ ለሚደረጉ እቃዎች እቃዎቹ በኦሪጂናል ማሸጊያዎቻቸው እንደታሸጉ መሆን ምንም አይነት ጥቅም ላይ የመዋል ምልክት የማያሳዩ መሆን እንዲሁም ሁሉንም ተጓዳኝ ዕቃዎች ያካተቱ (የነጻ ጥቅል ስጦታዎችን ጨምሮ) መሆን አለባቸው፡፡",
+    "REFUND": "የተመላሽ ገንዘብ እና የቅያሬ አሰራር ሂደት",
+    "11": "የገንዘብ ተመላሽ ሂደት መፈጸም የሚጀምረው ገንዘብ ተመላሽ የማድረግ ሂደት ለመጀመር የሚያስፍልጉ ሰነዶች/ዕቃዎችን ሲደርሱን ተቀባይነት ሲያገኙ ነው፡፡ የእቃ ቅያሬዎች በእቃዎች አላላክ ፖሊሲያችን ላይ በተጠቀሰው የጊዜ ገደብ ውስጥ ለደንበኛው ይደርሳሉ፡፡ የገንዘብ ተመላሽ ወይም የቅያሬ ጥያቄዎ ይሳካ ዘንድ እባክዎ የሚከተሉትን ያከናውኑ፤ በ customercare@ashewa.com ወይም በስልክ ቁጥር 0922-612024 በመጠቀም ለደንበኛ አገልግሎት ክፍላችን የገንዘብ ተመላሽ ወይም የእቃ ቅያሬ ጥያቄዎን ያቅርቡ፡፡",
+    "12": "ተመላሽ የሚያደርጉት እቃ በኦሪጂናል ማሸጊያ ውስጥ መሆኑን፣ ተለጣፊ ማሸጊያውን ያልላጠ መሆኑን (እንከን ካለባቸው ዕቃዎች በስተቀር) እና ሁሉም የእቃው ክፍሎች እንደታሰሩ መሆኑን (የጎደለ ክፍል የሌለ መሆኑን) ያረጋግጡ፡፡ በቅድመ ሁኔታ መሟላት ፍተሻ ማዕከላችን የጥራት ፍተሻውን ካለፈ በኋላ አሸዋ ከአቅርቦት ጋር የተያያዙ ማናቸውም የዕቃውን ማጓጓዣ ወጪዎች በመቀነስ የዕቃውን ሙሉ ዋጋ ተመላሽ ያደርጋል፡፡ "
+  },
+  "aboutus": {
+    "1": "አገልግሎቱን በ1/10/2020 በይፋ የጀመረው Ashewa.com ከገበያ ሰንሰለት እና ስራ ቅጥር ጋር የተያያዙ ችግሮችን ለመፍታት ለተጠቃሚዎች የቀረበ መላ ሲሆን የአለመቀፍ ነግድ ግብይት ቀዳሚ የበየነ መረብ አገልግሎት ሰጪ በመሆን በአለም ዙሪያ የሚገኙ በሚሊዮኖች የሚቆጠሩ ገዢዎችን እና አቅራቢዎችን ለማገልገል በትጋት እየሰራን የምንገኝ አገልግሎት ሰጪ ነን፡፡",
+    "2": "",
+    "3": "",
+    "4": "",
+    "5": "",
+    "6": "",
+    "OUR VISION": "ተልዕኳችን",
+    "7": "የአሸዋ ቴክኖሎጂ ሶሉሽን አ.መ አንድ አካል እንደመሆናችን፣ ቀዳሚ ተልዕኳችን ሁነኛ የሆነ የአገልግሎት ስርዓት ለተጠቃሚ በማቅረብ የህብረተሰባችንን ህይወት ማቅለል፣ ማሻሻል እና የበለጸገ እንዲሆን ማድረግ ነው፡፡ በዚህም እንደ ashewa.com በየትኛውም ስፍራ የንግድ ስራን ማከናወን ቀላል እንዲሆን ማድረግ ፍላጎታችን ነው፡፡ ይህንንም የምናሳካው አቅራቢዎች ምርቶቻቸው በአለም ዙሪያ ያሉ ደንበኞች ዘንድ እንዲደርሱ የሚያስችሏቸውን ሁነኛ የግንኙነት መላዎች በማቅረብ እና በሌላ በኩል ገዢዎች ደግሞ  ምርቶችን እና አቅራቢዎችን በፍጥነት እና ውጤታማ በሆነ መልኩ ያገኙ ዘንድ እገዛ በማድረግ ነው፡፡",
+    "MODEL": "Model",
+    "OUR GOAL": "Our Goal",
+    "9": "To become the leading virtual marketplace established for the sole purpose of creating the next 1 million millionaires.",
+    "TARGET": "Target",
+    "10": "1. To become the leading virtual marketplace established for the sole purpose of creating the next 1 million millionaires.",
+    "11": "2. To become one of the top 10 ecommerce marketplaces by 2030.",
+    "12": "3. To become the Biggest pan African eCommerce marketplace by 2030.",
+    "13": "To become a global eCommerce marketplace that serve more than 2 million vendors and supplier's by 2030.",
+    "14": "5. To serve more than 100 million active customers every month by 2030.",
+    "MONETIZATION": "Monetization",
+    "15": "Ashewa.com plans to generate revenue through four services it provides. 1. Commission: this is from the commission that businesses give when their products or services are sold on the marketplace. 2. Membership: this is from membership fees that members pay to get access to multiple benefit programs. 3. Advertisement: this is from various advertisement services that the marketplace provides. 4. Subscribtion this is from various Supplier companys they pay for the necessary tools and to sell thier product or service on our platform.",
+    "16": "We are not alibaba, amazon or others we are ashewa.com we solve real Ethiopian problem. And design the software from scratch. Our focusing is the economic empowerment of our people and small business."
+  },
+  "messages": {
+    "email": "Valid email is required",
+    "required": "This field is required",
+    "password": "Password is required",
+    "min": "This field must have no less than {length} characters",
+    "url": "Must be a valid URL",
+    "confirmed": "Passwords must match"
+  },
+  "errors": {
+    "BAD_TOKEN": "Bad token",
+    "WRONG_PASSWORD": "Wrong password",
+    "USER_DOES_NOT_EXIST": "User does not exists",
+    "PASSWORDS_DONT_MATCH": "Passwords don´t match",
+    "PASSWORD_TOO_SHORT_MIN_5": "Password too short, minimum 5 characters",
+    "BLOCKED_USER": "Too many failed login attempts, user blocked temporarely",
+    "SERVER_TIMEOUT_CONNECTION_ERROR": "Server is not responding, connection error",
+    "404": "404 Page not found",
+    "EMAIL_IS_NOT_VALID": "E-mail not valid",
+    "IS_EMPTY": "Empty fields",
+    "ERROR": "Error",
+    "MISSING": "Missing fields",
+    "NOT_FOUND_OR_ALREADY_VERIFIED": "Not found or already verified",
+    "NOT_FOUND_OR_ALREADY_USED": "Not found or already used",
+    "NOT_FOUND": "Not found",
+    "UNAUTHORIZED": "Unauthorized",
+    "EMAIL_ALREADY_EXISTS": "E-mail already exists",
+    "ID_MALFORMED": "ID malformed",
+    "ERROR_WITH_FILTER": "Error with filter",
+    "CITY_ALREADY_EXISTS": "City already exists"
+  },
+  "common": {
+    "DELETE": "Delete",
+    "CANCEL": "Cancel",
+    "WARNING": "Warning",
+    "DO_YOU_REALLY_WANT_TO_DELETE_THIS_ITEM": "Do you really want to delete this item?",
+    "CLOSE": "Close",
+    "SAVED_SUCCESSFULLY": "Saved successfully",
+    "DELETED_SUCCESSFULLY": "Deleted successfully",
+    "CREATED": "Created At",
+    "UPDATED": "Updated At",
+    "GO_BACK": "Go back"
+  },
+  "loading": {
+    "PLEASE_WAIT": "Please wait..."
+  },
+  "footer": {
+    "MADE_WITH": "Made with",
+    "BY": "by"
+  },
+  "menuItems": {
+    "HOME": "Home",
+    "ABOUT": "About",
+    "MY_PROFILE": "My Profile",
+    "SIGNUP": "Sign Up",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout"
+  },
+  "adminItems": {
+    "ADMIN": "Admin",
+    "CITIES": "Cities",
+    "USERS": "Users"
+  },
+  "roles": {
+    "ADMIN": "Administrator",
+    "USER": "User"
+  },
+  "dataTable": {
+    "NEW_ITEM": "New Item",
+    "EDIT_ITEM": "Edit Item",
+    "CANCEL": "Cancel",
+    "SAVE": "Save",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "RESET": "Reset",
+    "ACTIONS": "Actions",
+    "ROWS_PER_PAGE": "Rows per page",
+    "NO_DATA": "No data",
+    "NO_RESULTS": "No results",
+    "OF": "of",
+    "SEARCH": "Search"
+  },
+  "cities": {
+    "TITLE": "Cities",
+    "headers": {
+      "NAME": "Name"
+    }
+  },
+  "users": {
+    "TITLE": "Users",
+    "headers": {
+      "NAME": "Name",
+      "EMAIL": "E-mail",
+      "ROLE": "Role",
+      "VERIFIED": "Verified",
+      "CITY": "City",
+      "COUNTRY": "Country",
+      "PHONE": "Phone"
+    },
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password"
+  },
+  "landing": {
+    "TITLE": "Landing",
+    "DESCRIPTION": "This page is publicly available.",
+    "BUY_ME_A_COFFEE": "Buy me a coffee",
+    "BUY_ME_A_COFFEE_DESCRIPTION": "I'm doing my best to provide you a good experience when using my apps, so if you like what I'm doing and wish to say \"thanks!\", please click the button and buy me a coffee.",
+    "DESCRIPTION_VUE": "This project is created to help other web developers create a basic VueJS app in an easy way.",
+    "DESCRIPTION_API": "Demo is also linked to a Node.js express.js MongoDB JWT REST API project that shows how this frontend can be integrated to an API.",
+    "API_DOCUMENTATION": "API documentation",
+    "FRONTEND_DOCUMENTATION": "Frontend documentation"
+  },
+  "home": {
+    "TITLE": "Protected Home",
+    "GREETING": "Welcome %{0}",
+    "DESCRIPTION": "This page is only available privately when the users log in with their credentials",
+    "VERIFY_YOUR_ACCOUNT": "IMPORTANT: Verify your account",
+    "VERIFY_YOUR_ACCOUNT_DESCRIPTION": "You must verify your account by clicking the link sent to your E-mail to be able to enjoy all our app features",
+    "CLOSE": "Close"
+  },
+  "about": {
+    "TITLE": "About",
+    "DESCRIPTION": "This page describes about Ashewa E-Commerce"
+  },
+  "categories": {
+    "TITLE": "Categories",
+    "DESCRIPTION": "This page shows every "
+  },
+  "login": {
+    "TITLE": "Login",
+    "DESCRIPTION": "This is a demo. Database resets every 30 mins. So anything you do will be lost after a short time.<br />E-mail: admin@admin.com <br />Password: 12345",
+    "EMAIL": "E-mail",
+    "PASSWORD": "Password",
+    "LOGIN": "Login",
+    "FORGOT_PASSWORD": "Forgot password?"
+  },
+  "forgotPassword": {
+    "TITLE": "Forgot my password",
+    "EMAIL": "E-mail",
+    "DESCRIPTION": "Enter your E-mail address so we can send you a message with instructions to recover your password",
+    "RECOVER": "Recover",
+    "RESET_EMAIL_SENT": "We have sent a message to %{0} with instructions to recover your password"
+  },
+  "resetPassword": {
+    "TITLE": "Change Password",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "CHANGE_PASSWORD": "Change Password",
+    "PASSWORD_CHANGED": "Password changed successfully"
+  },
+  "signup": {
+    "TITLE": "Signup",
+    "NAME": "Name",
+    "EMAIL": "E-mail",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "SIGN_ME_UP": "Sign me up"
+  },
+  "verify": {
+    "TITLE": "E-mail verification",
+    "EMAIL_VERIFIED": "E-mail verified successfully"
+  },
+  "myProfile": {
+    "TITLE": "My profile",
+    "CHANGE_MY_PASSWORD": "Change My Password",
+    "CURRENT_PASSWORD": "Current Password",
+    "NEW_PASSWORD": "New Password",
+    "CONFIRM_NEW_PASSWORD": "Confirm New Password",
+    "PASSWORD_CHANGED": "Password changed successfully",
+    "NAME": "Name",
+    "EMAIL": "E-mail",
+    "PHONE": "Phone",
+    "CITY": "City",
+    "NO_RESULTS_FOUND": "No results found",
+    "COUNTRY": "Country",
+    "SAVE": "Save",
+    "PROFILE_SAVED_SUCCESSFULLY": "Profile saved successfuly"
+  }
+}

@@ -9,7 +9,8 @@ import VuetifyConfirm from "vuetify-confirm";
 import { createProvider } from "./vue-apollo";
 import ZoomOnHover from "vue-zoom-on-hover";
 import Tawk from "vue-tawk";
-import './registerServiceWorker'
+import "./registerServiceWorker";
+import i18n from "@/plugins/i18n";
 
 // this.$Tawk.$updateChatUser({
 //   name: "alehegn",
@@ -27,6 +28,7 @@ const app = new Vue({
   vuetify,
   router,
   store,
+  i18n,
   render: (h) => h(App),
   apolloProvider: createProvider(),
 

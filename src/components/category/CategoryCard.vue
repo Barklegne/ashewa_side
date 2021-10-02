@@ -1,9 +1,17 @@
 <template>
   <div
     @click="
-      $router.push({
-        path: `/subcategory/${id}`,
-      })
+      vendor
+        ? $router.push({
+            path: `/vendors/${id}`,
+          })
+        : supplier
+        ? $router.push({
+            path: `/suppliers/${id}`,
+          })
+        : $router.push({
+            path: `/subcategory/${id}`,
+          })
     "
     style="cursor: pointer;"
   >
@@ -59,6 +67,12 @@ export default {
     },
     width: {
       type: Number,
+    },
+    vendor: {
+      default: false,
+    },
+    supplier: {
+      default: false,
     },
   },
 };

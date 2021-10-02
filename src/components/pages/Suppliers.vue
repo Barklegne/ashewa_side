@@ -6,8 +6,9 @@
         <CategoryCard
           :width="250"
           :title="x.storeName"
-          :image="x.storeCover"
+          image="https://www.khaoscontrol.com/wp-content/uploads/2020/06/supplier-management-header.jpg"
           :id="x.id"
+          :supplier="true"
         />
       </v-col>
     </v-row>

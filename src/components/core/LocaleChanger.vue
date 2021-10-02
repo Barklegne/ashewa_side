@@ -1,9 +1,8 @@
 <template>
   <v-menu v-model="showMenu" offset-y>
     <template v-slot:activator="{ on }">
-      <v-btn class="btnLocaleActivation" color="black" v-on="on" text>
-        <v-icon>mdi-earth</v-icon>
-        &nbsp;{{ displayLocale }}
+      <v-btn style="" class="btnLocaleActivation" color="black" v-on="on" text>
+        {{ displayLocale == "en" ? "English" : "አማርኛ" }}
       </v-btn>
     </template>
     <v-list>
@@ -16,9 +15,7 @@
         :class="[item.class]"
       >
         <country-flag :country="item.flag" size="small" />
-        <v-list-item-title class="ml-3">{{
-          item.lang.toUpperCase()
-        }}</v-list-item-title>
+        <v-list-item-title class="ml-3">{{ item.name }}</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -35,11 +32,13 @@ export default {
         {
           lang: "en",
           flag: "gb",
+          name: "English",
           class: "btnEN",
         },
         {
           lang: "et",
           flag: "et",
+          name: "አማርኛ",
           class: "btnEN",
         },
       ],
@@ -55,6 +54,7 @@ export default {
   },
   computed: {
     displayLocale() {
+      console.log(this);
       return this.$i18n.locale;
     },
   },

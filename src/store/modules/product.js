@@ -317,12 +317,20 @@ const actions = {
                   name
                 }
               }
-                       
+              
+                productSpecification(productId:"${id.id}"){
+                  specificationTitle
+                  specificationDetail
+                }
+                     
           }
         `,
       })
       .then((response) => {
-        commit(types.GET_A_PRODUCT, response.data.getProductsById);
+        commit(types.GET_A_PRODUCT, {
+          ...response.data.getProductsById,
+          productSpecification: response.data.productSpecification,
+        });
         commit(types.SHOW_LOADING, false);
       })
       .catch((error) => {

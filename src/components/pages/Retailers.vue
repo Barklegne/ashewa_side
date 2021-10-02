@@ -8,6 +8,7 @@
           :title="x.storeName"
           :image="x.storeCover"
           :id="x.id"
+          :vendor="true"
         />
       </v-col>
     </v-row>

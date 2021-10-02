@@ -129,7 +129,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.$router.push("/comingSoon");
-    }, 30000);
+    }, 3000000);
   },
   metaInfo() {
     return {

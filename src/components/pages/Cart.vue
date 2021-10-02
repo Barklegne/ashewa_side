@@ -146,6 +146,19 @@
           </v-col>
         </v-row>
         <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
+          Phone Number
+        </p>
+        <v-text-field
+          background-color="#ebe9e9"
+          class="ma-0"
+          height="50"
+          solo
+          flat
+          placeholder="Phone Number"
+          v-model="phone"
+        >
+        </v-text-field>
+        <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
           Total Price
         </p>
         <div
@@ -180,7 +193,7 @@
           solo
           flat
           placeholder="Please select a payment method"
-          :items="['Bank of Abyssinia ']"
+          :items="['BOA', 'Hello Cash', 'Mbirr', 'Bank Payment']"
           v-model="payment"
         ></v-select>
         <v-row justify="center">
@@ -203,10 +216,95 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="success" width="500">
+      <v-card v-if="payment == 'Bank Payment'" class="pa-5">
+        To pay via mobile payment, please click on "Finalize Checkout" below and
+        send the grand total for your order to one of the following supported
+        banks below as soon as possible.
+        <v-row class="my-5" justify="center">
+          <v-expansion-panels accordion>
+            <v-expansion-panel>
+              <v-expansion-panel-header
+                >Bank of Abyssinia</v-expansion-panel-header
+              >
+              <v-expansion-panel-content>
+                <p>
+                  Account Name: Universal Courier Service PLC
+                </p>
+                <p>Account Number: 1000327571129</p>
+                <p>Branch: Karamara Branch</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>Nib Bank</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>
+                  Account Name: Universal Courier Service PLC
+                </p>
+                <p>Account Number: 1000327571129</p>
+                <p>Branch: Karamara Branch</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>Zemen Bank</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>
+                  Account Name: Universal Courier Service PLC
+                </p>
+                <p>Account Number: 1000327571129</p>
+                <p>Branch: Karamara Branch</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header
+                >Commercial Bank of Ethiopia</v-expansion-panel-header
+              >
+              <v-expansion-panel-content>
+                <p>
+                  Account Name: Universal Courier Service PLC
+                </p>
+                <p>Account Number: 1000327571129</p>
+                <p>Branch: Karamara Branch</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-row>
+        <v-btn @click="t = true" dark color="#07a04b">Finalize Checkout</v-btn>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="t" width="500">
       <v-card class="pa-5">
-        <div>
-          {{ text }}
-        </div>
+        <h2>Finalize Checkout</h2>
+        <v-text-field
+          background-color="#ebe9e9"
+          class="ma-0"
+          height="50"
+          solo
+          flat
+          placeholder="Deposited by"
+          v-model="user"
+        >
+        </v-text-field>
+        <v-text-field
+          background-color="#ebe9e9"
+          class="ma-0"
+          height="50"
+          solo
+          flat
+          placeholder="Reference"
+          v-model="reference"
+        >
+        </v-text-field>
+        <v-text-field
+          background-color="#ebe9e9"
+          class="ma-0"
+          height="50"
+          solo
+          flat
+          placeholder="Transaction Id"
+          v-model="transaction"
+        >
+        </v-text-field>
+        <v-btn @click="finalizeCheckout" dark color="#07a04b">Proceed</v-btn>
       </v-card>
     </v-dialog>
     <ErrorMessage />
@@ -223,7 +321,12 @@ export default {
       vis: false,
       loading: false,
       delivery: "",
+      phone: "",
       payment: "",
+      user: "",
+      reference: "",
+      transaction: "",
+      t: false,
       key: "AIzaSyCVZffDCQLlsX9vz9TGBg0h8aZkG5eIUoY",
       address: "",
       headers: [
@@ -266,14 +369,25 @@ export default {
     async getDelivery() {
       await this.$store.dispatch("getDelivery");
     },
+
+    finalizeCheckout() {
+      this.$store.dispatch("finalizeCheckout", {
+        user: this.user,
+        reference: this.reference,
+        transaction: this.transaction,
+      });
+    },
     checkout() {
       this.$store.dispatch("checkout", {
         deliveryId: this.getId,
         loc: this.address,
+        payment: this.payment,
+        phone: this.phone,
       });
       console.log({
         deliveryId: this.getId,
         loc: this.address,
+        payment: this.payment,
       });
       this.vis = false;
     },
