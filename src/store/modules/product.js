@@ -250,72 +250,65 @@ const actions = {
             
               getProductsById(id: "${id.id}") {
                 name
-                id
-                image
-                productpriceoptionSet{
-                  id
-                  quantity
-                  discount
-                }
-                productrateSet{
-                  id
-                  user{
-                    username
-                    id
-                  }
-                  rate
-                  comment
-                }
-                productcolorSet{
-                  id
-                  name
-                  image
-                  productsizeSet{
-                    id
-                    name
-                    quantity
-                  }
-                }
-                supplierDomain
-                vendor {
-                  domain
-                  storeName
-                  id
-                  followerSet{
-                    user{
-                      id
-                    }
-                    id
-                  }
-                  productSet {
-                    name
-                    id
-                    image
-                    productimageSet {
-                      image
-                    }
-                    sellingPrice
-                  }
-                }
-                sellingPrice
-                productimageSet {
-                  image
-                }
-                discount
-                description
-                category {
-                  id
-                  name
-                  image
-                  subcategorySet{
-                    name
-                    id
-                  }
-                }
-                subcategory {
-                  id
-                  name
-                }
+    id
+    image
+    productpriceoptionSet {
+      id
+      quantity
+      discount
+    }
+    productrateSet {
+      id
+      user {
+        username
+        id
+      }
+      rate
+      comment
+    }
+    productcolorSet {
+      id
+      name
+      image
+      productsizeSet {
+        id
+        name
+        quantity
+      }
+    }
+    supplierDomain
+    vendor {
+      domain
+      storeName
+      id
+      followerSet {
+        user {
+          id
+        }
+        id
+      }
+      
+      
+    }
+    sellingPrice
+    productimageSet {
+      image
+    }
+    discount
+    description
+    category {
+      id
+      name
+      image
+      subcategorySet {
+        name
+        id
+      }
+    }
+    subcategory {
+      id
+      name
+    }
               }
               
                 productSpecification(productId:"${id.id}"){
