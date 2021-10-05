@@ -363,15 +363,7 @@ const actions = {
                   domain
                   storeName
                   id
-                  productSet {
-                    name
-                    id
-                    image
-                    productimageSet {
-                      image
-                    }
-                    sellingPrice
-                  }
+                  
                 }
                 sellingPrice
                 productimageSet {
