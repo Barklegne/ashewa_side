@@ -11,7 +11,7 @@
               >mdi-rocket-launch</v-icon
             >
             <p class="ma-0 mt-4 pa-0" style="font-size:16px;font-weight:700">
-              Free Delivery
+              Free Deliver
             </p>
             <p class="ma-0 pa-0" style="font-size:15px;font-weight:400">
               For all orders over ETB 5000
@@ -68,75 +68,74 @@
         </v-col>
       </v-row>
     </div>
+    <!-- mobile view -->
     <div
-      style="border:1px solid grey;"
-      class="hidden-lg-and-up my-1 pa-1 mx-12"
+      style="overflow-x: scroll; overflow-y:hidden;display:flex;"
+      class="hidden-md-and-up center"
     >
-      <v-row class="mx-0 pl-10">
-        <v-col cols="12" class="ma-0 pa-0">
-          <div class="text-start">
-            <p class="ma-0 mt-4 pa-0" style="font-size:16px;font-weight:700">
-              <v-icon left style="font-size:35px;color:#43DB80"
-                >mdi-rocket-launch</v-icon
-              >Free Delivery
-            </p>
-            <p
-              class="ma-0 pa-0"
-              style="font-size:15px;font-weight:400;margin-left:35px"
-            >
-              For all orders over ETB 5000
-            </p>
-          </div>
-        </v-col>
-        <v-col cols="12" class="ma-0 pa-0">
-          <div class="text-start">
-            <p class="ma-0 mt-4 pa-0" style="font-size:16px;font-weight:700">
-              <v-icon style="font-size:35px;color:#43DB80">mdi-reload</v-icon>
-              90 Days Return
-            </p>
-            <p class="ma-0 pa-0" style="font-size:15px;font-weight:400">
-              If goods have problems
-            </p>
-          </div>
-        </v-col>
-        <v-col class="ma-0 pa-0" cols="12">
-          <div class="text-start">
-            <p class="ma-0 mt-4 pa-0" style="font-size:16px;font-weight:700">
-              <v-icon style="font-size:35px;color:#43DB80"
-                >mdi-credit-card-check</v-icon
-              >
-              Secure Payment
-            </p>
-            <p class="ma-0 pa-0" style="font-size:15px;font-weight:400">
-              100% secure payment
-            </p>
-          </div>
-        </v-col>
-        <v-col class="ma-0 pa-0" cols="12">
-          <div class="text-start">
-            <p class="ma-0 mt-4 pa-0" style="font-size:16px;font-weight:700">
-              <v-icon style="font-size:35px;color:#43DB80"
-                >mdi-chat-processing-outline</v-icon
-              >
-              24/7 Support
-            </p>
-            <p class="ma-0 pa-0" style="font-size:15px;font-weight:400">
-              Dedicated support
-            </p>
-          </div>
-        </v-col>
-        <v-col class="ma-0 pa-0 mb-2" cols="12">
-          <div class="text-start">
-            <p class="ma-0 mt-4 pa-0" style="font-size:16px;font-weight:700">
-              <v-icon style="font-size:35px;color:#43DB80">mdi-gift</v-icon>
-              Gift Service
-            </p>
-            <p class="ma-0 pa-0" style="font-size:15px;font-weight:400">
-              Support gift service
-            </p>
-          </div>
-        </v-col>
-      </v-row>
+      <v-chip
+        class=""
+        color="white"
+        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left"
+        label
+      >
+        Free <br />
+        Delivery
+        <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
+          mdi-scooter
+        </v-icon>
+      </v-chip>
+
+      <v-chip
+        class=""
+        color="white"
+        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left;"
+        label
+      >
+        90 Days <br />Return
+        <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
+          mdi-reload
+        </v-icon>
+      </v-chip>
+
+      <v-chip
+        class=""
+        color="white"
+        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left;"
+        label
+      >
+        Secured <br />
+        Payment
+        <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
+          mdi-credit-card-check
+        </v-icon>
+      </v-chip>
+
+      <v-chip
+        class=""
+        color="white"
+        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left;"
+        label
+      >
+        24/7 <br />
+        Support
+        <v-icon right size="20px" color="#43DB80 " class="pl-1" dense>
+          mdi-chat-processing-outline
+        </v-icon>
+      </v-chip>
+
+      <v-chip
+        class=""
+        color="white"
+        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left;"
+        label
+      >
+        Gift <br />
+        Service
+        <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
+          mdi-gift
+        </v-icon>
+      </v-chip>
     </div>
   </div>
 </template>

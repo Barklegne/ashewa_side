@@ -649,7 +649,7 @@
     >
       <v-carousel
         class="align-center text-center"
-        height="350"
+        height="350px"
         hide-delimiters
         :show-arrows="false"
       >
@@ -657,7 +657,7 @@
           <v-img
             class="white--text align-start text-end ma-4 pa-2 rounded-xl"
             width="90vw"
-            height="330"
+            height="330px"
             :src="`http://api.ashewa.com/media/${n.image}`"
           >
             <v-chip x-small class="ma-1 pa-2" color="white">
@@ -666,7 +666,7 @@
                 readonly
                 background-color="green lighten-3"
                 color="#09B750"
-                x-small
+                size="17"
               ></v-rating>
             </v-chip>
 
@@ -759,7 +759,7 @@
             readonly
             half-increments
             hover
-            size="25"
+            size="18"
           ></v-rating>
           <p style="font-size:25px;color:grey;" class="ml-1">
             {{ averageRating }}
@@ -932,12 +932,12 @@
           </v-avatar>
           {{ rev.user.username }}
           <v-row class="ma-0">
-            <v-rating color="green" size="x-small" :value="rev.rate"></v-rating>
+            <v-rating color="green" size="20" :value="rev.rate"></v-rating>
             {{ rev.comment }}
           </v-row>
         </div>
         <h3>Review</h3>
-        <v-rating v-model="rev" size="small"></v-rating>
+        <v-rating v-model="rev" size="30"></v-rating>
         <v-textarea
           outlined
           v-model="com"

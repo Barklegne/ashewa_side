@@ -296,7 +296,7 @@
       class="ma-0 pa-0 hidden-lg-and-up"
       style="height:60px;background-color:#43DB80"
     >
-      <v-col cols="2" class="hidden-md-and-up">
+      <v-col cols="2" class="hidden-lg-and-up">
         <span>
           <v-app-bar-nav-icon
             style="color:white"
@@ -315,9 +315,7 @@
             placeholder="Search..."
             class="rounded-l-xl"
           ></v-text-field>
-          <v-btn @click="startSpeechToTxt" height="40px" tile>
-            <v-icon>{{ recording ? "mdi-record" : "mdi-microphone" }}</v-icon>
-          </v-btn>
+
           <v-btn
             :href="`/search/${searchF}`"
             color="#4DBA87"

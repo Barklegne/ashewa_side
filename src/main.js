@@ -8,7 +8,7 @@ import { store } from "@/store";
 import VuetifyConfirm from "vuetify-confirm";
 import { createProvider } from "./vue-apollo";
 import ZoomOnHover from "vue-zoom-on-hover";
-import Tawk from "vue-tawk";
+// import Tawk from "vue-tawk";
 import i18n from "@/plugins/i18n";
 import "./registerServiceWorker";
 
@@ -39,9 +39,9 @@ const app = new Vue({
   },
 }).$mount("#app");
 
-Vue.use(Tawk, {
-  tawkSrc: "https://embed.tawk.to/60f08fb1649e0a0a5ccc6b78/1falr2jms",
-});
+// Vue.use(Tawk, {
+//   tawkSrc: "https://embed.tawk.to/60f08fb1649e0a0a5ccc6b78/1falr2jms",
+// });
 
 if (window.Cypress) {
   // Only available during E2E tests
