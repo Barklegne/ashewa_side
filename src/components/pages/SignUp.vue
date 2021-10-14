@@ -208,11 +208,6 @@ export default {
         password: this.password,
         phone: this.yourValue,
       });
-      //This event signifies that a successfull signup has happend
-      this.$gtag.event("Sign Up", {
-        event_category: "Ashewa Form Sign Up",
-        event_label: "User Sign Up",
-      });
       await this.userSignUp({
         firstName: this.firstName,
         lastName: this.lastName,
