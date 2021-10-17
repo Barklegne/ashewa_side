@@ -73,68 +73,66 @@
       style="overflow-x: scroll; overflow-y:hidden;display:flex;"
       class="hidden-md-and-up center"
     >
+      <!-- <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
+        mdi-scooter
+      </v-icon> -->
       <v-chip
         class=""
         color="white"
-        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left"
+        style="color:#43DB80;font-size:18px;font-weight:600;height:3rem;text-align:left"
         label
       >
         Free <br />
         Delivery
-        <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
-          mdi-scooter
-        </v-icon>
       </v-chip>
-
+      <!-- <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
+        mdi-reload
+      </v-icon> -->
       <v-chip
         class=""
         color="white"
-        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left;"
+        style="color:#43DB80;font-size:18px;font-weight:600;height:3rem;text-align:left;"
         label
       >
         90 Days <br />Return
-        <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
-          mdi-reload
-        </v-icon>
       </v-chip>
 
+      <!-- <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
+        mdi-credit-card-check
+      </v-icon> -->
       <v-chip
         class=""
         color="white"
-        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left;"
+        style="color:#43DB80;font-size:18px;font-weight:600;height:3rem;text-align:left;"
         label
       >
         Secured <br />
         Payment
-        <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
-          mdi-credit-card-check
-        </v-icon>
       </v-chip>
-
+      <!-- <v-icon right size="20px" color="#43DB80 " class="pl-1" dense>
+        mdi-chat-processing-outline
+      </v-icon> -->
       <v-chip
         class=""
         color="white"
-        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left;"
+        style="color:#43DB80;font-size:18px;font-weight:600;height:3rem;text-align:left;"
         label
       >
         24/7 <br />
         Support
-        <v-icon right size="20px" color="#43DB80 " class="pl-1" dense>
-          mdi-chat-processing-outline
-        </v-icon>
       </v-chip>
 
+      <!-- <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
+        mdi-gift
+      </v-icon> -->
       <v-chip
         class=""
         color="white"
-        style="color:#43DB80;font-size:13px;font-weight:600;height:3rem;text-align:left;"
+        style="color:#43DB80;font-size:18px;font-weight:600;height:3rem;text-align:left;"
         label
       >
         Gift <br />
         Service
-        <v-icon right size="20px" color="#43DB80" class="pl-1" dense>
-          mdi-gift
-        </v-icon>
       </v-chip>
     </div>
   </div>

@@ -292,11 +292,10 @@
       </v-col>
     </v-row>
     <v-row
-      align="center"
       class="ma-0 pa-0 hidden-lg-and-up"
       style="height:60px;background-color:#43DB80"
     >
-      <v-col cols="2" class="hidden-lg-and-up">
+      <v-col cols="1" class="hidden-lg-and-up">
         <span>
           <v-app-bar-nav-icon
             style="color:white"
@@ -304,7 +303,7 @@
           ></v-app-bar-nav-icon>
         </span>
       </v-col>
-      <v-col cols="8">
+      <v-col cols="10">
         <div class="dropDownM rounded-pill transparent">
           <v-text-field
             solo
@@ -317,36 +316,56 @@
           ></v-text-field>
 
           <v-btn
+            @click="startSpeechToTxt"
+            height="40px"
+            color="#4DBA87"
+            dark
+            style="min-width:25px;border-style:none;"
+          >
+            <v-icon>{{ recording ? "mdi-record" : "mdi-microphone" }}</v-icon>
+          </v-btn>
+          <v-btn
             :href="`/search/${searchF}`"
             color="#4DBA87"
             dark
             height="40px"
             tile
             class="rounded-r-xl"
+            style="min-width:30px;"
             ><v-icon>
               mdi-magnify
-            </v-icon></v-btn
-          >
+            </v-icon>
+          </v-btn>
         </div>
       </v-col>
-      <v-col class="mt-1" cols="1">
-        <div @mouseenter="color3 = 'white'" @mouseleave="color3 = 'black'">
-          <router-link :to="{ path: 'cart' }">
-            <v-badge
-              bottom
-              overlap
-              color="green"
-              :content="`${totalCartList.length}`"
-            >
-              <v-icon
-                :style="`cursor: pointer; text-decoration:none;`"
-                size="30"
-                :color="(color3 = '#ffffff')"
-                >mdi-cart-outline</v-icon
-              ></v-badge
-            ></router-link
-          >
-        </div>
+      <v-col cols="1" class="ma-0" style="height:60px; ">
+        <v-row style="margin-left:-30px; margin-top:-10px">
+          <v-col cols="6">
+            <span @mouseenter="color3 = 'white'" @mouseleave="color3 = 'black'">
+              <router-link :to="{ path: 'cart' }">
+                <v-badge
+                  bottom
+                  overlap
+                  color="green"
+                  :content="`${totalCartList.length}`"
+                >
+                  <v-icon
+                    :style="
+                      `margin-top:1px; cursor: pointer; text-decoration:none;`
+                    "
+                    size="30"
+                    :color="(color3 = '#ffffff')"
+                    >mdi-cart-outline</v-icon
+                  ></v-badge
+                >
+              </router-link>
+            </span>
+          </v-col>
+          <!-- <v-col cols="6">
+           
+            </span>
+          </v-col> -->
+        </v-row>
       </v-col>
     </v-row>
     <v-navigation-drawer v-model="sidebar" absolute disable-resize-watcher>
@@ -538,6 +557,25 @@ export default {
             link: "/sellOnAshewa",
             icon: "mdi-storefront-outline",
             class: "btnProfile",
+          },
+          {
+            title: "NEWS",
+            link: "/services",
+            icon: "mdi-newspaper",
+            class: "btnNews",
+          },
+
+          {
+            title: "RETAILERS",
+            link: "/retailers",
+            icon: "mdi-store",
+            class: "btnRetailer",
+          },
+          {
+            title: "SUPPLIERS",
+            link: "/suppliers",
+            icon: "mdi-basket",
+            class: "btnSupplier",
           },
         ];
       }

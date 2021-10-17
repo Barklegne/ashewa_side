@@ -2,7 +2,22 @@
   <div>
     <div>
       <!-- mobile footer -->
-      <v-footer class="hidden-lg-and-up">
+      <v-footer class="hidden-lg-and-up mb-16">
+        <v-row align="center" class="my-1 mx-2">
+          <v-text-field
+            solo
+            dense
+            flat
+            light
+            class="mt-7"
+            height="50px"
+            placeholder="Email Address"
+            v-model="email"
+          ></v-text-field>
+          <v-btn @click="addSubscriber" color="black" dark height="50px" tile
+            >Subscribe</v-btn
+          >
+        </v-row>
         <v-expansion-panels focusable>
           <v-expansion-panel
             v-for="(item, i) in mobileFooter"
@@ -265,10 +280,11 @@
         </v-card>
       </v-footer>
     </div>
+
     <!-- footer home... -->
     <v-footer
       v-if="route.name != 'ProductDetails'"
-      style="border:1px solid grey"
+      style="border:1px solid grey "
       class="py-2 hidden-lg-and-up"
       height="60"
       fixed
@@ -451,9 +467,6 @@ export default {
               link: "http://seller.ashewa.com/signup",
             },
           ],
-        },
-        {
-          title: "",
         },
       ],
     };

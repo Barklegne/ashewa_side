@@ -9,16 +9,16 @@
       <div
         @click="
           $router.push({
-            path: '/store',
+            path: '/messages/{1}',
           })
         "
         style="margin:auto auto"
       >
         <v-icon
-          :color="route.path == '/store' ? '#43DB80' : '#383737'"
+          :color="route.path == '/messages/{1}' ? '#43DB80' : '#383737'"
           style="font-size:32px "
           large
-          >mdi-storefront-outline</v-icon
+          >mdi-chat-outline</v-icon
         >
       </div>
       <div
@@ -237,8 +237,8 @@
                         : `${product.supplierDomain}`
                     "
                     >Visit Store</v-btn
-                  ></v-col
-                >
+                  >
+                </v-col>
               </v-row>
               <v-divider class="my-6"></v-divider>
               <v-row>
@@ -642,6 +642,7 @@
         </v-btn>
       </v-row>
     </v-container>
+
     <div
       style="padding-bottom:60px"
       v-if="!!product.name"
@@ -669,13 +670,6 @@
                 size="17"
               ></v-rating>
             </v-chip>
-
-            <!-- <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
-            {{ averageRating }}
-          </p>
-          <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
-            {{ "| 320 orders" }}
-          </p> -->
           </v-img>
         </v-carousel-item>
       </v-carousel>
@@ -981,18 +975,12 @@
               >{{ following ? "Following" : "+ Follow" }}</v-btn
             >
             <v-btn
-              class="mx-1 btn"
-              dark
-              color="#09b750"
-              elevation="0"
+              class="btn mx-1"
               rounded
-              small
-              :href="
-                product.vendor.domain
-                  ? `${product.vendor.domain}`
-                  : `${product.supplierDomain}`
-              "
-              >Visit Store</v-btn
+              elevation="0"
+              color="success"
+              :href="`/messages`"
+              >Chat Now</v-btn
             >
           </v-col>
         </v-row>
