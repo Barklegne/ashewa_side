@@ -422,7 +422,7 @@
                   "
                   >Make Offer</v-btn
                 >
-
+                <a href="tel:8665562570">Call us at 866-556-2570</a>
                 <v-btn
                   elevation="0"
                   color="btn"
@@ -658,7 +658,11 @@
             class="white--text align-start text-end ma-4 pa-2 rounded-xl"
             width="90vw"
             height="330"
-            :src="`http://api.ashewa.com/media/${n.image}`"
+            :src="
+              n.image[0] == 'h'
+                ? n.image
+                : `http://api.ashewa.com/media/${n.image}`
+            "
           >
             <v-chip x-small class="ma-1 pa-2" color="white">
               <v-rating
@@ -869,7 +873,7 @@
             </div>
             <p class="mx-5 mt-5 mb-2">Quantity</p>
 
-            <v-row class="mt-1 mx-1">
+            <v-row class="mt-1 mx-1 mb-5">
               <v-btn
                 :disabled="quantity == 1"
                 icon

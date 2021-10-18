@@ -85,7 +85,13 @@
                 v-model="searchF"
                 placeholder="I'm shopping for..."
               ></v-text-field>
-              <v-btn @click="startSpeechToTxt" height="50px" tile>
+              <v-btn
+                style="background-color:white"
+                elevation="0"
+                @click="startSpeechToTxt"
+                height="50px"
+                tile
+              >
                 <v-icon>{{
                   recording ? "mdi-record" : "mdi-microphone"
                 }}</v-icon>

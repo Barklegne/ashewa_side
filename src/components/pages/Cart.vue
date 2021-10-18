@@ -108,6 +108,135 @@
     </v-row>
     <v-dialog
       persistent
+      v-model="success"
+      style="background-color:red"
+      width="500"
+      transition="dialog-bottom-transition"
+    >
+      <v-card class="pa-5">
+        {{
+          payment === "BOA"
+            ? ""
+            : payment === "Hello Cash"
+            ? "Dear customer, in order to proceed with your payment, please dial *912*4# and follow the instruction on your mobile phone to pay the invoice."
+            : payment === "Mbirr"
+            ? `Dear customer, in order to proceed with your payment, dial *818# then select 7(other) from the menu and then select 5(pay bill) and then enter ashewa's account number after that the enter this reference number ${text.m} and confirm your transaction, payment amount, your pin respectively.`
+            : ""
+        }}
+        <h2>
+          {{
+            payment === "Hello Cash"
+              ? `Delivery Reference Number : ${text}`
+              : `Delivery Reference Number : ${text.a}`
+          }}
+        </h2>
+        <h3>
+          Dear customer, in order to proceed with your payment, press continue
+          and you will be redirected to official BOA billing page
+        </h3>
+        <form
+          v-if="payment === 'BOA'"
+          action="https://secureacceptance.cybersource.com/pay"
+          method="post"
+        >
+          <input
+            type="hidden"
+            name="access_key"
+            v-model="JSON.parse(text.m).access_key"
+          />
+          <input
+            type="hidden"
+            name="profile_id"
+            v-model="JSON.parse(text.m).profile_id"
+          />
+          <input
+            type="hidden"
+            name="transaction_uuid"
+            v-model="JSON.parse(text.m).transaction_uuid"
+          />
+          <input
+            type="hidden"
+            name="signed_field_names"
+            v-model="JSON.parse(text.m).signed_field_names"
+          />
+          <input
+            type="hidden"
+            name="unsigned_field_names"
+            v-model="JSON.parse(text.m).unsigned_field_names"
+          />
+          <input
+            type="hidden"
+            name="signed_date_time"
+            v-model="JSON.parse(text.m).signed_date_time"
+          />
+          <input
+            type="hidden"
+            name="locale"
+            v-model="JSON.parse(text.m).locale"
+          />
+          <input
+            type="hidden"
+            name="transaction_type"
+            v-model="JSON.parse(text.m).transaction_type"
+          />
+          <input
+            type="hidden"
+            name="reference_number"
+            v-model="JSON.parse(text.m).reference_number"
+          />
+          <input
+            type="hidden"
+            name="amount"
+            v-model="JSON.parse(text.m).amount"
+          />
+          <input
+            type="hidden"
+            name="currency"
+            v-model="JSON.parse(text.m).currency"
+          />
+          <input
+            type="hidden"
+            name="signature"
+            v-model="JSON.parse(text.m).signature"
+          />
+
+          <v-row v-if="payment === 'BOA'">
+            <v-col>
+              <v-btn
+                class="btn btn-danger float-right"
+                color="#09b750"
+                dark
+                type="submit"
+                id="submit"
+                name="submit"
+                value="Submit"
+              >
+                Continue
+              </v-btn>
+            </v-col>
+            <v-col>
+              <v-btn
+                @click="clearSuccess"
+                color="error"
+                type="button"
+                class="btn btn-danger mx-4"
+              >
+                Cancel
+              </v-btn>
+            </v-col>
+          </v-row>
+        </form>
+        <v-row v-if="payment != 'BOA'" justify="end">
+          <v-col cols="4">
+            <v-btn class="pa-5 my-5" color="error" @click="clearSuccess">
+              Cancel
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      persistent
       v-model="vis"
       style="background-color:red"
       :overlay-opacity="0.8"
@@ -318,6 +447,7 @@ export default {
   data() {
     return {
       isMobile: false,
+      test: true,
       vis: false,
       loading: false,
       delivery: "",
@@ -369,7 +499,9 @@ export default {
     async getDelivery() {
       await this.$store.dispatch("getDelivery");
     },
-
+    clearSuccess() {
+      this.$store.commit("CLEAR_SUCCESS");
+    },
     finalizeCheckout() {
       this.$store.dispatch("finalizeCheckout", {
         user: this.user,

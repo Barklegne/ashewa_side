@@ -10,7 +10,9 @@
           :timeout="-1"
         >
           <ul>
-            <li v-for="(item, index) in error" :key="index">{{ item }}</li>
+            <li v-for="(item, index) in error" :key="index">
+              {{ item.substring(7, item.length) }}
+            </li>
           </ul>
           <v-btn text @click="showErrorMessage = false">Close</v-btn>
         </v-snackbar>

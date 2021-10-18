@@ -27,7 +27,6 @@ const actions = {
       })
       .then((response) => {
         ctx.commit(types.SET_DELIVERY, response.data.deliveryProviders);
-
         ctx.commit(types.SHOW_LOADING, false);
       })
       .catch((error) => {
@@ -100,16 +99,17 @@ const actions = {
     console.log(value);
     ctx.commit(types.SHOW_LOADING, true);
     console.log(`
-    mutation {
-      addToCart(
-        productId: "${value.id}"
-        quantity: ${value.quantity ? value.quantity : 1}
-      ) {
-        payload {
-          id
-          product {
+    mutation{
+      checkoutOrder(deliveryProviderId: "${value.deliveryId}", userLocation: "${value.loc}"){
+        payload{
+          order{
             id
-            name
+            reference
+          }
+          deliveryOption{
+            provider{
+              id
+            }
           }
         }
       }
@@ -118,31 +118,26 @@ const actions = {
     const resp = await apolloClient
       .mutate({
         mutation: gql`
-        mutation{
-          checkoutOrder(deliveryProviderId: "${value.deliveryId}", userLocation: "${value.loc}"){
-            payload{
-              order{
-                id
-              }
-              deliveryOption{
-                provider{
-                  id
-                }
-              }
+    mutation{
+      checkoutOrder(deliveryProviderId: "${value.deliveryId}", userLocation: "${value.loc}"){
+        payload{
+          order{
+            id
+            reference
+          }
+          deliveryOption{
+            provider{
+              id
             }
           }
         }
-      `,
+      }
+    }
+  `,
       })
       .then(async (r) => {
         console.log(`
-        mutation {
-          createBoaTransaction(
-            orderId: "${r.data.checkoutOrder.payload.order.id}"
-          ) {
-            payload
-          }
-        }
+        ${r.data.checkoutOrder.payload.order.reference}
       `);
         if (value.payment === "BOA") {
           const res = await apolloClient
@@ -160,10 +155,10 @@ const actions = {
             .then((response) => {
               ctx.commit(types.SHOW_LOADING, false);
               console.log(response.data.createBoaTransaction.payload);
-              ctx.commit(
-                types.CHECKOUT_SUCCESS,
-                response.data.createBoaTransaction.payload
-              );
+              ctx.commit(types.CHECKOUT_SUCCESS, {
+                a: r.data.checkoutOrder.payload.order.reference,
+                m: response.data.createBoaTransaction.payload,
+              });
             })
             .catch((error) => {
               handleError(error, ctx.commit, res);
@@ -197,7 +192,7 @@ const actions = {
               console.log(response.data.createHelloCashTransaction.payload.id);
               ctx.commit(
                 types.CHECKOUT_SUCCESS,
-                response.data.createHelloCashTransaction.payload.id
+                r.data.checkoutOrder.payload.order.reference
               );
             })
             .catch((error) => {
@@ -209,6 +204,7 @@ const actions = {
             createMbirrTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}"){
               payload{
                 id
+                reference
               }
             }
           }
@@ -220,19 +216,19 @@ const actions = {
                 createMbirrTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}"){
                   payload{
                     id
+                    reference
                   }
                 }
-              }
               }
               `,
             })
             .then((response) => {
               ctx.commit(types.SHOW_LOADING, false);
               console.log(response.data.createMbirrTransaction.payload.id);
-              ctx.commit(
-                types.CHECKOUT_SUCCESS,
-                response.data.createMbirrTransaction.payload.id
-              );
+              ctx.commit(types.CHECKOUT_SUCCESS, {
+                a: r.data.checkoutOrder.payload.order.reference,
+                m: response.data.createMbirrTransaction.payload.reference,
+              });
             })
             .catch((error) => {
               handleError(error, ctx.commit, res);
@@ -257,7 +253,7 @@ const actions = {
               );
               ctx.commit(
                 types.CHECKOUT_SUCCESS,
-                response.data.createLocalTransferTransaction.payload.id
+                r.data.checkoutOrder.payload.order.reference
               );
             })
             .catch((error) => {
@@ -266,6 +262,7 @@ const actions = {
         }
       })
       .catch((error) => {
+        console.log("error");
         handleError(error, ctx.commit, resp);
       });
   },
@@ -283,6 +280,10 @@ const mutations = {
   [types.CHECKOUT_SUCCESS](state, value) {
     state.success = true;
     state.text = value;
+  },
+  [types.CLEAR_SUCCESS](state) {
+    state.success = false;
+    state.text = "";
   },
   [types.CLEAR_CART](state) {
     state.cartItems = [];
@@ -337,7 +338,7 @@ const state = {
   totalProducts: 8,
   deliveryItems: [],
   success: false,
-  text: {},
+  text: "",
 };
 
 export default {
