@@ -52,6 +52,11 @@ export default {
   methods: {
     searchBy(id) {
       this.$store.dispatch("searchFilter", id);
+      //This event signifies that a successfull search has happend
+      this.$gtag.event("Serch", {
+        event_category: "Product Search",
+        event_label: "Number of User Searched on Ashewa",
+      });
     },
   },
   computed: {

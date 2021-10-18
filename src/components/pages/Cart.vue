@@ -495,6 +495,11 @@ export default {
   methods: {
     removeProduct(id) {
       this.$store.commit("REMOVE_PRODUCT_FROM_CART_LIST", id);
+      //This event signifies that a successfull product was removed from cart
+      this.$gtag.event("Remove from Cart", {
+        event_category: "Product removed from cart",
+        event_label: "Product Removed",
+      });
     },
     async getDelivery() {
       await this.$store.dispatch("getDelivery");
@@ -508,6 +513,11 @@ export default {
         reference: this.reference,
         transaction: this.transaction,
       });
+      //This event signifies that a successfull finilize check out
+      this.$gtag.event("Finilize Checkout", {
+        event_category: "User Finilize Checkout",
+        event_label: "Checkout Finilize",
+      });
     },
     checkout() {
       this.$store.dispatch("checkout", {
@@ -515,6 +525,11 @@ export default {
         loc: this.address,
         payment: this.payment,
         phone: this.phone,
+      });
+      //This event signifies that a successfull checkout
+      this.$gtag.event("Checkout", {
+        event_category: "Checkout",
+        event_label: "User Checkout Items",
       });
       console.log({
         deliveryId: this.getId,
@@ -563,10 +578,20 @@ export default {
     inc(id) {
       var foundIndex = this.totalCartList.findIndex((x) => x.productId == id);
       this.$store.commit("INCREMENT_QUANTITY_CART", foundIndex);
+      //This event signifies that a successfull checkout
+      this.$gtag.event("INCREMENT_QUANTITY_CART", {
+        event_category: "INCREMENT_QUANTITY_CART",
+        event_label: "User INCREMENT_QUANTITY_CART",
+      });
     },
     dec(id) {
       var foundIndex = this.totalCartList.findIndex((x) => x.productId == id);
       this.$store.commit("DECREMENT_QUANTITY_CART", foundIndex);
+      //This event signifies that a successfull checkout
+      this.$gtag.event("DECREMENT_QUANTITY_CART", {
+        event_category: "DECREMENT_QUANTITY_CART",
+        event_label: "User DECREMENT_QUANTITY_CART",
+      });
     },
   },
   computed: {

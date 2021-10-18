@@ -11,6 +11,12 @@ import ZoomOnHover from "vue-zoom-on-hover";
 // import Tawk from "vue-tawk";
 import i18n from "@/plugins/i18n";
 import "./registerServiceWorker";
+import VueGtag from "vue-gtag"; //instantiate gtag events
+
+Vue.use(VueGtag, {
+  //use gtag inside each components to trigger actions
+  config: { id: "UA-207369427-1" }, //connect gtag events with MEASUREMENT_ID(FROM GOOGLE ANALYTICS DASHBOARD)
+});
 
 // this.$Tawk.$updateChatUser({
 //   name: "alehegn",
