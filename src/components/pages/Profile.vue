@@ -28,16 +28,9 @@
         <v-card class="mx-0 mb-10" elevation="5">
           <div>
             <v-list-item two-line>
-              <v-list-item-avatar color="black">
-                <img :src="profilePic" v-if="userData.profilePic.length > 0" />
-                <span v-else class="white--text text-h5 ml-3">{{
-                  userData.userName[0].toUpperCase()
-                }}</span>
-              </v-list-item-avatar>
-
               <v-list-item-content>
                 <v-list-item-title style="font-weight:bolder">{{
-                  userData.userName
+                  userData.userName.toUpperCase()
                 }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -66,57 +59,11 @@
       </v-col>
       <v-col>
         <v-row class="mb-10">
-          <Notifications title="Notifications" v-if="title == 'Notifications'"
-            >Notification</Notifications
-          >
           <div style="width:100%" v-if="title == 'User Profile'">
             <v-row class="mt-10 mx-10 text-start" justify="space-around">
               <v-col cols="12" lg="6">
                 <v-row>
-                  <v-col class="text-center">
-                    <v-avatar size="120">
-                      <img
-                        src="https://cdn.vuetifyjs.com/images/john.jpg"
-                        alt="John"
-                      />
-                    </v-avatar>
-                  </v-col>
-                  <v-col align-self="center" cols="12" md="4">
-                    <v-card class="pa-0" color="#ebe9e9">
-                      <v-img
-                        class="ma-0"
-                        :src="
-                          userData.firstName.length > 0
-                            ? userData.firstName
-                            : imageUrl
-                        "
-                      ></v-img>
-                    </v-card>
-                    <v-row justify="center" class="my-5">
-                      <v-btn
-                        color="blue-grey"
-                        class="white--text"
-                        @click="onPickFile"
-                      >
-                        Upload Image
-                        <v-icon right dark>
-                          mdi-cloud-upload
-                        </v-icon>
-                      </v-btn>
-                      <input
-                        type="file"
-                        style="display: none"
-                        ref="fileInput"
-                        multiple
-                        accept="image/*"
-                        @change="onFilePicked"
-                      />
-                    </v-row>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-divider></v-divider>
-                  </v-col>
-                  <v-col cols="12">
+                  <v-col class="my-0 py-0" cols="6">
                     <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
                       First Name
                     </p>
@@ -130,7 +77,7 @@
                       :value="userData.firstName"
                     ></v-text-field
                   ></v-col>
-                  <v-col cols="12">
+                  <v-col class="my-0 py-0" cols="6">
                     <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
                       Last Name
                     </p>
@@ -144,7 +91,7 @@
                       :value="userData.lastName"
                     ></v-text-field
                   ></v-col>
-                  <v-col cols="12">
+                  <v-col class="my-0 py-0" cols="12">
                     <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
                       Email
                     </p>
@@ -158,7 +105,7 @@
                       :value="userData.email"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12">
+                  <v-col class="my-0 py-0" cols="12">
                     <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
                       New Password
                     </p>
@@ -173,7 +120,7 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col class="ml-2" col="6">
+                  <v-col col="6">
                     <v-btn
                       color="white"
                       outlined
@@ -203,13 +150,7 @@
             col="11"
             v-if="title == 'Cart'"
           ></Cart>
-          <WishList
-            title="Recent Viewed Products"
-            col="11"
-            v-if="title == 'Recent Viewed Products'"
-          >
-            Recent Viewed Products
-          </WishList>
+          <OrderHistory></OrderHistory>
           <WishList col="11" v-if="title == 'Wishlist'"></WishList>
         </v-row>
       </v-col>
@@ -221,7 +162,7 @@
 <script>
 import WishList from "../pages/Wishlist.vue";
 import Cart from "../pages/Cart.vue";
-import Notifications from "../notification/Orders.vue";
+import OrderHistory from "../pages/OrderHistory.vue";
 import { mapGetters } from "vuex";
 export default {
   computed: {
@@ -248,7 +189,7 @@ export default {
   components: {
     WishList,
     Cart,
-    Notifications,
+    OrderHistory,
   },
   methods: {
     userLogout() {
@@ -297,10 +238,8 @@ export default {
       imageUrl:
         "https://cdn1.iconfinder.com/data/icons/facebook-ui/48/additional_icons-03-512.png",
       items: [
-        { title: "Notifications", icon: "mdi-bell" },
+        { title: "Order History", icon: "mdi-clock-outline" },
         { title: "User Profile", icon: "mdi-account" },
-        { title: "Address", icon: "mdi-pin" },
-        { title: "Recent Viewed Products", icon: "mdi-clock-outline" },
         { title: "Cart", icon: "mdi-cart-outline" },
         { title: "Wishlist", icon: "mdi-heart-outline" },
         { title: "Logout", icon: "mdi-logout" },

@@ -12,6 +12,34 @@ const getters = {
 };
 
 const actions = {
+  async getOrderHistory({ commit }) {
+    commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .query({
+        query: gql`
+          orderHistory{
+            id
+            price
+            productIds
+            paid
+            reference
+            deliveryOption{
+              provider{
+                name
+                phone
+              }   
+            }
+          }
+        `,
+      })
+      .then((res) => {
+        commit(types.SHOW_LOADING, false);
+        commit(types.SET_ORDER_HISTORY, res.data.orderHistory);
+      })
+      .catch((error) => {
+        handleError(error, commit, resp);
+      });
+  },
   async getDelivery(ctx) {
     ctx.commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
@@ -317,6 +345,9 @@ const mutations = {
       Vue.set(state, "cartItems", [...cl]);
     }
   },
+  [types.SET_ORDER_HISTORY](state, value) {
+    state.orderHistory = value;
+  },
   [types.ADD_PRODUCT_TO_CART_LIST](state, value) {
     state.cartItems = [
       ...state.cartItems,
@@ -339,6 +370,7 @@ const state = {
   deliveryItems: [],
   success: false,
   text: "",
+  orderHistory: [],
 };
 
 export default {
