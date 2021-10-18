@@ -322,31 +322,32 @@
           ></v-text-field>
 
           <v-btn
-            @click="startSpeechToTxt"
-            height="40px"
-            color="#4DBA87"
-            dark
-            style="min-width:25px;border-style:none;"
-          >
-            <v-icon>{{ recording ? "mdi-record" : "mdi-microphone" }}</v-icon>
-          </v-btn>
-          <v-btn
             :href="`/search/${searchF}`"
             color="#4DBA87"
             dark
             height="40px"
             tile
-            class="rounded-r-xl"
+            class="rounded-r-xl mr-2"
             style="min-width:30px;"
             ><v-icon>
               mdi-magnify
             </v-icon>
           </v-btn>
+          <v-icon
+            @click="startSpeechToTxt"
+            size="34px"
+            color="white"
+            class="mr-2"
+            style="margin-top:-6px"
+            flat
+          >
+            {{ recording ? "mdi-record" : "mdi-microphone" }}
+          </v-icon>
         </div>
       </v-col>
       <v-col cols="1" class="ma-0" style="height:60px; ">
         <v-row style="margin-left:-30px; margin-top:-10px">
-          <v-col cols="6">
+          <v-col cols="12">
             <span @mouseenter="color3 = 'white'" @mouseleave="color3 = 'black'">
               <router-link :to="{ path: 'cart' }">
                 <v-badge
@@ -361,12 +362,13 @@
                     "
                     size="30"
                     :color="(color3 = '#ffffff')"
-                    >mdi-cart-outline</v-icon
+                    >mdi-cart</v-icon
                   ></v-badge
                 >
               </router-link>
             </span>
           </v-col>
+
           <!-- <v-col cols="6">
            
             </span>

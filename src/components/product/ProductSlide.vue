@@ -50,7 +50,7 @@
         </v-slide-item>
       </v-slide-group>
     </v-row>
-    <v-row style="background-color:#ededed" class="mx-4 py-5 hidden-md-and-up">
+    <v-row style="background-color:#FFFFFF" class="mx-4 py-5 hidden-md-and-up">
       <v-col
         v-for="(n, i) in dataN"
         :key="i"

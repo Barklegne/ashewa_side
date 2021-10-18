@@ -5,7 +5,7 @@
     </p>
     <v-divider></v-divider>
     <v-row class="ma-0 mt-2">
-      <v-col class="pa-1" v-for="cat in categories" :key="cat.id" cols="4">
+      <v-col class="pa-1" v-for="cat in categories" :key="cat.id" cols="6">
         <CategoryCard
           :title="cat.name"
           :image="cat.image"

@@ -1,7 +1,7 @@
 <template>
   <div v-if="productImages.length > 0">
     <v-card
-      :color="$vuetify.theme.dark ? '#121212' : ''"
+      :color="$vuetify.theme.dark ? '#121212' : '#FFFFFF'"
       elevation="0"
       :width="width"
       ><v-img
