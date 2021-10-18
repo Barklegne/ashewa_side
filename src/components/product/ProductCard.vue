@@ -423,6 +423,11 @@ export default {
         } else {
           // this.$store.commit("ADD_PRODUCT_TO_CART_LIST", product);
           this.$store.dispatch("addToCart", product);
+          //This event signifies that a successfull add to cart
+          this.$gtag.event("Add to Cart", {
+            event_category: "Product added to cart",
+            event_label: "Add to Cart",
+          });
         }
       }
       this.$router.push({ path: "/cart" });
