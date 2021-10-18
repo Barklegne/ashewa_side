@@ -1,7 +1,64 @@
 <template>
   <div>
     <div>
-      <v-footer dark padless class="d-block text-center">
+      <!-- mobile footer -->
+      <v-footer class="hidden-lg-and-up mb-16">
+        <v-row align="center" class="my-1 mx-2">
+          <v-text-field
+            solo
+            dense
+            flat
+            light
+            class="mt-7"
+            height="50px"
+            placeholder="Email Address"
+            v-model="email"
+          ></v-text-field>
+          <v-btn @click="addSubscriber" color="black" dark height="50px" tile
+            >Subscribe</v-btn
+          >
+        </v-row>
+        <v-expansion-panels focusable>
+          <v-expansion-panel
+            v-for="(item, i) in mobileFooter"
+            :key="i"
+            style="background:#43DB80;margin-left:2px;"
+          >
+            <v-expansion-panel-header
+              class="white--text"
+              style="font-size:1.2rem;font-weight:bold"
+              >{{ item.title }}
+              <template v-slot:actions>
+                <v-icon color="white">
+                  $expand
+                </v-icon>
+              </template>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content color="white--text">
+              <v-list-item-group>
+                <v-list-item
+                  style="min-height:30px"
+                  v-for="(item, i) in item.subTitles"
+                  :key="i"
+                  :to="item.link"
+                >
+                  <v-list-item-content class="py-0">
+                    <v-list-item-title
+                      ><p
+                        class="text-start mb-0"
+                        style="font-size:1rem;font-weight:700;color:white;padding:10px;"
+                      >
+                        {{ item.name }}
+                      </p>
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-footer>
+      <v-footer dark padless class="d-block text-center hidden-lg-and-down">
         <v-card
           flat
           color="#43DB82"
@@ -50,7 +107,12 @@
 
           <v-divider></v-divider>
         </v-card>
-        <v-card flat tile color="#43DB80" class="white--text text-center">
+        <v-card
+          flat
+          tile
+          color="#43DB80"
+          class="white--text text-center hidden-md-and-down"
+        >
           <v-card-text>
             <v-btn
               v-for="(icon, i) in icons"
@@ -218,9 +280,11 @@
         </v-card>
       </v-footer>
     </div>
+
+    <!-- footer home... -->
     <v-footer
       v-if="route.name != 'ProductDetails'"
-      style="border:1px solid grey"
+      style="border:1px solid grey "
       class="py-2 hidden-lg-and-up"
       height="60"
       fixed
@@ -332,6 +396,77 @@ export default {
           path: "/profile",
           icon: "mdi-account-outline",
           name: "Account",
+        },
+      ],
+      mobileFooter: [
+        {
+          title: "Our Courses",
+          subTitles: [
+            {
+              name: "Digital Marketing",
+              link: "",
+            },
+            {
+              name: "Web Designer",
+              link: "",
+            },
+            {
+              name: "MLM Trainings",
+              link: "",
+            },
+            {
+              name: "Personal Development",
+              link: "",
+            },
+          ],
+        },
+        {
+          title: "About",
+          subTitles: [
+            {
+              name: "About us",
+              link: "about",
+            },
+            {
+              name: "General Policy",
+              link: "policy",
+            },
+            {
+              name: "Terms of use",
+              link: "termsOfUse",
+            },
+          ],
+        },
+        {
+          title: "Our Ecommerce",
+          subTitles: [
+            { name: "Vendor/Supplier", link: "/vendor-supplier" },
+            { name: "Ashewa Community", link: "/ashewa-army" },
+            { name: "Shipping Policy", link: "/shipping-policy" },
+            { name: "Privacy Policy", link: "/privacy-policy" },
+          ],
+        },
+        {
+          title: "Make money with Us",
+          subTitles: [
+            {
+              name: "Sell products on Ashewa",
+              link: "/sell-on-products-on-ashewa",
+            },
+            {
+              name: "Sell on Ashewa Business",
+              link: "/sell-on-ashewa-business",
+            },
+            {
+              name: "Blog  on Ashewa",
+              link: "http://suppliers.ashewa.com/Blogs",
+            },
+            { name: "Become an Affiliate", link: "/become-an-affiliate" },
+            {
+              name: "Become a Seller",
+              link: "http://seller.ashewa.com/signup",
+            },
+          ],
         },
       ],
     };

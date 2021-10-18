@@ -13,6 +13,13 @@
         ></CategoryCard>
       </v-col>
     </v-row>
+    <!-- <v-select
+      class="hidden-md-and-up"
+      :items="categories"
+      label="Categories"
+      solo
+    >
+    </v-select> -->
   </div>
 </template>
 

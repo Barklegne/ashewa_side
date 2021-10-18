@@ -9,16 +9,16 @@
       <div
         @click="
           $router.push({
-            path: '/store',
+            path: '/messages/{1}',
           })
         "
         style="margin:auto auto"
       >
         <v-icon
-          :color="route.path == '/store' ? '#43DB80' : '#383737'"
+          :color="route.path == '/messages/{1}' ? '#43DB80' : '#383737'"
           style="font-size:32px "
           large
-          >mdi-storefront-outline</v-icon
+          >mdi-chat-outline</v-icon
         >
       </div>
       <div
@@ -237,8 +237,8 @@
                         : `${product.supplierDomain}`
                     "
                     >Visit Store</v-btn
-                  ></v-col
-                >
+                  >
+                </v-col>
               </v-row>
               <v-divider class="my-6"></v-divider>
               <v-row>
@@ -642,6 +642,7 @@
         </v-btn>
       </v-row>
     </v-container>
+
     <div
       style="padding-bottom:60px"
       v-if="!!product.name"
@@ -649,7 +650,7 @@
     >
       <v-carousel
         class="align-center text-center"
-        height="350"
+        height="350px"
         hide-delimiters
         :show-arrows="false"
       >
@@ -670,16 +671,9 @@
                 readonly
                 background-color="green lighten-3"
                 color="#09B750"
-                x-small
+                size="17"
               ></v-rating>
             </v-chip>
-
-            <!-- <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
-            {{ averageRating }}
-          </p>
-          <p style="font-size:13px;color:grey;" class="ml-1 mt-1">
-            {{ "| 320 orders" }}
-          </p> -->
           </v-img>
         </v-carousel-item>
       </v-carousel>
@@ -763,7 +757,7 @@
             readonly
             half-increments
             hover
-            size="25"
+            size="18"
           ></v-rating>
           <p style="font-size:25px;color:grey;" class="ml-1">
             {{ averageRating }}
@@ -936,12 +930,12 @@
           </v-avatar>
           {{ rev.user.username }}
           <v-row class="ma-0">
-            <v-rating color="green" size="x-small" :value="rev.rate"></v-rating>
+            <v-rating color="green" size="20" :value="rev.rate"></v-rating>
             {{ rev.comment }}
           </v-row>
         </div>
         <h3>Review</h3>
-        <v-rating v-model="rev" size="small"></v-rating>
+        <v-rating v-model="rev" size="30"></v-rating>
         <v-textarea
           outlined
           v-model="com"
@@ -985,18 +979,12 @@
               >{{ following ? "Following" : "+ Follow" }}</v-btn
             >
             <v-btn
-              class="mx-1 btn"
-              dark
-              color="#09b750"
-              elevation="0"
+              class="btn mx-1"
               rounded
-              small
-              :href="
-                product.vendor.domain
-                  ? `${product.vendor.domain}`
-                  : `${product.supplierDomain}`
-              "
-              >Visit Store</v-btn
+              elevation="0"
+              color="success"
+              :href="`/messages`"
+              >Chat Now</v-btn
             >
           </v-col>
         </v-row>
