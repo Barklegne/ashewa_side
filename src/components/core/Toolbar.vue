@@ -420,6 +420,19 @@
             $t(`toolbar.${item.title}`)
           }}</v-list-item-content>
         </v-list-item>
+        
+    
+ 
+         <v-select
+          :items="currency"
+          item-text="lang"
+          :value="lang"
+          label="Currency"
+          solo
+          @click="switchCurrency(lang)"
+          class="ma-2"
+
+        ></v-select>
 
         <v-list-group v-if="admin" prepend-icon="mdi-lock" no-action>
           <v-list-item slot="activator" class="pl-0">
@@ -458,6 +471,7 @@
           <v-icon>mdi-weather-night</v-icon>
         </v-list-item>
       </v-list>
+      
     </v-navigation-drawer>
   </div>
 </template>
