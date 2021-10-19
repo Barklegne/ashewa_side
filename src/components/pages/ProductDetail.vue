@@ -703,7 +703,11 @@
             <v-slide-group v-model="model" class="pt-2">
               <v-slide-item class="mr-5">
                 <div>
-                  <v-btn class="ma-2" outlined color="#43DB08"
+                  <v-btn class="ma-2" outlined color="#43DB08" :href="
+                      product.vendor.domain
+                        ? `${product.vendor.domain}`
+                        : `${product.supplierDomain}`
+                    "
                     ><v-icon>mdi-store-outline</v-icon>
                     visit store
                   </v-btn>
@@ -733,9 +737,13 @@
               <v-slide-item class="mr-5">
                 <div>
                   <div class="text-center">
-                    <v-btn rounded color="#43DB80" dark>
+                    <v-btn rounded color="#43DB80" dark 
+                    :outlined="!following"
+                    @click="addFollower"
+                   >
+
                       <v-icon>mdi-account-check-outline</v-icon>
-                      Follow
+                     {{ following ? "Following" : "+ Follow" }}
                     </v-btn>
                   </div>
                 </div>

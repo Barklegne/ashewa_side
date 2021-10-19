@@ -33,18 +33,37 @@
         ></v-card-title>
       </v-img>
     </v-card>
-    <v-card class="hidden-lg-and-up" width="150" height="100">
+ <v-card
+      class="hidden-md-and-down"
+      :width="width ? width : ''"
+      :height="width ? width - 50 : ''"
+    >
       <v-img
         :src="image[0] == 'h' ? image : `http://api.ashewa.com/media/${image}`"
         class="white--text align-end"
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-        width="150"
-        height="100"
+        :width="width ? width : ''"
+        :height="width ? width - 50 : ''"
       >
         <v-card-title
           class="text-md-h6 text-subtitle-2"
           v-text="title"
         ></v-card-title>
+      </v-img>
+    </v-card>
+    <v-card class="hidden-lg-and-up my-7 mr-3" width="100%" height="160">
+      <v-img
+        :src="image[0] == 'h' ? image : `http://api.ashewa.com/media/${image}`"
+        class="white--text align-end"
+        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.2)"
+    height="200px"        
+       
+      >
+        <v-card-title
+          class="text-md-h6 mb-0 text-subtitle-3  align-content-lg-start"
+          v-text="title"
+        >
+        </v-card-title>
       </v-img>
     </v-card>
   </div>

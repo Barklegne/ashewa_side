@@ -1,15 +1,25 @@
 <template>
-  <div v-if="productImages.length > 0" class="mr-3 mb-3">
+  <div
+    v-if="productImages.length > 0"
+    class="mr-3 mb-3 white"
+    style="background-color:#FFFFFF"
+  >
     <!-- :src="`http://188.166.153.99/media/${productImages[0].image}`" -->
-    <v-card flat @mouseenter="mo = true" @mouseleave="mo = false" class="pa-1">
-      <v-card>
+    <v-card
+      flat
+      @mouseenter="mo = true"
+      @mouseleave="mo = false"
+      class=" white  rounded-lg my-5"
+      :elevation="hover ? 20 : 6"
+    >
+      <v-card class="white">
         <v-img
           :src="
             productImages[0].image[0] == 'h'
               ? productImages[0].image
               : `http://api.ashewa.com/media/${productImages[0].image}`
           "
-          class="white--text align-start text-start"
+          class="white--text align-start text-start  rounded-lg"
           aspect-ratio="1.0"
           @click="
             $router.push({
@@ -17,7 +27,7 @@
             })
           "
         >
-          <v-chip x-small class="ma-1 pa-2" color="white">
+          <v-chip x-small class="ma-2 pa-2" color="white">
             <v-rating
               v-if="productrateSet.length > 0"
               :value="averageRating"
@@ -51,19 +61,19 @@
         </v-img>
       </v-card>
       <p
-        style="font-size:14px;color:#aaa"
-        class="ma-0 pa-0 ml-1 mt-2 text-start"
+        style="font-size:14px;color:#000000"
+        class="ma-0 pa-0 ml-3 mt-2 text-start"
       >
         {{
           productName.length > 19
             ? `${productName.slice(0, 16)}...`
-            : productName
+            : productName.charAt(0).toUpperCase() + productName.slice(1).toLowerCase()
         }}
       </p>
       <v-row>
         <v-col cols="6">
           <v-card-title
-            class="text-md-h6 ma-0 pa-0 pl-1 text-subtitle-1 "
+            class="text-md-h6 ma-0 pa-0 pl-1  ml-3 text-subtitle-1 "
             style="font-size:12px;font-weight:550;color:#09B750"
             >{{ sellingPrice - 1 }}<sub>.99 ETB </sub>
           </v-card-title>
@@ -88,21 +98,7 @@
                 ></v-btn
               ></v-col
             >
-            <!-- <v-col cols="4"
-              ><v-btn
-                @click="
-                  $router.push({
-                    path: `/ProductDetails/${productId}`,
-                  })
-                "
-                icon
-                class="hover-icon"
-                style=""
-                ><v-icon size="21" style="color:#09B750;"
-                  >mdi-eye-outline</v-icon
-                ></v-btn
-              ></v-col
-            > -->
+         
             <v-col cols="6"
               ><v-btn
                 @click="
@@ -122,59 +118,11 @@
               ></v-col
             >
 
-            <!-- <v-icon size="21" style="color:#09B750;">mdi-heart-outline</v-icon>
-            <v-icon size="21" style="color:#09B750;">mdi-cart-outline</v-icon> -->
           </v-row>
         </v-col>
       </v-row>
       <v-divider v-if="false"></v-divider>
-      <!-- <v-row v-if="false" class="mt-1 mb-2" justify="center">
-        <v-btn
-          @click="
-            addToCart({
-              image: productImages[0].image,
-              price: sellingPrice,
-              title: productName,
-              id: productId,
-              category: productCategory.categoryName,
-            })
-          "
-          icon
-          class="hover-icon"
-          style=""
-          ><v-icon small>mdi-cart-outline</v-icon></v-btn
-        >
-
-        <v-btn
-          @click="
-            $router.push({
-              path: `/ProductDetails/${productId}`,
-            })
-          "
-          icon
-          class="hover-icon"
-          style=""
-          ><v-icon small>mdi-eye-outline</v-icon></v-btn
-        >
-        <v-btn
-          @click="
-            addToWish({
-              image: productImages[0].image,
-              price: sellingPrice,
-              title: productName,
-              id: productId,
-              category: productCategory.categoryName,
-            })
-          "
-          icon
-          class="hover-icon"
-          style=""
-          ><v-icon small>mdi-heart-outline</v-icon></v-btn
-        >
-        <v-btn icon class="hover-icon" style=""
-          ><v-icon small>mdi-chart-box-outline</v-icon></v-btn
-        >
-      </v-row> -->
+    
     </v-card>
   </div>
 </template>

@@ -14234,6 +14234,11 @@ vue-google-autocomplete@^1.1.2:
   resolved "https://registry.yarnpkg.com/vue-google-autocomplete/-/vue-google-autocomplete-1.1.2.tgz#27c1368262df8a1e047bdc6ce33fe1161f578688"
   integrity sha512-9Ow72rBSyTiNLMXLhT6dOPrJk8u02ZKFLatYvlP12c6wc2pJg4H+R7LLcrLdGDtJydId0GngBfeGCeakt/9zlQ==
 
+vue-gtag@^1.16.1:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/vue-gtag/-/vue-gtag-1.16.1.tgz#edb2f20ab4f6c4d4d372dfecf8c1fcc8ab890181"
+  integrity sha512-5vs0pSGxdqrfXqN1Qwt0ZFXG0iTYjRMu/saddc7QIC5yp+DKgjWQRpGYVa7Pq+KbThxwzzMfo0sGi7ISa6NowA==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
@@ -14263,6 +14268,13 @@ vue-loader@^15.7.0, vue-loader@^15.9.2:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
+
+vue-long-click@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/vue-long-click/-/vue-long-click-0.1.0.tgz#e56fc94b33dccf8bffcf314a16341fbd311722a7"
+  integrity sha512-PNeVTwPmAlbsyPU46cSJBmpYIAxiMxlIw8rbumUm9Av/GiC15bw1KDPMckr8gsfEmwfloowdRfxtY9IY7ptzbw==
+  dependencies:
+    vue "^2.5.22"
 
 vue-material-design-icons@^4.4.0:
   version "4.12.1"
@@ -14408,7 +14420,7 @@ vue2-google-maps@^0.10.7:
     babel-runtime "^6.26.0"
     marker-clusterer-plus "^2.1.4"
 
-vue@^2.0.1, vue@^2.5.16, vue@^2.5.17, vue@^2.5.21, vue@^2.6.10, vue@^2.6.11:
+vue@^2.0.1, vue@^2.5.16, vue@^2.5.17, vue@^2.5.21, vue@^2.5.22, vue@^2.6.10, vue@^2.6.11:
   version "2.6.14"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==

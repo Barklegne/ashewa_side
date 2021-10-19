@@ -165,7 +165,6 @@ export default {
   methods: {
     async getSubCat(id) {
       await this.$store.dispatch("getSubCat", id);
-      
     },
   },
   computed: {

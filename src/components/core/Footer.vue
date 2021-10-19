@@ -288,7 +288,8 @@
     <!-- footer home... -->
     <v-footer
       v-if="route.name != 'ProductDetails'"
-      style="border:1px solid grey "
+      style="border:1px none; background-color:white; "
+      
       class="py-2 hidden-lg-and-up"
       height="60"
       fixed
@@ -305,15 +306,15 @@
         class="text-center"
       >
         <v-icon
-          :color="route.path == item.path ? '#43DB80' : '#383737'"
+          :color="route.path == item.path ? '#66DC81' : '#383737'"
           style="font-size:32px"
           x-large
-          >{{ item.icon }}</v-icon
+          > {{ item.path == '/allCategories' ? item.icon : route.path == item.path ?  item.icon : `${item.icon}-outline`}}</v-icon
         >
         <p
           :style="
             route.path == item.path
-              ? 'font-size:12px;color:#43DB80'
+              ? 'font-size:16px;color:#66DC81;'
               : 'font-size:12px;color:#383737'
           "
           class="text-center"
@@ -378,7 +379,7 @@ export default {
       footerAll: [
         {
           path: "/",
-          icon: "mdi-home-outline",
+          icon: "mdi-home",
           name: "Home",
         },
         {
@@ -387,19 +388,21 @@ export default {
           name: "Category",
         },
         {
-          path: "/messages",
-          icon: "mdi-chat-processing-outline",
-          name: "Messages",
+          path: "/sellOnAshewa",
+          icon: "mdi-basket",
+          name: "Sell On Ashewa",
         },
+
         {
           path: "/cart",
-          icon: "mdi-cart-outline",
+          icon: "mdi-cart",
           name: "Cart",
         },
+
         {
-          path: "/profile",
-          icon: "mdi-account-outline",
-          name: "Account",
+          path: "/messages",
+          icon: "mdi-chat-processing",
+          name: "Messages",
         },
       ],
       mobileFooter: [
