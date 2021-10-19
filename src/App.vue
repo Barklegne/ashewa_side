@@ -127,9 +127,9 @@ export default {
     };
   },
   mounted() {
-    setTimeout(() => {
-      this.$router.push("/comingSoon");
-    }, 3000000);
+    // setTimeout(() => {
+    //   this.$router.push("/comingSoon");
+    // }, 3000000);
   },
   metaInfo() {
     return {

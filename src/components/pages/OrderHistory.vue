@@ -7,8 +7,8 @@
         </v-chip>
       </template>
       <template v-slot:[`item.paid`]="{ item }">
-        <v-chip label :color="getColor(item.status)" dark>
-          {{ item.status }}
+        <v-chip label :color="getColor(item.paid)" dark>
+          {{ item.paid }}
         </v-chip>
       </template>
     </v-data-table>
@@ -61,7 +61,7 @@ export default {
       return this.p;
     },
     dataO() {
-      const orders = this.$store.state.cart.getOrderHistory.map((item) => {
+      const orders = this.$store.state.cart.orderHistory.map((item) => {
         return {
           id: item.id,
           productId: Object.keys(JSON.parse(item.productIds)),
@@ -82,7 +82,7 @@ export default {
       else if (status == "PENDING") return "orange";
       else if (status == true) return "green";
       else if (status == false) return "red";
-      else return "orange";
+      else return "red";
     },
   },
 };

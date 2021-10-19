@@ -241,6 +241,182 @@ const actions = {
         handleError(error, commit, resp);
       });
   },
+  async getNewArrivals({ commit }) {
+    commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .query({
+        query: gql`
+        {
+          newArrivalsPaginated{
+            objects{
+               name
+                        
+            id
+            image
+            productpriceoptionSet {
+              id
+              quantity
+              discount
+            }
+            productrateSet {
+              id
+              user {
+                username
+                id
+              }
+              rate
+              comment
+            }
+            productcolorSet {
+              id
+              name
+              image
+              productsizeSet {
+                id
+                name
+                quantity
+              }
+            }
+            supplierDomain
+            vendor {
+              domain
+              storeName
+              id
+              phone
+              followerSet {
+                user {
+                  id
+                }
+                id
+              }
+              
+              
+            }
+            sellingPrice
+            productimageSet {
+              image
+            }
+            discount
+            description
+            category {
+              id
+              name
+              image
+              subcategorySet {
+                name
+                id
+              }
+            }
+            subcategory {
+              id
+              name
+            }
+            }
+          }
+        }
+        `,
+      })
+      .then((response) => {
+        commit(types.SHOW_LOADING, false);
+        console.log(response.data.newArrivalsPaginated.objects);
+        commit(
+          types.SAVE_NEW_ARRIVAL,
+          response.data.newArrivalsPaginated.objects
+        );
+        // commit(types.SAVE_TOKEN, response.data.tokenAuth.token);
+      })
+      .catch((error) => {
+        handleError(error, commit, resp);
+      });
+  },
+  async getBestProducts({ commit }) {
+    commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .query({
+        query: gql`
+        {
+          filterProducts(filter:{startPrice:500}){
+           objects{
+                name
+                         
+             id
+             image
+             productpriceoptionSet {
+               id
+               quantity
+               discount
+             }
+             productrateSet {
+               id
+               user {
+                 username
+                 id
+               }
+               rate
+               comment
+             }
+             productcolorSet {
+               id
+               name
+               image
+               productsizeSet {
+                 id
+                 name
+                 quantity
+               }
+             }
+             supplierDomain
+             vendor {
+               domain
+               storeName
+               id
+               phone
+               followerSet {
+                 user {
+                   id
+                 }
+                 id
+               }
+               
+               
+             }
+             sellingPrice
+             productimageSet {
+               image
+             }
+             discount
+             description
+             category {
+               id
+               name
+               image
+               subcategorySet {
+                 name
+                 id
+               }
+             }
+             subcategory {
+               id
+               name
+             }
+             }
+         }
+         }
+        `,
+      })
+      .then((response) => {
+        commit(types.SHOW_LOADING, false);
+        console.log(response.data.filterProducts.objects);
+        commit(
+          types.SAVE_BEST_PRODUCTS,
+          response.data.filterProducts.objects
+        );
+        // commit(types.SAVE_TOKEN, response.data.tokenAuth.token);
+      })
+      .catch((error) => {
+        handleError(error, commit, resp);
+      });
+  },
   async getAProduct({ commit }, id) {
     commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
@@ -250,6 +426,7 @@ const actions = {
             
               getProductsById(id: "${id.id}") {
                 name
+                
     id
     image
     productpriceoptionSet {
@@ -281,6 +458,7 @@ const actions = {
       domain
       storeName
       id
+      phone
       followerSet {
         user {
           id
@@ -396,6 +574,11 @@ const actions = {
         handleError(error, commit, resp);
       });
   },
+  setCurrency({ commit }, payload) {
+    commit(types.SUCCESS, null);
+    commit(types.ERROR, null);
+    commit(types.CHANGE_CURRENCY, payload);
+  },
   async filterProducts({ commit }, payload) {
     const resp = await apolloClient
       .query({
@@ -467,10 +650,23 @@ const mutations = {
   [types.GET_RELATED_PRODUCT](state, products) {
     state.relatedProducts = products;
   },
+  [types.CHANGE_CURRENCY](state,value){
+    state.currency = value
+  },
+  [types.SAVE_NEW_ARRIVAL](state,value){
+    state.newArrivals = value
+  },
+  [types.SAVE_BEST_PRODUCTS](state,value){
+    state.bestProducts = value
+  }
+  
 };
 
 const state = {
   products: [],
+  newArrivals:[],
+  bestProducts:[],
+  currency:"ETB",
   vis: false,
   email: "",
   relatedProducts: [],

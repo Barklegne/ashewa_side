@@ -16,20 +16,21 @@ const actions = {
     commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
       .query({
-        query: gql`
+        query: gql`{
           orderHistory{
             id
             price
             productIds
             paid
             reference
+            status
             deliveryOption{
               provider{
                 name
                 phone
               }   
             }
-          }
+          }}
         `,
       })
       .then((res) => {
@@ -191,7 +192,33 @@ const actions = {
             .catch((error) => {
               handleError(error, ctx.commit, res);
             });
-        } else if (value.payment === "Hello Cash") {
+        }
+        else if (value.payment === "Telebirr") {
+          const res = await apolloClient
+            .mutate({
+              mutation: gql`
+              mutation {
+                createTeleBirrTransaction(
+                  orderId: "${r.data.checkoutOrder.payload.order.id}"
+                ) {
+                  payload
+                }
+              }
+            `,
+            })
+            .then((response) => {
+              ctx.commit(types.SHOW_LOADING, false);
+              console.log(response.data.createTeleBirrTransaction.payload);
+              ctx.commit(types.CHECKOUT_SUCCESS, {
+                a: r.data.checkoutOrder.payload.order.reference,
+                m: response.data.createTeleBirrTransaction.payload,
+              });
+            })
+            .catch((error) => {
+              handleError(error, ctx.commit, res);
+            });
+        }
+        else if (value.payment === "Hello Cash") {
           console.log(`mutation{
             createHelloCashTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}", phone: "${value.phone}"){
               payload{

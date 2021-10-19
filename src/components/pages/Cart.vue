@@ -130,9 +130,13 @@
               : `Delivery Reference Number : ${text.a}`
           }}
         </h2>
-        <h3>
+        <h3 v-if="payment === 'BOA'">
           Dear customer, in order to proceed with your payment, press continue
           and you will be redirected to official BOA billing page
+        </h3>
+        <h3 v-if="payment === 'Telebirr'">
+          Dear customer, in order to proceed with your payment, press continue
+          and you will be redirected to official Telebirr billing page
         </h3>
         <form
           v-if="payment === 'BOA'"
@@ -226,7 +230,33 @@
             </v-col>
           </v-row>
         </form>
-        <v-row v-if="payment != 'BOA'" justify="end">
+        
+
+          <v-row v-if="payment === 'Telebirr'">
+            <v-col>
+              <v-btn
+                class="btn btn-danger float-right"
+                color="#09b750"
+                dark
+                :href="text.m"
+                
+              >
+                Continue
+              </v-btn>
+            </v-col>
+            <v-col>
+              <v-btn
+                @click="clearSuccess"
+                color="error"
+                type="button"
+                class="btn btn-danger mx-4"
+              >
+                Cancel
+              </v-btn>
+            </v-col>
+          </v-row>
+      
+        <v-row v-if="payment != 'BOA' && payment != 'Telebirr' " justify="end">
           <v-col cols="4">
             <v-btn class="pa-5 my-5" color="error" @click="clearSuccess">
               Cancel
@@ -322,7 +352,7 @@
           solo
           flat
           placeholder="Please select a payment method"
-          :items="['BOA', 'Hello Cash', 'Mbirr', 'Bank Payment']"
+          :items="['BOA', 'Hello Cash', 'Mbirr', 'Bank Payment','Telebirr']"
           v-model="payment"
         ></v-select>
         <v-row justify="center">
