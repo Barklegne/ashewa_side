@@ -422,7 +422,11 @@
                   "
                   >Make Offer</v-btn
                 >
-                <a href="tel:8665562570">Call us at 866-556-2570</a>
+                <v-btn elevation="0"
+                  color="btn"
+                  class="mr-2"
+                  style="background-color:white;color:#09b750;border:1px solid #09b750;" :href="product.vendor.phone ?`tel:${product.vendor.phone}` : 'tel:093 252 5252'">Call Now</v-btn>
+                <!-- <a href="tel:8665562570">Call Now</a> -->
                 <v-btn
                   elevation="0"
                   color="btn"

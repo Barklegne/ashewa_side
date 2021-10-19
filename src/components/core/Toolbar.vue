@@ -294,6 +294,27 @@
           <v-col>
             <LocaleChanger></LocaleChanger>
           </v-col>
+          <v-col>
+            <v-menu v-model="showMenu" offset-y>
+    <template v-slot:activator="{ on }">
+      <v-btn style="" class="btnLocaleActivation" color="black" v-on="on" text>
+        Currency
+      </v-btn>
+    </template>
+    <v-list>
+      <v-list-item
+        active-class="white--text"
+        v-for="(item, i) in currency"
+        :key="`Lang${i}`"
+        :value="item.lang"
+        @click="switchCurrency(item.lang)"
+        :class="[item.class]"
+      >
+        <v-list-item-title class="ml-3">{{ item.name }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
+          </v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -506,6 +527,20 @@ export default {
         { name: "Profile", link: "/profile" },
         { name: "Logout", link: "/login" },
       ],
+      currency: [
+        {
+          lang: "ETB",
+          flag: "gb",
+          name: "ETB",
+          class: "btnEN",
+        },
+        {
+          lang: "USD",
+          flag: "et",
+          name: "USD",
+          class: "btnEN",
+        },
+      ],
       links: [
         { name: "HOME", path: "/" },
         { name: "SERVICES", path: "/services" },
@@ -622,6 +657,11 @@ export default {
     userLogout() {
       this.$store.dispatch("userLogout");
     },
+    
+    switchCurrency(lang) {
+      this.$store.dispatch("setCurrency", lang);
+    },
+  
     startSpeechToTxt() {
       // initialisation of voicereco
       this.recording = true;

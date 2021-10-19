@@ -46,7 +46,17 @@ export default {
   watch: {
     error() {
       setTimeout(() => {
-        this.showErrorMessage = this.error !== null;
+        if(this.error !== null){
+          if(this.error[0] !== "errors.SERVER_TIMEOUT_CONNECTION_ERROR")
+          {
+            this.showErrorMessage = this.error !== null;
+          }
+          else{
+          this.showErrorMessage = false;}
+        }
+        else{
+          this.showErrorMessage = false;}
+        
       }, 100);
     },
   },

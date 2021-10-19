@@ -1,5 +1,6 @@
 <template>
   <div v-if="productImages.length > 0">
+    
     <v-card
       :color="$vuetify.theme.dark ? '#121212' : ''"
       elevation="0"
@@ -292,6 +293,9 @@ export default {
   computed: {
     totalWishList() {
       return this.$store.getters.totalWishList;
+    },
+    currency(){
+      return this.$store.state.product.currency
     },
     averageRating() {
       if (this.productrateSet.length === 1) {

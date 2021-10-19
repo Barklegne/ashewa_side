@@ -140,13 +140,14 @@
                     style="font-size:18px;font-weight:600"
                     class="text-start pl-3 white--text pl-1 mb-1"
                   >
-                    Our Courses
+                    Products
                   </p>
                   <v-list-item-group>
                     <v-list-item
                       style="min-height:30px"
-                      v-for="(item, i) in courses"
+                      v-for="(item, i) in products"
                       :key="i"
+                      :to="item.link"
                     >
                       <v-list-item-content class="py-0">
                         <v-list-item-title
@@ -154,7 +155,7 @@
                             class="text-start mb-0"
                             style="font-size:13px;font-weight:400"
                           >
-                            {{ item }}
+                            {{ item.name }}
                           </p>
                         </v-list-item-title>
                       </v-list-item-content>
@@ -334,11 +335,9 @@ export default {
         "https://t.me/ashewatechnologies",
         "https://instagram.com/ashewagroup",
       ],
-      courses: [
-        "Digital Marketing",
-        "Web Designer",
-        "MLM Trainings",
-        "Personal Development",
+      products: [
+        {name:"New Arrival",link:"NewArrivals"},
+        {name:"Promoted Products",link:"BestProducts"}
       ],
       about: [
         {
@@ -400,24 +399,17 @@ export default {
       ],
       mobileFooter: [
         {
-          title: "Our Courses",
+          title: "Products",
           subTitles: [
             {
-              name: "Digital Marketing",
+              name: "New Arrival",
               link: "",
             },
             {
-              name: "Web Designer",
+              name: "Promoted Products",
               link: "",
             },
-            {
-              name: "MLM Trainings",
-              link: "",
-            },
-            {
-              name: "Personal Development",
-              link: "",
-            },
+            
           ],
         },
         {

@@ -45,6 +45,7 @@ const actions = {
                   rate
                   comment
                 }
+                
                 productcolorSet {
                   id
                   name
