@@ -9,7 +9,7 @@
       <v-img
         width="50vw"
         style="margin:auto auto"
-        src="https://img.alicdn.com/tfs/TB1iqjLvpzqK1RjSZFoXXbfcXXa-360-360.png"
+        src="/images/no_message.png"
       ></v-img>
       <p class="ma-0 pa-0">No messages now</p>
       <p>Choose a product you like and contact the supplier</p>
