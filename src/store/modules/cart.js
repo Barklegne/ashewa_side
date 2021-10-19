@@ -218,6 +218,31 @@ const actions = {
               handleError(error, ctx.commit, res);
             });
         }
+        else if (value.payment === "PayPal") {
+          const res = await apolloClient
+            .mutate({
+              mutation: gql`
+              mutation {
+                createPaypalTransaction(
+                  orderId: "${r.data.checkoutOrder.payload.order.id}"
+                ) {
+                  payload
+                }
+              }
+            `,
+            })
+            .then((response) => {
+              ctx.commit(types.SHOW_LOADING, false);
+              console.log(response.data.createPaypalTransaction.payload);
+              ctx.commit(types.CHECKOUT_SUCCESS, {
+                a: r.data.checkoutOrder.payload.order.reference,
+                m: response.data.createPaypalTransaction.payload,
+              });
+            })
+            .catch((error) => {
+              handleError(error, ctx.commit, res);
+            });
+        }
         else if (value.payment === "Hello Cash") {
           console.log(`mutation{
             createHelloCashTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}", phone: "${value.phone}"){

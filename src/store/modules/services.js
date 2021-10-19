@@ -171,6 +171,64 @@ const actions = {
   },
   async getVendorProducts({ commit }, id) {
     commit(types.SHOW_LOADING, true);
+    console.log(`{
+      vendorProducts(vendorId: "${id}}") {
+        objects {
+          name
+          id
+          image
+          productpriceoptionSet {
+            id
+            quantity
+            discount
+          }
+          productrateSet {
+            id
+            user {
+              username
+              id
+            }
+            rate
+            comment
+          }
+          productcolorSet {
+            id
+            name
+            image
+            productsizeSet {
+              id
+              name
+              quantity
+            }
+          }
+          supplierDomain
+          vendor {
+            domain
+            storeName
+            id
+          }
+          sellingPrice
+          productimageSet {
+            image
+          }
+          discount
+          description
+          category {
+            id
+            name
+            image
+            subcategorySet {
+              name
+              id
+            }
+          }
+          subcategory {
+            id
+            name
+          }
+        }
+      }
+    }`)
     const resp = await apolloClient
       .query({
         query: gql`

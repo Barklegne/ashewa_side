@@ -8,7 +8,7 @@
       </template>
       <template v-slot:[`item.paid`]="{ item }">
         <v-chip label :color="getColor(item.paid)" dark>
-          {{ item.paid }}
+          {{ item.paid ? "Paid" : "Unpaid"}}
         </v-chip>
       </template>
     </v-data-table>

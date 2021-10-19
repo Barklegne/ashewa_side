@@ -51,6 +51,7 @@ export default {
   },
   methods: {
     searchBy(id) {
+      console.log("vendorId",id)
       this.$store.dispatch("getVendorProducts", id);
     },
   },
