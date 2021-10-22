@@ -65,7 +65,7 @@
                 <v-row>
                   <v-col class="my-0 py-0" cols="6">
                     <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
-                      First Name
+                      First Names
                     </p>
                     <v-text-field
                       background-color="#ebe9e9"
@@ -73,7 +73,7 @@
                       height="50"
                       solo
                       flat
-                      v-model="firstName"
+                      v-model="userData.firstName"
                       :value="userData.firstName"
                     ></v-text-field
                   ></v-col>
@@ -87,7 +87,7 @@
                       height="50"
                       solo
                       flat
-                      v-model="lastName"
+                      v-model="userData.lastName"
                       :value="userData.lastName"
                     ></v-text-field
                   ></v-col>
@@ -101,7 +101,7 @@
                       height="50"
                       solo
                       flat
-                      v-model="email"
+                      v-model="userData.email"
                       :value="userData.email"
                     ></v-text-field>
                   </v-col>

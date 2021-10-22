@@ -77,13 +77,15 @@
               <v-divider></v-divider>
               <v-row justify="space-between" class="ma-4">
                 <span>tax</span>
-                <span>{{ total * 0.15 }}</span>
+                <span>{{ (total * 0.15).toFixed(2) }}</span>
               </v-row>
               <v-divider></v-divider>
               <v-divider></v-divider>
               <v-row justify="space-between" class="ma-4">
                 <h3>Total</h3>
-                <h3 class="red--text">{{ total + total * 0.15 }} ETB</h3>
+                <h3 class="red--text">
+                  {{ (total + total * 0.15).toFixed(2) }} ETB
+                </h3>
               </v-row>
             </v-col>
           </v-row>
@@ -230,33 +232,31 @@
             </v-col>
           </v-row>
         </form>
-        
 
-          <v-row v-if="payment === 'Telebirr'">
-            <v-col>
-              <v-btn
-                class="btn btn-danger float-right"
-                color="#09b750"
-                dark
-                :href="text.m"
-                
-              >
-                Continue
-              </v-btn>
-            </v-col>
-            <v-col>
-              <v-btn
-                @click="clearSuccess"
-                color="error"
-                type="button"
-                class="btn btn-danger mx-4"
-              >
-                Cancel
-              </v-btn>
-            </v-col>
-          </v-row>
-      
-        <v-row v-if="payment != 'BOA' && payment != 'Telebirr' " justify="end">
+        <v-row v-if="payment === 'Telebirr'">
+          <v-col>
+            <v-btn
+              class="btn btn-danger float-right"
+              color="#09b750"
+              dark
+              :href="text.m"
+            >
+              Continue
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn
+              @click="clearSuccess"
+              color="error"
+              type="button"
+              class="btn btn-danger mx-4"
+            >
+              Cancel
+            </v-btn>
+          </v-col>
+        </v-row>
+
+        <v-row v-if="payment != 'BOA' && payment != 'Telebirr'" justify="end">
           <v-col cols="4">
             <v-btn class="pa-5 my-5" color="error" @click="clearSuccess">
               Cancel
@@ -287,6 +287,7 @@
               flat
               placeholder="Enter your address"
               v-model="address"
+              disabled
             >
             </v-text-field
           ></v-col>
@@ -352,7 +353,7 @@
           solo
           flat
           placeholder="Please select a payment method"
-          :items="['BOA', 'Hello Cash', 'Mbirr', 'Bank Payment','Telebirr']"
+          :items="['BOA', 'Hello Cash', 'Mbirr', 'Bank Payment', 'Telebirr']"
           v-model="payment"
         ></v-select>
         <v-row justify="center">

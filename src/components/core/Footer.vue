@@ -3,7 +3,7 @@
     <div>
       <!-- mobile footer -->
       <v-footer class="hidden-lg-and-up mb-16">
-        <v-row align="center" class="my-1 mx-2">
+        <v-row align="center" class="pb-2 my-1 mx-2">
           <v-text-field
             solo
             dense
@@ -286,7 +286,6 @@
     <v-footer
       v-if="route.name != 'ProductDetails'"
       style="border:1px none; background-color:white; "
-      
       class="py-2 hidden-lg-and-up"
       height="60"
       fixed
@@ -306,7 +305,14 @@
           :color="route.path == item.path ? '#66DC81' : '#383737'"
           style="font-size:32px"
           x-large
-          > {{ item.path == '/allCategories' ? item.icon : route.path == item.path ?  item.icon : `${item.icon}-outline`}}</v-icon
+        >
+          {{
+            item.path == "/allCategories"
+              ? item.icon
+              : route.path == item.path
+              ? item.icon
+              : `${item.icon}-outline`
+          }}</v-icon
         >
         <p
           :style="
@@ -337,8 +343,8 @@ export default {
         "https://instagram.com/ashewagroup",
       ],
       products: [
-        {name:"New Arrival",link:"NewArrivals"},
-        {name:"Promoted Products",link:"BestProducts"}
+        { name: "New Arrival", link: "NewArrivals" },
+        { name: "Promoted Products", link: "BestProducts" },
       ],
       about: [
         {
@@ -412,7 +418,6 @@ export default {
               name: "Promoted Products",
               link: "",
             },
-            
           ],
         },
         {

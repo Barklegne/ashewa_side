@@ -9,8 +9,9 @@
       flat
       @mouseenter="mo = true"
       @mouseleave="mo = false"
-      class=" white  rounded-lg my-5"
+      class=" white rounded-lg my-5"
       :elevation="hover ? 20 : 6"
+      background-color="#43DB80"
     >
       <v-card class="white">
         <v-img
@@ -67,7 +68,8 @@
         {{
           productName.length > 19
             ? `${productName.slice(0, 16)}...`
-            : productName.charAt(0).toUpperCase() + productName.slice(1).toLowerCase()
+            : productName.charAt(0).toUpperCase() +
+              productName.slice(1).toLowerCase()
         }}
       </p>
       <v-row>
@@ -98,7 +100,7 @@
                 ></v-btn
               ></v-col
             >
-         
+
             <v-col cols="6"
               ><v-btn
                 @click="
@@ -117,12 +119,10 @@
                 ></v-btn
               ></v-col
             >
-
           </v-row>
         </v-col>
       </v-row>
       <v-divider v-if="false"></v-divider>
-    
     </v-card>
   </div>
 </template>

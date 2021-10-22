@@ -422,10 +422,18 @@
                   "
                   >Make Offer</v-btn
                 >
-                <v-btn elevation="0"
+                <v-btn
+                  elevation="0"
                   color="btn"
                   class="mr-2"
-                  style="background-color:white;color:#09b750;border:1px solid #09b750;" :href="product.vendor.phone ?`tel:${product.vendor.phone}` : 'tel:093 252 5252'">Call Now</v-btn>
+                  style="background-color:white;color:#09b750;border:1px solid #09b750;"
+                  :href="
+                    product.vendor.phone
+                      ? `tel:${product.vendor.phone}`
+                      : 'tel:093 252 5252'
+                  "
+                  >Call Now</v-btn
+                >
                 <!-- <a href="tel:8665562570">Call Now</a> -->
                 <v-btn
                   elevation="0"
@@ -703,7 +711,11 @@
             <v-slide-group v-model="model" class="pt-2">
               <v-slide-item class="mr-5">
                 <div>
-                  <v-btn class="ma-2" outlined color="#43DB08" :href="
+                  <v-btn
+                    class="ma-2"
+                    outlined
+                    color="#43DB08"
+                    :href="
                       product.vendor.domain
                         ? `${product.vendor.domain}`
                         : `${product.supplierDomain}`
@@ -737,13 +749,15 @@
               <v-slide-item class="mr-5">
                 <div>
                   <div class="text-center">
-                    <v-btn rounded color="#43DB80" dark 
-                    :outlined="!following"
-                    @click="addFollower"
-                   >
-
+                    <v-btn
+                      rounded
+                      color="#43DB80"
+                      dark
+                      :outlined="!following"
+                      @click="addFollower"
+                    >
                       <v-icon>mdi-account-check-outline</v-icon>
-                     {{ following ? "Following" : "+ Follow" }}
+                      {{ following ? "Following" : "+ Follow" }}
                     </v-btn>
                   </div>
                 </div>
@@ -900,6 +914,21 @@
       </div>
       <v-divider></v-divider>
       <div class="mx-5 my-2 text-start">
+        <v-card-title>Price per Quantity</v-card-title>
+        <v-card class=" text-start" color="white" flat>
+          <v-simple-table style="border:1px solid black" dense>
+            <template v-slot:default>
+              <tbody>
+                <tr v-for="(item, i) in product.productpriceoptionSet" :key="i">
+                  <td style="background-color:#bbc4bdb4">
+                    {{ item.quantity }}
+                  </td>
+                  <td>{{ item.discount }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-card>
         <p class="mb-2 ">Specification</p>
         <v-card class="text-start" color="white" flat>
           <v-simple-table style="border:1px solid black" dense>
@@ -965,8 +994,8 @@
       </div>
       <v-divider></v-divider>
       <div class="mx-5 my-2 text-start">
-        <v-row align="center" justify="center">
-          <v-col cols="4">
+        <v-row cols="12">
+          <v-col cols="6">
             <p class="ma-0 pa-0" style="font-size:16px;font-weight:600">
               {{
                 product.vendor.storeName.charAt(0).toUpperCase() +
@@ -978,25 +1007,46 @@
               {{ followers }}
             </p>
           </v-col>
-          <v-col>
+          <v-col cols="2">
             <v-btn
-              class="mx-1 btn"
-              color="#09b750"
-              rounded
+              class="mx-2"
               elevation="0"
+              fab
               :outlined="!following"
               :dark="following"
               @click="following = !following"
               small
-              >{{ following ? "Following" : "+ Follow" }}</v-btn
+              ><v-icon>{{
+                following ? "mdi-minus" : "+ mdi-plus"
+              }}</v-icon></v-btn
             >
+          </v-col>
+          <v-col cols="2">
             <v-btn
-              class="btn mx-1"
-              rounded
+              class="mx-2"
               elevation="0"
-              color="success"
+              small
+              fab
+              dark
+              color="#43DB80"
               :href="`/messages`"
-              >Chat Now</v-btn
+              ><v-icon> mdi-message</v-icon></v-btn
+            >
+          </v-col>
+          <v-col cols="1">
+            <v-btn
+              class="mx-2"
+              elevation="0"
+              small
+              fab
+              dark
+              color="#43DB80"
+              :href="
+                product.vendor.phone
+                  ? `tel:${product.vendor.phone}`
+                  : 'tel:093 252 5252'
+              "
+              ><v-icon> mdi-phone</v-icon></v-btn
             >
           </v-col>
         </v-row>
