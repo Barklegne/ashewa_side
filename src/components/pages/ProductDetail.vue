@@ -422,10 +422,18 @@
                   "
                   >Make Offer</v-btn
                 >
-                <v-btn elevation="0"
+                <v-btn
+                  elevation="0"
                   color="btn"
                   class="mr-2"
-                  style="background-color:white;color:#09b750;border:1px solid #09b750;" :href="product.vendor.phone ?`tel:${product.vendor.phone}` : 'tel:093 252 5252'">Call Now</v-btn>
+                  style="background-color:white;color:#09b750;border:1px solid #09b750;"
+                  :href="
+                    product.vendor.phone
+                      ? `tel:${product.vendor.phone}`
+                      : 'tel:093 252 5252'
+                  "
+                  >Call Now</v-btn
+                >
                 <!-- <a href="tel:8665562570">Call Now</a> -->
                 <v-btn
                   elevation="0"
@@ -493,7 +501,7 @@
         </v-col>
       </v-row>
 
-      <div class="mb-10 py-10" style="background-color:#F2F2F2">
+      <!-- <div class="mb-10 py-10" style="background-color:#F2F2F2">
         <v-row class="mb-4">
           <v-spacer></v-spacer>
           <v-col cols="11">
@@ -586,9 +594,9 @@
           </v-col>
           <v-spacer></v-spacer>
         </v-row>
-      </div>
+      </div> -->
 
-      <p class="mx-5">Color</p>
+      <!-- <p class="mx-5">Color</p>
       <v-row justify="start" class="mx-5">
         <v-col
           class="pa-0 pt-2"
@@ -644,7 +652,7 @@
         <v-btn icon depressed @click="increment">
           <v-icon> mdi-plus-circle-outline </v-icon>
         </v-btn>
-      </v-row>
+      </v-row> -->
     </v-container>
 
     <div
@@ -703,7 +711,11 @@
             <v-slide-group v-model="model" class="pt-2">
               <v-slide-item class="mr-5">
                 <div>
-                  <v-btn class="ma-2" outlined color="#43DB08" :href="
+                  <v-btn
+                    class="ma-2"
+                    outlined
+                    color="#43DB08"
+                    :href="
                       product.vendor.domain
                         ? `${product.vendor.domain}`
                         : `${product.supplierDomain}`
@@ -737,13 +749,15 @@
               <v-slide-item class="mr-5">
                 <div>
                   <div class="text-center">
-                    <v-btn rounded color="#43DB80" dark 
-                    :outlined="!following"
-                    @click="addFollower"
-                   >
-
+                    <v-btn
+                      rounded
+                      color="#43DB80"
+                      dark
+                      :outlined="!following"
+                      @click="addFollower"
+                    >
                       <v-icon>mdi-account-check-outline</v-icon>
-                     {{ following ? "Following" : "+ Follow" }}
+                      {{ following ? "Following" : "+ Follow" }}
                     </v-btn>
                   </div>
                 </div>

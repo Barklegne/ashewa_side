@@ -55,7 +55,8 @@ export default {
           this.showErrorMessage = false;}
         }
         else{
-          this.showErrorMessage = false;}
+          this.showErrorMessage = false;
+          }
         
       }, 100);
     },

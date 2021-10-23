@@ -1,7 +1,7 @@
 <template>
   <v-app class="myFont">
-    <Toolbar />
-
+    <!-- <Toolbar /> -->
+    <TestToolbar />
     <v-dialog
       persistent
       v-model="vis"
@@ -98,7 +98,7 @@
         </v-row>
       </v-img>
     </v-dialog>
-    <v-main class="text-center">
+    <v-main style="background-color:#f2f7f4" class="text-center">
       <loading />
       <v-container class="pa-0  px-lg-10" fluid>
         <transition name="fade" mode="out-in">
@@ -111,9 +111,10 @@
 </template>
 
 <script>
-import Toolbar from "@/components/core/Toolbar.vue";
+// import Toolbar from "@/components/core/Toolbar.vue";
 import Loading from "@/components/core/Loading.vue";
 import Footer from "@/components/core/Footer.vue";
+import TestToolbar from "@/components/core/testToolbar.vue";
 
 export default {
   name: "Ashewa Market Place",
@@ -151,14 +152,15 @@ export default {
     };
   },
   components: {
-    Toolbar,
+    // Toolbar,
     Loading,
     Footer,
+    TestToolbar,
   },
   computed: {},
   created() {
     this.parentCats();
-    this.getAllProducts();
+    // this.getAllProducts();
   },
   methods: {
     addSubscriber() {
@@ -195,7 +197,7 @@ export default {
   background-color: #121212;
 }
 .lightB {
-  background-color: white;
+  background-color: #b5b5b5;
 }
 .myFont {
   font-family: "Nunito Sans";

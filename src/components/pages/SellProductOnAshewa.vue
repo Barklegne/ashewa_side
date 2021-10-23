@@ -19,9 +19,9 @@
           What is Seller Central?Once you register as an Ashewa seller, you’ll
           have access to your Seller Central account. Think of Seller Central as
           your go-to resource for selling on Ashewa. It’s a portal to your
-          Amazon business and a one-stop shop for managing your selling account,
+          Ashewa business and a one-stop shop for managing your selling account,
           adding product information, making inventory updates, managing
-          payments, and finding helpful content to help you navigate your Amazon
+          payments, and finding helpful content to help you navigate your Ashewa
           business. It’s also where you list all your products. Below are a just
           few of the things you can do from Seller Central. Keep track of your
           inventory and update your listings from the Inventory tab Download
@@ -34,9 +34,9 @@
       <v-div style="margin:auto auto;width:80%" class="text-start">
         <h2 class="ml-1 mb-2">Listing your first product</h2>
         <p>
-          To sell a product on Amazon, you must first create a product listing.
+          To sell a product on Ashewa, you must first create a product listing.
           Either match an existing listing (if somebody else is already selling
-          the same product on Amazon), or create a new listing (if you are the
+          the same product on Ashewa), or create a new listing (if you are the
           first or only seller).
         </p>
         <p>

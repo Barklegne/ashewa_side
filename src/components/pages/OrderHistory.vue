@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="dataO" :items-per-page="5">
+    <v-data-table class="ma-5" :headers="headers" :items="dataO" :items-per-page="5">
       <template v-slot:[`item.status`]="{ item }">
         <v-chip label :color="getColor(item.status)" dark>
           {{ item.status }}
@@ -32,7 +32,7 @@ export default {
           text: "Order ID",
           value: "id",
         },
-        { text: "Product", value: "productId" },
+        // { text: "Product", value: "productId" },
         { text: "Total Price (in Birr)", value: "totalPrice" },
         { text: "Status", value: "status" },
         //reference

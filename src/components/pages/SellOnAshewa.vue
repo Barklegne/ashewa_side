@@ -36,7 +36,7 @@
             <div><h3>Low Fees</h3></div>
             <v-card-text
               >It doesn’t take much to list your items and once you make a sale,
-              Martfury’s transaction fee is just 2.5%.</v-card-text
+              Ashewa's transaction fee is just 2.5%.</v-card-text
             >
           </v-card>
         </v-col>

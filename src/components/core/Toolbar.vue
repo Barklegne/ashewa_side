@@ -296,24 +296,32 @@
           </v-col>
           <v-col>
             <v-menu v-model="showMenu" offset-y>
-    <template v-slot:activator="{ on }">
-      <v-btn style="" class="btnLocaleActivation" color="black" v-on="on" text>
-        Currency
-      </v-btn>
-    </template>
-    <v-list>
-      <v-list-item
-        active-class="white--text"
-        v-for="(item, i) in currency"
-        :key="`Lang${i}`"
-        :value="item.lang"
-        @click="switchCurrency(item.lang)"
-        :class="[item.class]"
-      >
-        <v-list-item-title class="ml-3">{{ item.name }}</v-list-item-title>
-      </v-list-item>
-    </v-list>
-  </v-menu>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  style=""
+                  class="btnLocaleActivation"
+                  color="black"
+                  v-on="on"
+                  text
+                >
+                  Currency
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  active-class="white--text"
+                  v-for="(item, i) in currency"
+                  :key="`Lang${i}`"
+                  :value="item.lang"
+                  @click="switchCurrency(item.lang)"
+                  :class="[item.class]"
+                >
+                  <v-list-item-title class="ml-3">{{
+                    item.name
+                  }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-col>
         </v-row>
       </v-col>
@@ -420,10 +428,8 @@
             $t(`toolbar.${item.title}`)
           }}</v-list-item-content>
         </v-list-item>
-        
-    
- 
-         <v-select
+
+        <v-select
           :items="currency"
           item-text="lang"
           :value="lang"
@@ -431,7 +437,6 @@
           solo
           @click="switchCurrency(lang)"
           class="ma-2"
-
         ></v-select>
 
         <v-list-group v-if="admin" prepend-icon="mdi-lock" no-action>
@@ -471,7 +476,6 @@
           <v-icon>mdi-weather-night</v-icon>
         </v-list-item>
       </v-list>
-      
     </v-navigation-drawer>
   </div>
 </template>
@@ -673,11 +677,11 @@ export default {
     userLogout() {
       this.$store.dispatch("userLogout");
     },
-    
+
     switchCurrency(lang) {
       this.$store.dispatch("setCurrency", lang);
     },
-  
+
     startSpeechToTxt() {
       // initialisation of voicereco
       this.recording = true;
