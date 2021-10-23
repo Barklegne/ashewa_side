@@ -5,6 +5,7 @@
     style="background-color:#FFFFFF"
   >
     <!-- :src="`http://188.166.153.99/media/${productImages[0].image}`" -->
+    
     <v-card
       flat
       @mouseenter="mo = true"
@@ -77,7 +78,7 @@
           <v-card-title
             class="text-md-h6 ma-0 pa-0 pl-1  ml-3 text-subtitle-1 "
             style="font-size:12px;font-weight:550;color:#09B750"
-            >{{ sellingPrice - 1 }}<sub>.99 ETB </sub>
+            >{{currency === "USD" ?'$':"ETB"}} {{ currency === "USD" ? parseFloat(usdPrice).toFixed(2) : sellingPrice }}
           </v-card-title>
         </v-col>
         <v-col cols="6">
@@ -133,6 +134,9 @@ export default {
     totalWishList() {
       return this.$store.getters.totalWishList;
     },
+    currency(){
+      return this.$store.state.product.currency
+    },
     averageRating() {
       if (this.productrateSet.length === 1) {
         return this.productrateSet[0].rate;
@@ -158,6 +162,10 @@ export default {
       type: Object,
       required: true,
     },
+    usdPrice:{
+      type:String,
+      required: true
+    },
     sellingPrice: {
       type: Number,
       required: true,
@@ -170,6 +178,7 @@ export default {
       type: Array,
       required: true,
     },
+    
     productName: {
       type: String,
       required: true,

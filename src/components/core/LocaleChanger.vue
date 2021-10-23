@@ -1,9 +1,15 @@
 <template>
   <v-menu v-model="showMenu" offset-y>
     <template v-slot:activator="{ on }">
-      <v-btn style="" class="btnLocaleActivation" color="black" v-on="on" text>
+      <div
+        style="font-weight:600;cursor:pointer;color:black"
+        class="btnLocaleActivation text-center"
+        color="black"
+        v-on="on"
+        text
+      >
         {{ displayLocale == "en" ? "English" : "አማርኛ" }}
-      </v-btn>
+      </div>
     </template>
     <v-list>
       <v-list-item

@@ -97,4 +97,10 @@ export default [
     component: () =>
       import(/* webpackChunkName: "AboutBA" */ "@/components/pages/WhyUs.vue"),
   },
+  {
+    path: "/productFeatures",
+    name: "ProductFeatures",
+    component: () =>
+      import(/* webpackChunkName: "AboutBA" */ "@/components/pages/ProductFeatures.vue"),
+  },
 ];

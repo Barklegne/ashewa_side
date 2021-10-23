@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <v-row class="px-0 hidden-lg-and-up" justify="center"
       ><v-slide-group>
         <v-slide-item
@@ -59,6 +60,9 @@
       </v-col>
       <v-col>
         <v-row class="mb-10">
+          <div v-if="title == 'Order History'">
+          <OrderHistory></OrderHistory>
+          </div>
           <div style="width:100%" v-if="title == 'User Profile'">
             <v-row class="mt-10 mx-10 text-start" justify="space-around">
               <v-col cols="12" lg="6">
@@ -144,13 +148,13 @@
               </v-col>
             </v-row>
           </div>
-          <div v-if="title == 'Address'"></div>
+          
           <Cart
             title="Recent Viewed Products"
             col="11"
             v-if="title == 'Cart'"
           ></Cart>
-          <OrderHistory></OrderHistory>
+          
           <WishList col="11" v-if="title == 'Wishlist'"></WishList>
         </v-row>
       </v-col>
@@ -175,7 +179,7 @@ export default {
             password: this.user.password ? this.user.password : "",
             firstName: this.user.firstName ? this.user.firstName : "",
             lastName: this.user.lastName ? this.user.lastName : "",
-            email: this.user.lastName ? this.user.lastName : "",
+            email: this.user.email ? this.user.email : "",
           }
         : {
             profilePic: "",
@@ -185,6 +189,9 @@ export default {
             lastName: "",
           };
     },
+    firstName(){return this.userData.firstName},
+      lastName(){return this.userData.lastName},
+      email(){return this.userData.email},
   },
   components: {
     WishList,
@@ -244,10 +251,8 @@ export default {
         { title: "Wishlist", icon: "mdi-heart-outline" },
         { title: "Logout", icon: "mdi-logout" },
       ],
-      title: "Notifications",
-      firstName: "",
-      lastName: "",
-      email: "",
+      title: "Order History",
+      
     };
   },
 };

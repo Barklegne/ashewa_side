@@ -501,7 +501,7 @@
         </v-col>
       </v-row>
 
-      <div class="mb-10 py-10" style="background-color:#F2F2F2">
+      <!-- <div class="mb-10 py-10" style="background-color:#F2F2F2">
         <v-row class="mb-4">
           <v-spacer></v-spacer>
           <v-col cols="11">
@@ -594,9 +594,9 @@
           </v-col>
           <v-spacer></v-spacer>
         </v-row>
-      </div>
+      </div> -->
 
-      <p class="mx-5">Color</p>
+      <!-- <p class="mx-5">Color</p>
       <v-row justify="start" class="mx-5">
         <v-col
           class="pa-0 pt-2"
@@ -652,7 +652,7 @@
         <v-btn icon depressed @click="increment">
           <v-icon> mdi-plus-circle-outline </v-icon>
         </v-btn>
-      </v-row>
+      </v-row> -->
     </v-container>
 
     <div

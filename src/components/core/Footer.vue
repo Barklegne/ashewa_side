@@ -40,7 +40,16 @@
                   style="min-height:30px"
                   v-for="(item, i) in item.subTitles"
                   :key="i"
-                  :to="item.link"
+                  :href="
+                    item.link == 'https://retailer.ashewa.com/promotions'
+                      ? 'https://retailer.ashewa.com/promotions'
+                      : ''
+                  "
+                  :to="
+                    item.link == 'https://retailer.ashewa.com/promotions'
+                      ? ''
+                      : item.link
+                  "
                 >
                   <v-list-item-content class="py-0">
                     <v-list-item-title
@@ -147,7 +156,16 @@
                       style="min-height:30px"
                       v-for="(item, i) in products"
                       :key="i"
-                      :to="item.link"
+                      :href="
+                        item.link == 'https://retailer.ashewa.com/promotions'
+                          ? 'https://retailer.ashewa.com/promotions'
+                          : ''
+                      "
+                      :to="
+                        item.link == 'https://retailer.ashewa.com/promotions'
+                          ? ''
+                          : item.link
+                      "
                     >
                       <v-list-item-content class="py-0">
                         <v-list-item-title
@@ -345,6 +363,11 @@ export default {
       products: [
         { name: "New Arrival", link: "NewArrivals" },
         { name: "Promoted Products", link: "BestProducts" },
+        {
+          name: "Products Features",
+          link: "https://retailer.ashewa.com/promotions",
+        },
+        { name: "How to Sell", link: "productFeatures" },
       ],
       about: [
         {
@@ -410,14 +433,13 @@ export default {
         {
           title: "Products",
           subTitles: [
+            { name: "New Arrival", link: "NewArrivals" },
+            { name: "Promoted Products", link: "BestProducts" },
             {
-              name: "New Arrival",
-              link: "",
+              name: "Products Features",
+              link: "https://retailer.ashewa.com/promotions",
             },
-            {
-              name: "Promoted Products",
-              link: "",
-            },
+            { name: "How to Sell", link: "productFeatures" },
           ],
         },
         {

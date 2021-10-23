@@ -1,6 +1,6 @@
 <template>
   <div v-if="data.length > 0" class="mb-2">
-    <v-app-bar color="white" v-if="title != 'Deal of the day'" dense flat>
+    <v-app-bar color="#f2f7f4" v-if="title != 'Deal of the day'" dense flat>
       <v-toolbar-title class="hidden-md-and-down font-weight-bold"
         >{{ title }}
       </v-toolbar-title>
@@ -12,7 +12,7 @@
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-app-bar
-      color="white"
+      color="#f2f7f4"
       v-if="data.length > 0 && title == 'Deal of the day'"
       dense
       flat
@@ -41,6 +41,7 @@
             :productName="n.name"
             :productImages="n.productimageSet"
             :sellingPrice="n.sellingPrice"
+            :usdPrice="n.usdPrice"
             :productId="`${n.id}`"
             :productCategory="n.category"
             :description="n.description"
@@ -66,6 +67,7 @@
           :productName="n.name"
           :productImages="n.productimageSet"
           :sellingPrice="n.sellingPrice"
+          :usdPrice="n.usdPrice"
           :productId="`${n.id}`"
           :productCategory="n.category"
           :description="n.description"

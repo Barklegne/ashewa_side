@@ -140,6 +140,10 @@
           Dear customer, in order to proceed with your payment, press continue
           and you will be redirected to official Telebirr billing page
         </h3>
+        <h3 v-if="payment === 'PayPal'">
+          Dear customer, in order to proceed with your payment, press continue
+          and you will be redirected to official PayPal billing page
+        </h3>
         <form
           v-if="payment === 'BOA'"
           action="https://secureacceptance.cybersource.com/pay"
@@ -256,7 +260,34 @@
           </v-col>
         </v-row>
 
-        <v-row v-if="payment != 'BOA' && payment != 'Telebirr'" justify="end">
+        <v-row v-if="payment === 'PayPal'">
+          <v-col>
+            <v-btn
+              class="btn btn-danger float-right"
+              color="#09b750"
+              dark
+              :href="text.m"
+            >
+              Continue
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn
+              @click="clearSuccess"
+              color="error"
+              type="button"
+              class="btn btn-danger mx-4"
+            >
+              Cancel
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row
+          v-if="
+            payment != 'BOA' && payment != 'Telebirr' && payment != 'PayPal'
+          "
+          justify="end"
+        >
           <v-col cols="4">
             <v-btn class="pa-5 my-5" color="error" @click="clearSuccess">
               Cancel
@@ -353,7 +384,14 @@
           solo
           flat
           placeholder="Please select a payment method"
-          :items="['BOA', 'Hello Cash', 'Mbirr', 'Bank Payment', 'Telebirr']"
+          :items="[
+            'BOA',
+            'Hello Cash',
+            'Mbirr',
+            'Bank Payment',
+            'Telebirr',
+            'PayPal',
+          ]"
           v-model="payment"
         ></v-select>
         <v-row justify="center">

@@ -36,6 +36,7 @@ const actions = {
                 name
                 id
                 image
+                usdPrice
                 productrateSet {
                   id
                   user {
@@ -112,6 +113,7 @@ const actions = {
                 name
                 id
                 image
+                usdPrice
                 productrateSet{
                   id
                   user{
