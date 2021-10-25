@@ -3,7 +3,7 @@
     <div>
       <!-- mobile footer -->
       <v-footer class="hidden-lg-and-up mb-16">
-        <v-row align="center" class="my-1 mx-2">
+        <v-row align="center" class="pb-2 my-1 mx-2">
           <v-text-field
             solo
             dense

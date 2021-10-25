@@ -10,6 +10,7 @@
     "SERVICES": "News",
     "RETAILERS": "Retailers",
     "SUPPLIERS": "Suppliers",
+    "NEWS":"News",
     "SHOP BY CATEGORY": "Shop by Category"
   },
   "generalPolicy": {

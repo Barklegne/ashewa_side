@@ -327,7 +327,7 @@
       </v-col>
     </v-row>
     <v-row
-      class="ma-0 pa-0 hidden-lg-and-up"
+      class=" ma-0 pa-0 hidden-lg-and-up"
       style="height:60px;background-color:#43DB80"
     >
       <v-col cols="1" class="hidden-lg-and-up">
@@ -338,7 +338,7 @@
           ></v-app-bar-nav-icon>
         </span>
       </v-col>
-      <v-col cols="10">
+      <v-col class="" cols="10">
         <div class="dropDownM rounded-pill transparent">
           <v-text-field
             solo
@@ -346,7 +346,7 @@
             light
             height="40px"
             v-model="searchF"
-            placeholder="Search..."
+            placeholder="Search...."
             class="rounded-l-xl"
           ></v-text-field>
 
@@ -367,7 +367,7 @@
             size="34px"
             color="white"
             class="mr-2"
-            style="margin-top:-6px"
+            style="margin-top:-4px"
             flat
           >
             {{ recording ? "mdi-record" : "mdi-microphone" }}
@@ -429,16 +429,29 @@
           }}</v-list-item-content>
         </v-list-item>
 
+        <v-list-item v-if="isTokenSet" @click="userLogout">
+          <v-list-item-action>
+            <v-icon>mdi-exit-to-app</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            {{ $t("toolbar.LOGOUT") }}
+          </v-list-item-content>
+        </v-list-item>
+
         <v-select
           :items="currency"
           item-text="lang"
           :value="lang"
           label="Currency"
-          solo
+          :outlined="false"
           @click="switchCurrency(lang)"
-          class="ma-2"
+          class="ma-2 pa-3"
+          prepend-inner-icon="mdi-cash"
         ></v-select>
-
+        <v-row class="mx-2 px-2">
+          <v-icon>mdi-translate</v-icon>
+          <LocaleChanger class="ma-2 pa-3"></LocaleChanger>
+        </v-row>
         <v-list-group v-if="admin" prepend-icon="mdi-lock" no-action>
           <v-list-item slot="activator" class="pl-0">
             <v-list-item-content>
@@ -458,23 +471,14 @@
           </v-list-item>
         </v-list-group>
 
-        <v-list-item v-if="isTokenSet" @click="userLogout">
-          <v-list-item-action>
-            <v-icon>mdi-exit-to-app</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            {{ $t("toolbar.LOGOUT") }}
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item>
+        <!-- <v-list-item>
           <v-list-item-action></v-list-item-action>
           <v-icon>mdi-weather-sunny</v-icon>
           <v-list-item-action class="ml-2">
             <v-switch id="themeSwitcher" v-model="isDark" inset></v-switch>
           </v-list-item-action>
           <v-icon>mdi-weather-night</v-icon>
-        </v-list-item>
+        </v-list-item> -->
       </v-list>
     </v-navigation-drawer>
   </div>

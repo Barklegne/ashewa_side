@@ -5,13 +5,14 @@
     style="background-color:#FFFFFF"
   >
     <!-- :src="`http://188.166.153.99/media/${productImages[0].image}`" -->
-    
+
     <v-card
       flat
       @mouseenter="mo = true"
       @mouseleave="mo = false"
-      class=" white  rounded-lg my-5"
+      class=" white rounded-lg my-5"
       :elevation="hover ? 20 : 6"
+      background-color="#43DB80"
     >
       <v-card class="white">
         <v-img
@@ -21,6 +22,7 @@
               : `http://api.ashewa.com/media/${productImages[0].image}`
           "
           class="white--text align-start text-start  rounded-lg"
+          lazy-src="/img/icons/mobile-logo.png"
           aspect-ratio="1.0"
           @click="
             $router.push({
@@ -68,7 +70,8 @@
         {{
           productName.length > 19
             ? `${productName.slice(0, 16)}...`
-            : productName.charAt(0).toUpperCase() + productName.slice(1).toLowerCase()
+            : productName.charAt(0).toUpperCase() +
+              productName.slice(1).toLowerCase()
         }}
       </p>
       <v-row>
@@ -76,7 +79,12 @@
           <v-card-title
             class="text-md-h6 ma-0 pa-0 pl-1  ml-3 text-subtitle-1 "
             style="font-size:12px;font-weight:550;color:#09B750"
-            >{{currency === "USD" ?'$':"ETB"}} {{ currency === "USD" ? parseFloat(usdPrice).toFixed(2) : sellingPrice }}
+            >{{ currency === "USD" ? "$" : "ETB" }}
+            {{
+              currency === "USD"
+                ? parseFloat(usdPrice).toFixed(2)
+                : sellingPrice
+            }}
           </v-card-title>
         </v-col>
         <v-col cols="6">
@@ -99,7 +107,7 @@
                 ></v-btn
               ></v-col
             >
-         
+
             <v-col cols="6"
               ><v-btn
                 @click="
@@ -118,12 +126,10 @@
                 ></v-btn
               ></v-col
             >
-
           </v-row>
         </v-col>
       </v-row>
       <v-divider v-if="false"></v-divider>
-    
     </v-card>
   </div>
 </template>
@@ -134,8 +140,8 @@ export default {
     totalWishList() {
       return this.$store.getters.totalWishList;
     },
-    currency(){
-      return this.$store.state.product.currency
+    currency() {
+      return this.$store.state.product.currency;
     },
     averageRating() {
       if (this.productrateSet.length === 1) {
@@ -162,9 +168,9 @@ export default {
       type: Object,
       required: true,
     },
-    usdPrice:{
-      type:String,
-      required: true
+    usdPrice: {
+      type: String,
+      required: true,
     },
     sellingPrice: {
       type: Number,
@@ -178,7 +184,7 @@ export default {
       type: Array,
       required: true,
     },
-    
+
     productName: {
       type: String,
       required: true,
