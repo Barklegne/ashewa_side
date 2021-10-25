@@ -16,26 +16,39 @@ const actions = {
     commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
       .query({
-        query: gql`{
-          orderHistory{
-            id
-            price
-            productIds
-            paid
-            reference
-            status
-            deliveryOption{
-              provider{
-                name
-                phone
-              }   
+        query: gql`
+          {
+            orderHistory {
+              page
+              pages
+              objects {
+                id
+                price
+                products {
+                  id
+                  name
+                  productimageSet {
+                    image
+                  }
+                }
+                paid
+                reference
+                paymentMethod
+                status
+                deliveryOption {
+                  provider {
+                    name
+                    phone
+                  }
+                }
+              }
             }
-          }}
+          }
         `,
       })
       .then((res) => {
         commit(types.SHOW_LOADING, false);
-        commit(types.SET_ORDER_HISTORY, res.data.orderHistory);
+        commit(types.SET_ORDER_HISTORY, res.data.orderHistory.objects);
       })
       .catch((error) => {
         handleError(error, commit, resp);
@@ -157,7 +170,11 @@ const actions = {
           deliveryOption{
             provider{
               id
+              name
             }
+            totalDistance
+            estimatedTime
+            deliveryPrice
           }
         }
       }
@@ -168,6 +185,10 @@ const actions = {
         console.log(`
         ${r.data.checkoutOrder.payload.order.reference}
       `);
+        ctx.commit(
+          types.CHECKOUT_CREATED,
+          r.data.checkoutOrder.payload.deliveryOption
+        );
         if (value.payment === "BOA") {
           const res = await apolloClient
             .mutate({
@@ -192,8 +213,7 @@ const actions = {
             .catch((error) => {
               handleError(error, ctx.commit, res);
             });
-        }
-        else if (value.payment === "Telebirr") {
+        } else if (value.payment === "Telebirr") {
           const res = await apolloClient
             .mutate({
               mutation: gql`
@@ -217,8 +237,7 @@ const actions = {
             .catch((error) => {
               handleError(error, ctx.commit, res);
             });
-        }
-        else if (value.payment === "PayPal") {
+        } else if (value.payment === "PayPal") {
           const res = await apolloClient
             .mutate({
               mutation: gql`
@@ -242,8 +261,7 @@ const actions = {
             .catch((error) => {
               handleError(error, ctx.commit, res);
             });
-        }
-        else if (value.payment === "Hello Cash") {
+        } else if (value.payment === "Hello Cash") {
           console.log(`mutation{
             createHelloCashTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}", phone: "${value.phone}"){
               payload{
@@ -371,6 +389,9 @@ const mutations = {
       name: "landing",
     });
   },
+  [types.CHECKOUT_CREATED](state, value) {
+    state.deliveryInformation = { ...value };
+  },
   [types.CHECKOUT](state, value) {
     const str = JSON.parse(value);
     console.log(str, value);
@@ -418,6 +439,15 @@ const mutations = {
 const state = {
   test: "test",
   cartItems: [],
+  deliveryInformation: {
+    provider: {
+      id: "",
+      name: "",
+    },
+    totalDistance: "",
+    estimatedTime: "",
+    deliveryPrice: "",
+  },
   totalProducts: 8,
   deliveryItems: [],
   success: false,

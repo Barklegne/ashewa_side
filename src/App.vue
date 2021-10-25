@@ -1,7 +1,7 @@
 <template>
   <v-app class="myFont">
-    <!-- <Toolbar /> -->
-    <TestToolbar />
+    <Toolbar />
+    <!-- <TestToolbar /> -->
     <v-dialog
       persistent
       v-model="vis"
@@ -111,10 +111,10 @@
 </template>
 
 <script>
-// import Toolbar from "@/components/core/Toolbar.vue";
+import Toolbar from "@/components/core/Toolbar.vue";
 import Loading from "@/components/core/Loading.vue";
 import Footer from "@/components/core/Footer.vue";
-import TestToolbar from "@/components/core/testToolbar.vue";
+// import TestToolbar from "@/components/core/testToolbar.vue";
 
 export default {
   name: "Ashewa Market Place",
@@ -152,10 +152,10 @@ export default {
     };
   },
   components: {
-    // Toolbar,
+    Toolbar,
     Loading,
     Footer,
-    TestToolbar,
+    // TestToolbar,
   },
   computed: {},
   created() {
