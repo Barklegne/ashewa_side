@@ -12,6 +12,7 @@
               : `http://api.ashewa.com/media/${productImages[0].image}`
           "
           :height="height"
+          lazy-src="/img/icons/mobile-logo.png"
           class="white--text align-end"
           @click="
             $router.push({
