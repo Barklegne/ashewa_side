@@ -1,305 +1,294 @@
 <template>
   <div style="cursor:pointer" v-if="productImages.length > 0">
-    <v-hover v-slot="{ hover }" open-delay="200">
-      <v-card
-        :color="$vuetify.theme.dark ? '#121212' : '#f2f7f4'"
-        :elevation="hover ? 2 : 0"
-        :width="width"
-        ><v-img
-          :src="
-            productImages[0].image[0] == 'h'
-              ? productImages[0].image
-              : `http://api.ashewa.com/media/${productImages[0].image}`
-          "
-          :height="height"
-          lazy-src="/img/icons/mobile-logo.png"
-          class="white--text align-end"
+    <v-card
+      :color="$vuetify.theme.dark ? '#121212' : '#f2f7f4'"
+      :elevation="0"
+      :width="width"
+      ><v-img
+        :src="
+          productImages[0].image[0] == 'h'
+            ? productImages[0].image
+            : `http://api.ashewa.com/media/${productImages[0].image}`
+        "
+        :height="height"
+        class="white--text align-end"
+        @click="
+          $router.push({
+            path: `/ProductDetails/${productId}`,
+          })
+        "
+      >
+        <div style="background-color: rgba(0, 0, 0, 0.336);">
+          <v-rating
+            v-if="productrateSet.length > 0"
+            :value="averageRating"
+            readonly
+            background-color="green lighten-3"
+            color="#09B750"
+            x-small
+          ></v-rating>
+        </div>
+      </v-img>
+      <p class="overline ma-0 pa-0">{{ vendor.storeName }}</p>
+      <v-divider class="mb-2 pa-0"></v-divider>
+      <p class="h4 font-weight-bold ma-0" style="color:#09B750;">
+        {{ currency == "USD" ? "$" : "ETB" }}
+        {{
+          currency == "USD"
+            ? parseFloat(this.usdPrice).toFixed(2)
+            : sellingPrice
+        }}
+      </p>
+      <div>
+        <a
           @click="
             $router.push({
               path: `/ProductDetails/${productId}`,
             })
           "
+          class="subtitle-2"
+          style="text-decoration:none;"
+          >{{
+            productName.length > 21
+              ? `${productName.slice(0, 16)}...`
+              : productName
+          }}</a
         >
-          <div style="background-color: rgba(0, 0, 0, 0.336);">
-            <v-rating
-              v-if="productrateSet.length > 0"
-              :value="averageRating"
-              readonly
-              background-color="green lighten-3"
-              color="#09B750"
-              x-small
-            ></v-rating>
-          </div>
-        </v-img>
-        <p class="overline ma-0 pa-0">{{ vendor.storeName }}</p>
-        <v-divider class="mb-2 pa-0"></v-divider>
-        <p class="h4 font-weight-bold ma-0" style="color:#09B750;">
-          {{ currency === "USD" ? "$" : "ETB" }}
-          {{
-            currency === "USD"
-              ? parseFloat(this.usdPrice).toFixed(2)
-              : sellingPrice
-          }}
-        </p>
-        <div>
-          <a
-            @click="
-              $router.push({
-                path: `/ProductDetails/${productId}`,
-              })
-            "
-            class="subtitle-2"
-            style="text-decoration:none;"
-            >{{
-              productName.length > 21
-                ? `${productName.slice(0, 16)}...`
-                : productName
-            }}</a
-          >
-        </div>
+      </div>
 
-        <v-divider></v-divider>
-        <v-row class="mt-1" justify="center">
-          <v-btn
-            @click="
-              addToCart({
-                image: productImages[0].image,
-                price: sellingPrice,
-                title: productName,
-                id: `${productId}`,
-                category: productCategory.name,
-              })
-            "
-            icon
-            class="hover-icon"
-            style=""
-            ><v-icon small>mdi-cart-outline</v-icon></v-btn
-          >
-          <v-dialog v-model="dialog" max-width="1000px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn v-bind="attrs" v-on="on" icon class="hover-icon" style=""
-                ><v-icon small>mdi-eye-outline</v-icon></v-btn
-              >
-            </template>
-            <v-card style="padding-bottom:20px">
-              <v-row>
-                <v-col cols="12" md="5" class="my-4">
-                  <zoom-on-hover
-                    :img-normal="
-                      productImages[index].image[0] == 'h'
-                        ? productImages[0].image
-                        : `http://api.ashewa.com/media/${productImages[index].image}`
-                    "
-                    :img-zoom="
-                      productImages[index].image[0] == 'h'
-                        ? productImages[0].image
-                        : `http://api.ashewa.com/media/${productImages[index].image}`
-                    "
-                    style="max-width:400px"
-                    :scale="1.3"
-                  ></zoom-on-hover>
+      <v-divider></v-divider>
+      <v-row class="mt-1" justify="center">
+        <v-btn
+          @click="
+            addToCart({
+              image: productImages[0].image,
+              price: sellingPrice,
+              title: productName,
+              id: `${productId}`,
+              category: productCategory.name,
+            })
+          "
+          icon
+          class="hover-icon"
+          style=""
+          ><v-icon small>mdi-cart-outline</v-icon></v-btn
+        >
+        <v-dialog v-model="dialog" max-width="1000px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" icon class="hover-icon" style=""
+              ><v-icon small>mdi-eye-outline</v-icon></v-btn
+            >
+          </template>
+          <v-card style="padding-bottom:20px">
+            <v-row>
+              <v-col cols="12" md="5" class="my-4">
+                <zoom-on-hover
+                  :img-normal="
+                    productImages[index].image[0] == 'h'
+                      ? productImages[0].image
+                      : `http://api.ashewa.com/media/${productImages[index].image}`
+                  "
+                  :img-zoom="
+                    productImages[index].image[0] == 'h'
+                      ? productImages[0].image
+                      : `http://api.ashewa.com/media/${productImages[index].image}`
+                  "
+                  style="max-width:400px"
+                  :scale="1.3"
+                ></zoom-on-hover>
 
-                  <v-slide-group multiple show-arrows>
-                    <v-slide-item v-for="(n, i) in productImages" :key="n.id">
-                      <div
-                        :style="index == i ? 'border:3px solid green' : ''"
-                        class="ma-1"
-                        @click="toggle(i)"
-                      >
-                        <v-img
-                          height="50px"
-                          width="50px"
-                          :src="
-                            n.image[0] == 'h'
-                              ? n.image
-                              : `http://api.ashewa.com/media/${n.image}`
-                          "
-                        ></v-img>
-                      </div>
-                    </v-slide-item>
-                  </v-slide-group>
-                </v-col>
+                <v-slide-group multiple show-arrows>
+                  <v-slide-item v-for="(n, i) in productImages" :key="n.id">
+                    <div
+                      :style="index == i ? 'border:3px solid green' : ''"
+                      class="ma-1"
+                      @click="toggle(i)"
+                    >
+                      <v-img
+                        height="50px"
+                        width="50px"
+                        :src="
+                          n.image[0] == 'h'
+                            ? n.image
+                            : `http://api.ashewa.com/media/${n.image}`
+                        "
+                      ></v-img>
+                    </div>
+                  </v-slide-item>
+                </v-slide-group>
+              </v-col>
+              <v-col>
                 <v-col>
-                  <v-col>
-                    <v-row justify="start">
-                      <v-col>
-                        <p class="text-h4">Overview</p>
-                      </v-col>
-                    </v-row>
-                    <v-row justify="start" class="ml-4 text-left">
-                      <div class="headline">
-                        {{ productName }}
-                      </div>
-                    </v-row>
-                    <v-row justify="start" class="ma-4">
-                      <span>
-                        Brand:
-                        {{ vendor.storeName }}</span
-                      >
+                  <v-row justify="start">
+                    <v-col>
+                      <p class="text-h4">Overview</p>
+                    </v-col>
+                  </v-row>
+                  <v-row justify="start" class="ml-4 text-left">
+                    <div class="headline">
+                      {{ productName }}
+                    </div>
+                  </v-row>
+                  <v-row justify="start" class="ma-4">
+                    <span>
+                      Brand:
+                      {{ vendor.storeName }}</span
+                    >
 
-                      <v-rating
-                        v-if="productrateSet.length > 0"
-                        v-model="averageRating"
-                        color="yellow darken-3"
-                        background-color="grey darken-1"
-                        dense
-                        readonly
-                        half-increments
-                        hover
-                        size="18"
-                      ></v-rating>
-                      <span class="caption ml-2 mt-1">({{ 3 }} review)</span>
-                    </v-row>
-                    <v-divider></v-divider>
+                    <v-rating
+                      v-if="productrateSet.length > 0"
+                      v-model="averageRating"
+                      color="yellow darken-3"
+                      background-color="grey darken-1"
+                      dense
+                      readonly
+                      half-increments
+                      hover
+                      size="18"
+                    ></v-rating>
+                    <span class="caption ml-2 mt-1">({{ 3 }} review)</span>
+                  </v-row>
+                  <v-divider></v-divider>
 
-                    <v-row class="mt-3 ml-2">
-                      <p
-                        class="text-caption text-start"
-                        v-html="description"
-                      ></p>
-                    </v-row>
-                    <v-row align="center" justify="center">
-                      <v-col cols="6" md="2">Unit Price:</v-col>
-                      <v-col cols="6" md="3">
-                        <v-row
-                          ><h2 class="text-weight-bolder">
-                            {{ currency === "USD" ? "$" : "ETB" }}
-                            {{
-                              currency === "USD"
-                                ? parseFloat(this.usdPrice).toFixed(2)
-                                : sellingPrice
-                            }}
-                          </h2>
-                        </v-row>
-                        <v-row>
-                          <h5
-                            class="text-decoration-line-through text-weight-normal"
-                          >
-                            ETB {{ dealerPrice }}
-                          </h5>
-                        </v-row>
-                      </v-col>
-
-                      <v-col cols="5" lg="2">
-                        <v-card class="ma-0 text-center" elevation="0">
-                          <v-card-title class="ma-0 pa-0" style="font-size:16px"
-                            >Quantity</v-card-title
-                          >
-                          <v-row class="mt-1">
-                            <v-btn icon depressed @click="decrement">
-                              <v-icon> mdi-arrow-down </v-icon>
-                            </v-btn>
-
-                            <span class="mt-2">{{ quantity }}</span>
-
-                            <v-btn icon depressed @click="increment">
-                              <v-icon> mdi-arrow-up </v-icon>
-                            </v-btn>
-                          </v-row>
-                        </v-card>
-                      </v-col>
-                      <v-col
-                        ><v-btn
-                          dark
-                          class="btn mt-2 mr-2"
-                          tile
-                          elevation="0"
-                          color="btn"
-                          @click="
-                            addToCart({
-                              image: productImages[0].image,
-                              price: sellingPrice,
-                              title: productName,
-                              id: `${productId}`,
-                              category: productCategory.name,
-                              quantity: quantity,
-                            })
-                          "
-                          style="background-color:white;color:#09b750;border:1px solid #09b750;"
-                          >Buy it Now</v-btn
+                  <v-row class="mt-3 ml-2">
+                    <p class="text-caption text-start" v-html="description"></p>
+                  </v-row>
+                  <v-row align="center" justify="center">
+                    <v-col cols="6" md="2">Unit Price:</v-col>
+                    <v-col cols="6" md="3">
+                      <v-row
+                        ><h2 class="text-weight-bolder">
+                          ETB {{ sellingPrice }}
+                        </h2>
+                      </v-row>
+                      <v-row>
+                        <h5
+                          class="text-decoration-line-through text-weight-normal"
                         >
-                        <v-btn
-                          class="btn mt-2 mr-2"
-                          tile
-                          dark
-                          elevation="0"
-                          color="success"
-                          :href="
-                            vendor.domain
-                              ? `${vendor.domain}`
-                              : `${supplierDomain}`
-                          "
-                          >Visit Store</v-btn
-                        ></v-col
-                      >
-                    </v-row>
+                          ETB {{ dealerPrice }}
+                        </h5>
+                      </v-row>
+                    </v-col>
 
-                    <v-divider class="my-6"></v-divider>
-                    <v-row>
-                      <v-col cols="12" lg="6">
-                        <v-card-title>Price per Quantity</v-card-title>
-                        <v-card class=" text-start" color="white" flat>
-                          <v-simple-table style="border:1px solid black" dense>
-                            <template v-slot:default>
-                              <tbody>
-                                <tr v-for="(item, i) in prices" :key="i">
-                                  <td style="background-color:#bbc4bdb4">
-                                    {{ item.name }}
-                                  </td>
-                                  <td>{{ item.calories }}</td>
-                                </tr>
-                              </tbody>
-                            </template>
-                          </v-simple-table>
-                        </v-card>
-                      </v-col>
-                      <v-col cols="12" lg="6">
-                        <v-card-title class="mx-13 text-start"
-                          >Specification</v-card-title
+                    <v-col cols="5" lg="2">
+                      <v-card class="ma-0 text-center" elevation="0">
+                        <v-card-title class="ma-0 pa-0" style="font-size:16px"
+                          >Quantity</v-card-title
                         >
-                        <v-card class="text-start" color="white" flat>
-                          <v-simple-table style="border:1px solid black" dense>
-                            <template v-slot:default>
-                              <tbody>
-                                <tr v-for="(item, i) in desserts" :key="i">
-                                  <td style="background-color:#bbc4bdb4">
-                                    {{ item.name }}
-                                  </td>
-                                  <td>{{ item.calories }}</td>
-                                </tr>
-                              </tbody>
-                            </template>
-                          </v-simple-table>
-                        </v-card></v-col
+                        <v-row class="mt-1">
+                          <v-btn icon depressed @click="decrement">
+                            <v-icon> mdi-arrow-down </v-icon>
+                          </v-btn>
+
+                          <span class="mt-2">{{ quantity }}</span>
+
+                          <v-btn icon depressed @click="increment">
+                            <v-icon> mdi-arrow-up </v-icon>
+                          </v-btn>
+                        </v-row>
+                      </v-card>
+                    </v-col>
+                    <v-col
+                      ><v-btn
+                        dark
+                        class="btn mt-2 mr-2"
+                        tile
+                        elevation="0"
+                        color="btn"
+                        @click="
+                          addToCart({
+                            image: productImages[0].image,
+                            price: sellingPrice,
+                            title: productName,
+                            id: `${productId}`,
+                            category: productCategory.name,
+                            quantity: quantity,
+                          })
+                        "
+                        style="background-color:white;color:#09b750;border:1px solid #09b750;"
+                        >Buy it Now</v-btn
                       >
-                    </v-row>
-                    <v-divider class="my-6"></v-divider>
-                  </v-col>
+                      <v-btn
+                        class="btn mt-2 mr-2"
+                        tile
+                        dark
+                        elevation="0"
+                        color="success"
+                        :href="
+                          vendor.domain
+                            ? `${vendor.domain}`
+                            : `${supplierDomain}`
+                        "
+                        >Visit Store</v-btn
+                      ></v-col
+                    >
+                  </v-row>
+
+                  <v-divider class="my-6"></v-divider>
+                  <v-row>
+                    <v-col cols="12" lg="6">
+                      <v-card-title>Price per Quantity</v-card-title>
+                      <v-card class=" text-start" color="white" flat>
+                        <v-simple-table style="border:1px solid black" dense>
+                          <template v-slot:default>
+                            <tbody>
+                              <tr v-for="(item, i) in prices" :key="i">
+                                <td style="background-color:#bbc4bdb4">
+                                  {{ item.name }}
+                                </td>
+                                <td>{{ item.calories }}</td>
+                              </tr>
+                            </tbody>
+                          </template>
+                        </v-simple-table>
+                      </v-card>
+                    </v-col>
+                    <v-col cols="12" lg="6">
+                      <v-card-title class="mx-13 text-start"
+                        >Specification</v-card-title
+                      >
+                      <v-card class="text-start" color="white" flat>
+                        <v-simple-table style="border:1px solid black" dense>
+                          <template v-slot:default>
+                            <tbody>
+                              <tr v-for="(item, i) in desserts" :key="i">
+                                <td style="background-color:#bbc4bdb4">
+                                  {{ item.name }}
+                                </td>
+                                <td>{{ item.calories }}</td>
+                              </tr>
+                            </tbody>
+                          </template>
+                        </v-simple-table>
+                      </v-card></v-col
+                    >
+                  </v-row>
+                  <v-divider class="my-6"></v-divider>
                 </v-col>
-              </v-row>
-            </v-card>
-          </v-dialog>
-          <v-btn
-            @click="
-              addToWish({
-                image: productImages[0].image,
-                price: sellingPrice,
-                title: productName,
-                id: `${productId}`,
-                category: productCategory.name,
-              })
-            "
-            icon
-            class="hover-icon"
-            style=""
-            ><v-icon small>mdi-heart-outline</v-icon></v-btn
-          >
-          <v-btn icon class="hover-icon" style=""
-            ><v-icon small>mdi-chart-box-outline</v-icon></v-btn
-          >
-        </v-row>
-      </v-card>
-    </v-hover>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-dialog>
+        <v-btn
+          @click="
+            addToWish({
+              image: productImages[0].image,
+              price: sellingPrice,
+              title: productName,
+              id: `${productId}`,
+              category: productCategory.name,
+            })
+          "
+          icon
+          class="hover-icon"
+          style=""
+          ><v-icon small>mdi-heart-outline</v-icon></v-btn
+        >
+        <v-btn icon class="hover-icon" style=""
+          ><v-icon small>mdi-chart-box-outline</v-icon></v-btn
+        >
+      </v-row>
+    </v-card>
   </div>
 </template>
 

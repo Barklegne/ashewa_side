@@ -766,7 +766,7 @@
           </v-col>
         </v-row>
       </div>
-      <!-- <v-divider></v-divider> -->
+
       <div class="mx-5 my-2">
         <p
           v-html="!!product ? product.description : ''"
@@ -787,9 +787,6 @@
           ></v-rating>
           <p style="font-size:25px;color:grey;" class="ml-1">
             {{ averageRating }}
-          </p>
-          <p style="font-size:25px;color:grey;" class="ml-1">
-            {{ "  | 320 orders" }}
           </p>
         </v-row>
       </div>

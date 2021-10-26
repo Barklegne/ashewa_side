@@ -16,26 +16,39 @@ const actions = {
     commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
       .query({
-        query: gql`{
-          orderHistory{
-            id
-            price
-            productIds
-            paid
-            reference
-            status
-            deliveryOption{
-              provider{
-                name
-                phone
-              }   
+        query: gql`
+          {
+            orderHistory {
+              page
+              pages
+              objects {
+                id
+                price
+                products {
+                  id
+                  name
+                  productimageSet {
+                    image
+                  }
+                }
+                paid
+                reference
+                paymentMethod
+                status
+                deliveryOption {
+                  provider {
+                    name
+                    phone
+                  }
+                }
+              }
             }
-          }}
+          }
         `,
       })
       .then((res) => {
         commit(types.SHOW_LOADING, false);
-        commit(types.SET_ORDER_HISTORY, res.data.orderHistory);
+        commit(types.SET_ORDER_HISTORY, res.data.orderHistory.objects);
       })
       .catch((error) => {
         handleError(error, commit, resp);
@@ -47,15 +60,22 @@ const actions = {
       .query({
         query: gql`
           {
-            deliveryProviders {
-              id
-              name
+            deliveryOptions {
+              provider {
+                name
+                id
+              }
+              userLocation
+              vendorLocation
+              estimatedTime
+              totalDistance
+              deliveryPrice
             }
           }
         `,
       })
       .then((response) => {
-        ctx.commit(types.SET_DELIVERY, response.data.deliveryProviders);
+        ctx.commit(types.SET_DELIVERY, response.data.deliveryOptions);
         ctx.commit(types.SHOW_LOADING, false);
       })
       .catch((error) => {
@@ -124,6 +144,38 @@ const actions = {
         handleError(error, ctx.commit, resp);
       });
   },
+
+  async createBillingInformation(ctx, value) {
+    console.log(value);
+    ctx.commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            createBillingInfo(
+              address: "9.0011098,38.8100753"
+              fullName: "test test"
+              phone: "0923772845"
+            ) {
+              payload {
+                id
+                phone
+                fullName
+                address
+              }
+            }
+          }
+        `,
+      })
+      .then(async () => {
+        ctx.commit(types.SHOW_LOADING, false);
+        ctx.dispatch("getDelivery");
+      })
+      .catch((error) => {
+        console.log("error");
+        handleError(error, ctx.commit, resp);
+      });
+  },
   async checkout(ctx, value) {
     console.log(value);
     ctx.commit(types.SHOW_LOADING, true);
@@ -143,7 +195,7 @@ const actions = {
         }
       }
     }
-  `);
+      `);
     const resp = await apolloClient
       .mutate({
         mutation: gql`
@@ -157,7 +209,11 @@ const actions = {
           deliveryOption{
             provider{
               id
+              name
             }
+            totalDistance
+            estimatedTime
+            deliveryPrice
           }
         }
       }
@@ -168,6 +224,11 @@ const actions = {
         console.log(`
         ${r.data.checkoutOrder.payload.order.reference}
       `);
+        ctx.commit(
+          types.CHECKOUT_CREATED,
+          r.data.checkoutOrder.payload.deliveryOption
+        );
+        ctx.commit("SET_VIS_FALSE");
         if (value.payment === "BOA") {
           const res = await apolloClient
             .mutate({
@@ -192,8 +253,7 @@ const actions = {
             .catch((error) => {
               handleError(error, ctx.commit, res);
             });
-        }
-        else if (value.payment === "Telebirr") {
+        } else if (value.payment === "Telebirr") {
           const res = await apolloClient
             .mutate({
               mutation: gql`
@@ -217,8 +277,7 @@ const actions = {
             .catch((error) => {
               handleError(error, ctx.commit, res);
             });
-        }
-        else if (value.payment === "PayPal") {
+        } else if (value.payment === "PayPal") {
           const res = await apolloClient
             .mutate({
               mutation: gql`
@@ -242,8 +301,7 @@ const actions = {
             .catch((error) => {
               handleError(error, ctx.commit, res);
             });
-        }
-        else if (value.payment === "Hello Cash") {
+        } else if (value.payment === "Hello Cash") {
           console.log(`mutation{
             createHelloCashTransaction(orderId:"${r.data.checkoutOrder.payload.order.id}", phone: "${value.phone}"){
               payload{
@@ -356,6 +414,7 @@ const mutations = {
   },
   [types.SET_DELIVERY](state, value) {
     state.deliveryItems = value;
+    state.vis = true;
   },
   [types.CHECKOUT_SUCCESS](state, value) {
     state.success = true;
@@ -370,6 +429,9 @@ const mutations = {
     router.push({
       name: "landing",
     });
+  },
+  [types.CHECKOUT_CREATED](state, value) {
+    state.deliveryInformation = { ...value };
   },
   [types.CHECKOUT](state, value) {
     const str = JSON.parse(value);
@@ -400,6 +462,9 @@ const mutations = {
   [types.SET_ORDER_HISTORY](state, value) {
     state.orderHistory = value;
   },
+  [types.SET_VIS_FALSE](state) {
+    state.vis = false;
+  },
   [types.ADD_PRODUCT_TO_CART_LIST](state, value) {
     state.cartItems = [
       ...state.cartItems,
@@ -417,7 +482,17 @@ const mutations = {
 
 const state = {
   test: "test",
+  vis: false,
   cartItems: [],
+  deliveryInformation: {
+    provider: {
+      id: "",
+      name: "",
+    },
+    totalDistance: "",
+    estimatedTime: "",
+    deliveryPrice: "",
+  },
   totalProducts: 8,
   deliveryItems: [],
   success: false,

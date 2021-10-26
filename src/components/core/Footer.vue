@@ -269,8 +269,8 @@
                       style="min-height:30px"
                       v-for="(item, i) in mm"
                       :key="i"
-                      :href="i === 2 || i === 4 ? item.link : ''"
-                      :to="i !== 2 ? item.link : ''"
+                      :href="i === 2 || i === 3 || i === 4 ? item.link : ''"
+                      :to="i !== 2 && i !== 3 && i !== 4 ? item.link : ''"
                     >
                       <v-list-item-content class="py-0">
                         <v-list-item-title
@@ -395,9 +395,12 @@ export default {
           link: "/sell-on-products-on-ashewa",
         },
         { name: "Sell on Ashewa Business", link: "/sell-on-ashewa-business" },
-        { name: "Blog  on Ashewa", link: "http://suppliers.ashewa.com/Blogs" },
-        { name: "Become an Affiliate", link: "/become-an-affiliate" },
-        { name: "Become a Seller", link: "http://seller.ashewa.com/signup" },
+        { name: "Blog  on Ashewa", link: "http://seller.ashewa.com/blogs" },
+        {
+          name: "Become an Affiliate",
+          link: "http://seller.ashewa.com/signup2",
+        },
+        { name: "Become a Seller", link: "http://seller.ashewa.com/signup2" },
       ],
       grow: ["Ashewa story", "Community", "Blog", "Job Vacancy", "Contact"],
       footerAll: [

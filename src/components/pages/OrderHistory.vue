@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-data-table class="ma-5" :headers="headers" :items="dataO" :items-per-page="5">
+    <v-data-table
+      class="ma-5"
+      :headers="headers"
+      :items="dataO"
+      :items-per-page="5"
+    >
       <template v-slot:[`item.status`]="{ item }">
         <v-chip label :color="getColor(item.status)" dark>
           {{ item.status }}
@@ -8,7 +13,7 @@
       </template>
       <template v-slot:[`item.paid`]="{ item }">
         <v-chip label :color="getColor(item.paid)" dark>
-          {{ item.paid ? "Paid" : "Unpaid"}}
+          {{ item.paid ? "Paid" : "Unpaid" }}
         </v-chip>
       </template>
     </v-data-table>
@@ -43,6 +48,7 @@ export default {
         { text: "Delivery Phone", value: "deliveryPhone" },
         //paid
         { text: "Paid", value: "paid" },
+        { text: "Payment Method", value: "paymentMethod" },
       ],
     };
   },
@@ -61,16 +67,18 @@ export default {
       return this.p;
     },
     dataO() {
+      console.log(this.$store.state.cart.orderHistory);
       const orders = this.$store.state.cart.orderHistory.map((item) => {
         return {
           id: item.id,
-          productId: Object.keys(JSON.parse(item.productIds)),
+          productId: item.products[0].id,
           reference: item.reference,
           deliveryName: item.deliveryOption.provider.name,
           deliveryPhone: item.deliveryOption.provider.phone,
           totalPrice: item.price,
           status: item.status,
           paid: item.paid,
+          paymentMethod: item.paymentMethod,
         };
       });
       return orders;
@@ -78,8 +86,8 @@ export default {
   },
   methods: {
     getColor(status) {
-      if (status == "COMPLETED") return "green";
-      else if (status == "PENDING") return "orange";
+      if (status == "completed") return "green";
+      else if (status == "pending") return "orange";
       else if (status == true) return "green";
       else if (status == false) return "red";
       else return "red";
