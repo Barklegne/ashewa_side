@@ -53,6 +53,7 @@
                         ? n.image
                         : `http://api.ashewa.com/media/${n.image}`
                     "
+                    lazy-src="/img/icons/mobile-logo.png"
                     class="white--text align-end"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                     :width="250"
@@ -71,6 +72,7 @@
                         ? n.image
                         : `http://api.ashewa.com/media/${n.image}`
                     "
+                    lazy-src="/img/icons/mobile-logo.png"
                     class="white--text align-end"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.2)"
                     width="150"
