@@ -99,7 +99,7 @@
                 depressed
                 color="#09b750"
                 dark
-                @click="vis = true"
+                @click="visF = true"
               >
                 Proceed to checkout
               </v-btn>
@@ -119,7 +119,7 @@
         <h3>Delivery Information</h3>
         <p>Name:{{ deliveryInformation.provider.name }}</p>
         <p>Total Distance:{{ deliveryInformation.totalDistance }}</p>
-        <p>Estimated Time:{{ deliveryInformation.estimatedTime }}</p>
+        <p>Estimated Time:{{ deliveryInformation.esT }}</p>
         <p>Delivery Price:{{ deliveryInformation.deliveryPrice }}</p>
         {{
           payment === "BOA"
@@ -303,13 +303,14 @@
     </v-dialog>
     <v-dialog
       persistent
-      v-model="vis"
+      v-model="visF"
       style="background-color:red"
       :overlay-opacity="0.8"
       width="500"
       transition="dialog-bottom-transition"
     >
       <v-card class="pa-5">
+        <h2 class="text-center mb-2">Billing Information</h2>
         <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
           Dropoff Location
         </p>
@@ -355,6 +356,47 @@
         >
         </v-text-field>
         <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
+          Full Name
+        </p>
+        <v-text-field
+          background-color="#ebe9e9"
+          class="ma-0"
+          height="50"
+          solo
+          flat
+          placeholder="Full Name"
+          v-model="fname"
+        >
+        </v-text-field>
+        <v-row justify="center">
+          <v-btn
+            @click="billing"
+            class="mx-5"
+            style="text-transform:none"
+            :disabled="!address || !fname || !phone"
+            color="#43DB80"
+            >Proceed</v-btn
+          >
+          <v-btn
+            @click="visF = false"
+            class="mx-5"
+            style="text-transform:none"
+            color="error"
+            >Cancel</v-btn
+          >
+        </v-row>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      persistent
+      v-model="vis"
+      style="background-color:red"
+      :overlay-opacity="0.8"
+      width="500"
+      transition="dialog-bottom-transition"
+    >
+      <v-card class="pa-5">
+        <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
           Total Price
         </p>
         <div
@@ -376,6 +418,8 @@
           solo
           flat
           placeholder="Please select a delivery option"
+          item-text="lable"
+          item-value="id"
           :items="deliveryItem"
           v-model="delivery"
         ></v-select>
@@ -409,7 +453,7 @@
             >Proceed</v-btn
           >
           <v-btn
-            @click="vis = false"
+            @click="setVisFalse"
             class="mx-5"
             style="text-transform:none"
             color="error"
@@ -523,8 +567,9 @@ export default {
       isMobile: false,
       test: true,
       testF: false,
-      vis: false,
+      visF: false,
       loading: false,
+      fname: "",
       delivery: "",
       phone: "",
       payment: "",
@@ -565,9 +610,12 @@ export default {
     if (!this.$store.state.auth.isTokenSet) {
       router.push({ path: "/login" });
     }
-    this.getDelivery();
   },
   methods: {
+    setVisFalse() {
+      this.$store.commit("SET_VIS_FALSE");
+      console.log("vis false");
+    },
     removeProduct(id) {
       this.$store.commit("REMOVE_PRODUCT_FROM_CART_LIST", id);
       //This event signifies that a successfull product was removed from cart
@@ -594,9 +642,17 @@ export default {
         event_label: "Checkout Finilize",
       });
     },
+    billing() {
+      this.$store.dispatch("createBillingInformation", {
+        loc: this.address,
+        fname: this.fname,
+        phone: this.phone,
+      });
+      this.visF = false;
+    },
     checkout() {
       this.$store.dispatch("checkout", {
-        deliveryId: this.getId,
+        deliveryId: this.delivery,
         loc: this.address,
         payment: this.payment,
         phone: this.phone,
@@ -611,7 +667,6 @@ export default {
         loc: this.address,
         payment: this.payment,
       });
-      this.vis = false;
     },
     locatorButtonPressed() {
       navigator.geolocation.getCurrentPosition(
@@ -678,20 +733,55 @@ export default {
           return this.$store.getters.totalCartList;
       }
     },
+    vis() {
+      return this.$store.state.cart.vis;
+    },
     deliveryInformation() {
-      console.log();
-      return this.$store.state.cart.deliveryInformation;
+      const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      };
+      return {
+        ...this.$store.state.cart.deliveryInformation,
+        esT: formatDate(
+          this.$store.state.cart.deliveryInformation.estimatedTime
+        ),
+      };
+    },
+    deliveryData() {
+      const deliveryName = this.$store.state.cart.deliveryItems.map(
+        (delivery) => delivery.provider.id
+      );
+      const deliveryData = deliveryName.filter(
+        (thing, index, self) => index === self.findIndex((t) => t === thing)
+      );
+      return deliveryData;
     },
     deliveryItem() {
-      const deliveryName = this.$store.state.cart.deliveryItems.map(
-        (delivery) => delivery.name
+      const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      };
+      const deliveryData = this.$store.state.cart.deliveryItems.filter(
+        (thing, index, self) =>
+          index === self.findIndex((t) => t.provider.id === thing.provider.id)
       );
+      const deliveryName = deliveryData.map((delivery) => {
+        return {
+          id: delivery.provider.id,
+          lable: `Company: ${
+            delivery.provider.name
+          }, Estimated time: ${formatDate(
+            delivery.estimatedTime
+          )}, Delivery Price: ${delivery.deliveryPrice}`,
+        };
+      });
       return deliveryName;
     },
     getId() {
       //function to find one by name and get Id from array
       const id = this.$store.state.cart.deliveryItems.find(
-        (x) => x.name == this.delivery
+        (x) => x.provider.name == this.delivery
       ).id;
       return id;
     },

@@ -60,15 +60,22 @@ const actions = {
       .query({
         query: gql`
           {
-            deliveryProviders {
-              id
-              name
+            deliveryOptions {
+              provider {
+                name
+                id
+              }
+              userLocation
+              vendorLocation
+              estimatedTime
+              totalDistance
+              deliveryPrice
             }
           }
         `,
       })
       .then((response) => {
-        ctx.commit(types.SET_DELIVERY, response.data.deliveryProviders);
+        ctx.commit(types.SET_DELIVERY, response.data.deliveryOptions);
         ctx.commit(types.SHOW_LOADING, false);
       })
       .catch((error) => {
@@ -137,6 +144,38 @@ const actions = {
         handleError(error, ctx.commit, resp);
       });
   },
+
+  async createBillingInformation(ctx, value) {
+    console.log(value);
+    ctx.commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            createBillingInfo(
+              address: "9.0011098,38.8100753"
+              fullName: "test test"
+              phone: "0923772845"
+            ) {
+              payload {
+                id
+                phone
+                fullName
+                address
+              }
+            }
+          }
+        `,
+      })
+      .then(async () => {
+        ctx.commit(types.SHOW_LOADING, false);
+        ctx.dispatch("getDelivery");
+      })
+      .catch((error) => {
+        console.log("error");
+        handleError(error, ctx.commit, resp);
+      });
+  },
   async checkout(ctx, value) {
     console.log(value);
     ctx.commit(types.SHOW_LOADING, true);
@@ -156,7 +195,7 @@ const actions = {
         }
       }
     }
-  `);
+      `);
     const resp = await apolloClient
       .mutate({
         mutation: gql`
@@ -189,6 +228,7 @@ const actions = {
           types.CHECKOUT_CREATED,
           r.data.checkoutOrder.payload.deliveryOption
         );
+        ctx.commit("SET_VIS_FALSE");
         if (value.payment === "BOA") {
           const res = await apolloClient
             .mutate({
@@ -374,6 +414,7 @@ const mutations = {
   },
   [types.SET_DELIVERY](state, value) {
     state.deliveryItems = value;
+    state.vis = true;
   },
   [types.CHECKOUT_SUCCESS](state, value) {
     state.success = true;
@@ -421,6 +462,9 @@ const mutations = {
   [types.SET_ORDER_HISTORY](state, value) {
     state.orderHistory = value;
   },
+  [types.SET_VIS_FALSE](state) {
+    state.vis = false;
+  },
   [types.ADD_PRODUCT_TO_CART_LIST](state, value) {
     state.cartItems = [
       ...state.cartItems,
@@ -438,6 +482,7 @@ const mutations = {
 
 const state = {
   test: "test",
+  vis: false,
   cartItems: [],
   deliveryInformation: {
     provider: {
