@@ -10,66 +10,77 @@ const getters = {
 };
 
 const actions = {
-  async search({ commit }, value) {
+  async searchFilter({ commit }, value) {
     commit(types.SHOW_LOADING, true);
+    console.log();
     const resp = await apolloClient
       .query({
         query: gql`
-          {
-            searchProducts(name_Contains: "${value}") {
-              edges {
-                node {
-                  name
+        {
+          filterProducts(filter: {name: "${value.word}", startPrice: 0 ${
+          value.price !== 0 ? `,endPrice: ${value.price}` : ""
+        }}) {
+            objects {
+              name
+              id
+              image
+              usdPrice
+              productrateSet {
+                id
+                user {
+                  username
                   id
-                  image
-                  productrateSet {
-                    user {
-                      username
-                    }
-                    rate
-                    comment
-                  }
-                  vendor {
-                    storeName
-                    id
-                    productSet {
-                      name
-                      id
-                      image
-                      productimageSet {
-                        image
-                      }
-                      sellingPrice
-                    }
-                  }
-                  sellingPrice
-                  productimageSet {
-                    image
-                  }
-                  discount
-                  description
-                  category {
-                    id
-                    name
-                    image
-                  }
-                  subcategory {
-                    id
-                    name
-                  }
                 }
+                rate
+                comment
+              }
+              productcolorSet {
+                id
+                name
+                image
+                productsizeSet {
+                  id
+                  name
+                  quantity
+                }
+              }
+              supplierDomain
+              vendor {
+                domain
+                storeName
+                id
+              }
+              sellingPrice
+              productimageSet {
+                image
+              }
+              discount
+              description
+              category {
+                id
+                name
+                image
+              }
+              productrateSet {
+                id
+                rate
+              }
+              subcategory {
+                id
+                name
               }
             }
           }
+        }
         `,
       })
       .then((response) => {
-        const p = [];
-        response.data.searchProducts.edges.map((n) => {
-          p.push(n.node);
-        });
         commit(types.SHOW_LOADING, false);
-        commit(types.SAVE_ALL_SEARCH_PRODUCTS, p);
+
+        commit(
+          types.SAVE_ALL_SEARCH_PRODUCTS,
+          response.data.filterProducts.objects
+        );
       })
       .catch((error) => {
         handleError(error, commit, resp);

@@ -246,74 +246,72 @@ const actions = {
     const resp = await apolloClient
       .query({
         query: gql`
-        {
-          newArrivalsPaginated{
-            objects{
-               name
-                        
-            id
-            image
-            productpriceoptionSet {
-              id
-              quantity
-              discount
-            }
-            productrateSet {
-              id
-              user {
-                username
-                id
-              }
-              rate
-              comment
-            }
-            productcolorSet {
-              id
-              name
-              image
-              productsizeSet {
-                id
+          {
+            newArrivalsPaginated {
+              objects {
                 name
-                quantity
-              }
-            }
-            supplierDomain
-            vendor {
-              domain
-              storeName
-              id
-              phone
-              followerSet {
-                user {
+
+                id
+                image
+                productpriceoptionSet {
                   id
+                  quantity
+                  discount
                 }
-                id
+                productrateSet {
+                  id
+                  user {
+                    username
+                    id
+                  }
+                  rate
+                  comment
+                }
+                productcolorSet {
+                  id
+                  name
+                  image
+                  productsizeSet {
+                    id
+                    name
+                    quantity
+                  }
+                }
+                supplierDomain
+                vendor {
+                  domain
+                  storeName
+                  id
+                  phone
+                  followerSet {
+                    user {
+                      id
+                    }
+                    id
+                  }
+                }
+                sellingPrice
+                productimageSet {
+                  image
+                }
+                discount
+                description
+                category {
+                  id
+                  name
+                  image
+                  subcategorySet {
+                    name
+                    id
+                  }
+                }
+                subcategory {
+                  id
+                  name
+                }
               }
-              
-              
-            }
-            sellingPrice
-            productimageSet {
-              image
-            }
-            discount
-            description
-            category {
-              id
-              name
-              image
-              subcategorySet {
-                name
-                id
-              }
-            }
-            subcategory {
-              id
-              name
-            }
             }
           }
-        }
         `,
       })
       .then((response) => {
@@ -334,83 +332,78 @@ const actions = {
     const resp = await apolloClient
       .query({
         query: gql`
-        {
-          filterProducts(filter:{startPrice:500}){
-           objects{
+          {
+            filterProducts(filter: { startPrice: 500 }) {
+              objects {
                 name
-                         
-             id
-             image
-             productpriceoptionSet {
-               id
-               quantity
-               discount
-             }
-             productrateSet {
-               id
-               user {
-                 username
-                 id
-               }
-               rate
-               comment
-             }
-             productcolorSet {
-               id
-               name
-               image
-               productsizeSet {
-                 id
-                 name
-                 quantity
-               }
-             }
-             supplierDomain
-             vendor {
-               domain
-               storeName
-               id
-               phone
-               followerSet {
-                 user {
-                   id
-                 }
-                 id
-               }
-               
-               
-             }
-             sellingPrice
-             productimageSet {
-               image
-             }
-             discount
-             description
-             category {
-               id
-               name
-               image
-               subcategorySet {
-                 name
-                 id
-               }
-             }
-             subcategory {
-               id
-               name
-             }
-             }
-         }
-         }
+
+                id
+                image
+                productpriceoptionSet {
+                  id
+                  quantity
+                  discount
+                }
+                productrateSet {
+                  id
+                  user {
+                    username
+                    id
+                  }
+                  rate
+                  comment
+                }
+                productcolorSet {
+                  id
+                  name
+                  image
+                  productsizeSet {
+                    id
+                    name
+                    quantity
+                  }
+                }
+                supplierDomain
+                vendor {
+                  domain
+                  storeName
+                  id
+                  phone
+                  followerSet {
+                    user {
+                      id
+                    }
+                    id
+                  }
+                }
+                sellingPrice
+                productimageSet {
+                  image
+                }
+                discount
+                description
+                category {
+                  id
+                  name
+                  image
+                  subcategorySet {
+                    name
+                    id
+                  }
+                }
+                subcategory {
+                  id
+                  name
+                }
+              }
+            }
+          }
         `,
       })
       .then((response) => {
         commit(types.SHOW_LOADING, false);
         console.log(response.data.filterProducts.objects);
-        commit(
-          types.SAVE_BEST_PRODUCTS,
-          response.data.filterProducts.objects
-        );
+        commit(types.SAVE_BEST_PRODUCTS, response.data.filterProducts.objects);
         // commit(types.SAVE_TOKEN, response.data.tokenAuth.token);
       })
       .catch((error) => {
@@ -426,7 +419,7 @@ const actions = {
             
               getProductsById(id: "${id.id}") {
                 name
-                
+                usdPrice
     id
     image
     productpriceoptionSet {
@@ -650,23 +643,22 @@ const mutations = {
   [types.GET_RELATED_PRODUCT](state, products) {
     state.relatedProducts = products;
   },
-  [types.CHANGE_CURRENCY](state,value){
-    state.currency = value
+  [types.CHANGE_CURRENCY](state, value) {
+    state.currency = value;
   },
-  [types.SAVE_NEW_ARRIVAL](state,value){
-    state.newArrivals = value
+  [types.SAVE_NEW_ARRIVAL](state, value) {
+    state.newArrivals = value;
   },
-  [types.SAVE_BEST_PRODUCTS](state,value){
-    state.bestProducts = value
-  }
-  
+  [types.SAVE_BEST_PRODUCTS](state, value) {
+    state.bestProducts = value;
+  },
 };
 
 const state = {
   products: [],
-  newArrivals:[],
-  bestProducts:[],
-  currency:"ETB",
+  newArrivals: [],
+  bestProducts: [],
+  currency: "ETB",
   vis: false,
   email: "",
   relatedProducts: [],

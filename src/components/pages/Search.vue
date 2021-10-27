@@ -15,8 +15,14 @@
           </div>
           <v-spacer></v-spacer>
         </v-row>
-        <v-row>
-          <v-col cols="6" md="3" v-for="(n, index) in products" :key="index">
+        <v-row class="ma-2">
+          <v-col
+            class="pa-2"
+            cols="6"
+            md="3"
+            v-for="(n, index) in products"
+            :key="index"
+          >
             <ProductMobile
               :vendor="n.vendor"
               :productName="n.name"
@@ -26,11 +32,10 @@
                   : n.productimageSet
               "
               :sellingPrice="n.sellingPrice"
+              :usdPrice="n.usdPrice"
               :productId="`${n.id}`"
               :productCategory="n.category"
-              :width="150"
               :productrateSet="n.productrateSet"
-              :height="150"
             />
           </v-col>
         </v-row>
@@ -40,14 +45,14 @@
 </template>
 
 <script>
-import ProductMobile from "../product/ProductMobile.vue";
+import ProductMobile from "../product/ProductCard.vue";
 
 export default {
   components: {
     ProductMobile,
   },
   created() {
-    this.searchBy(this.$route.params.id);
+    this.searchBy(JSON.parse(this.$route.params.id));
   },
   methods: {
     searchBy(id) {
@@ -61,7 +66,7 @@ export default {
   },
   computed: {
     products() {
-      return this.$store.state.services.filteredProducts;
+      return this.$store.state.search.products;
     },
   },
 };

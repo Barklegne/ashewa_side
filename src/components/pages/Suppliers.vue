@@ -1,6 +1,30 @@
 <template>
   <div>
-    <h1 class="mt-10">Suppliers</h1>
+    <v-row class="ma-0">
+      <v-spacer></v-spacer>
+      <v-toolbar max-width="500" class="mt-3" dark color="lighten-2 green">
+        <v-toolbar-title>Suppliers</v-toolbar-title>
+        <v-autocomplete
+          v-model="select"
+          @change="
+            $router.push({
+              path: `/suppliers/${select}`,
+            })
+          "
+          :loading="loading"
+          item-text="storeName"
+          item-value="id"
+          :items="suppliers"
+          class="mx-4"
+          flat
+          hide-no-data
+          hide-details
+          label="Search"
+          solo-inverted
+        ></v-autocomplete>
+      </v-toolbar>
+      <v-spacer></v-spacer>
+    </v-row>
     <v-row justify="center" class="mx-5 my-10">
       <v-col cols="6" md="3" v-for="(x, i) in suppliers" :key="i">
         <CategoryCard

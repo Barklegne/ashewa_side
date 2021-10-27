@@ -177,18 +177,30 @@
                 <v-col cols="6" md="3">
                   <v-row
                     ><h2 class="text-weight-bolder">
-                      ETB {{ !!product ? product.sellingPrice : "" }}
+                      {{ currency == "USD" ? "$" : "ETB" }}
+                      {{
+                        !!product
+                          ? currency == "USD"
+                            ? parseFloat(product.usdPrice).toFixed(2)
+                            : product.sellingPrice
+                          : ""
+                      }}
                     </h2>
                   </v-row>
                   <v-row>
                     <h5 class="text-decoration-line-through text-weight-normal">
-                      ETB {{ !!product ? product.dealerPrice : "" }}
+                      {{ currency == "USD" ? "$" : "ETB" }}
+                      {{ !!product ? product.dealerPrice : "" }}
                     </h5>
                   </v-row>
                 </v-col>
 
                 <v-col cols="5" lg="2">
-                  <v-card class="ma-0 text-center" elevation="0">
+                  <v-card
+                    style="background-color:transparent"
+                    class="ma-0 text-center"
+                    elevation="0"
+                  >
                     <v-card-title class="ma-0 pa-0" style="font-size:16px"
                       >Quantity</v-card-title
                     >
@@ -699,8 +711,14 @@
                     class="ma-0"
                     style="font-size:22px;font-weight:900; color: #43DB80"
                   >
-                    ETB {{ !!product ? product.sellingPrice : "" }}
-                    <sub>.00</sub>
+                    {{ currency == "USD" ? "$" : "ETB" }}
+                    {{
+                      !!product
+                        ? currency == "USD"
+                          ? parseFloat(product.usdPrice).toFixed(2)
+                          : product.sellingPrice
+                        : ""
+                    }}
                   </p>
                 </div>
               </v-slide-item>
@@ -1168,6 +1186,9 @@ export default {
   },
   computed: {
     ...mapGetters(["isTokenSet"]),
+    currency() {
+      return this.$store.state.product.currency;
+    },
     following() {
       if (this.isTokenSet) {
         if (!this.product) {

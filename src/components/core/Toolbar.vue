@@ -61,8 +61,8 @@
                       color="#43DB80"
                       thumb-color="#43DB80"
                       tick-labels=""
-                      :min="100"
-                      :max="1000000"
+                      :min="0"
+                      :max="10000"
                     ></v-slider>
                     <p style="font-size:15px;font-weight:600" class="mt-5">
                       {{ price }} birr
@@ -97,7 +97,12 @@
                 }}</v-icon>
               </v-btn>
               <v-btn
-                :href="`/search/${price}`"
+                :href="
+                  `/search/${JSON.stringify({
+                    price: price,
+                    word: searchF,
+                  })}`
+                "
                 color="#4DBA87"
                 dark
                 height="50px"
