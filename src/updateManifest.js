@@ -1,8 +1,8 @@
 var fs = require("fs");
 
 var data = `{
-    "name": "Ashewa Supplier",
-    "short_name": "Ashewa Supplier",
+    "name": "Ashewa Marketplace",
+    "short_name": "Ashewa Marketplace",
     "theme_color": "#4DBA87",
     "icons": [
       {

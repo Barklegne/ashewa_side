@@ -44,7 +44,7 @@ const app = new Vue({
       store.dispatch("autoLogin");
     }
   },
-}).$mount("#app");
+}).$mount(  "#app");
 const longClickInstance = longClickDirective({delay: 400, interval: 50})
 
 Vue.directive('longclick', longClickInstance)
@@ -57,3 +57,4 @@ if (window.Cypress) {
   // Only available during E2E tests
   window.app = app;
 }
+console.log("abebebe");
