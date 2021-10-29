@@ -12,7 +12,6 @@ const getters = {
   productFound: (state) => state.productFound,
   productsVendor: (state) => state.productsVendor,
   sampleProducts: (state) => state.sampleProducts,
-  filteredProducts: (state) => state.filteredProducts,
   totalProducts: (state) => state.products.length,
   dealOfTheDay: (state) => state.products.slice(0, 6),
   getProductId: (state) => (id) => {

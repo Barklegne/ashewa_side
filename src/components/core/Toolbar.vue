@@ -547,6 +547,7 @@ export default {
       searchF: "",
       sidebar: false,
       isDark: false,
+      showMenu: false,
       color1: "black",
       color2: "black",
       color3: "black",
@@ -577,6 +578,9 @@ export default {
         { name: "SUPPLIERS", path: "/suppliers" },
       ],
     };
+  },
+  created(){
+    
   },
   computed: {
     ...mapGetters([
@@ -686,7 +690,7 @@ export default {
     userLogout() {
       this.$store.dispatch("userLogout");
     },
-
+ 
     switchCurrency(lang) {
       this.$store.dispatch("setCurrency", lang);
     },

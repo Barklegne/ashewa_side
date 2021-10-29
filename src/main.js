@@ -40,9 +40,9 @@ const app = new Vue({
   apolloProvider: createProvider(),
 
   created() {
-    if (store.getters.isTokenSet) {
+    
       store.dispatch("autoLogin");
-    }
+    
   },
 }).$mount(  "#app");
 const longClickInstance = longClickDirective({delay: 400, interval: 50})

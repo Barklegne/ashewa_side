@@ -11,7 +11,7 @@
       @mouseenter="mo = true"
       @mouseleave="mo = false"
       class=" white rounded-lg my-5"
-      :elevation="hover ? 20 : 6"
+      :elevation="6"
       background-color="#43DB80"
     >
       <v-card class="white">
@@ -169,7 +169,7 @@ export default {
       required: true,
     },
     usdPrice: {
-      type: String,
+      type: Number,
       required: true,
     },
     sellingPrice: {

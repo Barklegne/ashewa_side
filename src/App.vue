@@ -117,7 +117,7 @@ import Footer from "@/components/core/Footer.vue";
 // import TestToolbar from "@/components/core/testToolbar.vue";
 
 export default {
-  name: "Ashewa Market Place",
+ 
   data() {
     return {
       vis: false,
