@@ -72,6 +72,7 @@ const actions = {
                 phone
                 email
                 profilePic
+                isVerified
               }
             }
           }

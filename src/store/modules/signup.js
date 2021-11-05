@@ -13,7 +13,7 @@ const actions = {
       .mutate({
         mutation: gql`
         mutation {
-          newUser(username: "${payload.userName}", email: "${payload.email}", firstName: "${payload.firstName}", lastName: "${payload.lastName}", phone: "${payload.phone}", password: "${payload.password}", profilePic: "") {
+          userSignup(username: "${payload.userName}", email: "${payload.email}", firstName: "${payload.firstName}", lastName: "${payload.lastName}", phone: "${payload.phone}", password: "${payload.password}", profilePic: "") {
             payload {
               username
               firstName
@@ -22,9 +22,11 @@ const actions = {
               id
               phone
               profilePic
+              isVerified
             }
           }
-        }`,
+        }
+        `,
       })
       .then(() => {
         ctx.dispatch("userLogin", {

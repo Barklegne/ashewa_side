@@ -579,9 +579,6 @@ export default {
       ],
     };
   },
-  created(){
-    
-  },
   computed: {
     ...mapGetters([
       "isTokenSet",
