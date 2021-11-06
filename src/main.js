@@ -12,7 +12,7 @@ import ZoomOnHover from "vue-zoom-on-hover";
 import i18n from "@/plugins/i18n";
 import "./registerServiceWorker";
 import VueGtag from "vue-gtag"; //instantiate gtag events
-import { longClickDirective } from 'vue-long-click'
+import { longClickDirective } from "vue-long-click";
 
 Vue.use(VueGtag, {
   //use gtag inside each components to trigger actions
@@ -40,14 +40,12 @@ const app = new Vue({
   apolloProvider: createProvider(),
 
   created() {
-    
-      store.dispatch("autoLogin");
-    
+    store.dispatch("autoLogin");
   },
-}).$mount(  "#app");
-const longClickInstance = longClickDirective({delay: 400, interval: 50})
+}).$mount("#app");
+const longClickInstance = longClickDirective({ delay: 400, interval: 50 });
 
-Vue.directive('longclick', longClickInstance)
+Vue.directive("longclick", longClickInstance);
 
 // Vue.use(Tawk, {
 //   tawkSrc: "https://embed.tawk.to/60f08fb1649e0a0a5ccc6b78/1falr2jms",
@@ -57,4 +55,3 @@ if (window.Cypress) {
   // Only available during E2E tests
   window.app = app;
 }
-

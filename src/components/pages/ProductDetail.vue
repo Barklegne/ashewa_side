@@ -22,16 +22,10 @@
         >
       </div>
       <div
-        @click="
-          inquire({
-            vendorName: product.vendor.storeName,
-            image:
-              product.productimageSet[index].image[0] == 'h'
-                ? product.productimageSet[index].image
-                : `http://api.ashewa.com/media/${product.productimageSet[index].image}`,
-
-            id: product.vendor.id,
-          })
+        :href="
+          product.vendor.phone
+            ? `tel:${product.vendor.phone}`
+            : 'tel:093 252 5252'
         "
         style="margin:auto auto"
       >
@@ -39,10 +33,10 @@
           :color="route.path == '/store' ? '#43DB80' : '#383737'"
           style="font-size:32px"
           large
-          >mdi-telegram</v-icon
+          >mdi-phone</v-icon
         >
       </div>
-      <div style="width:80%;height:100%;">
+      <div style=" width:80%;height:100%;">
         <v-btn
           class="rounded-l"
           outlined
@@ -177,17 +171,24 @@
                 <v-col cols="6" md="3">
                   <v-row
                     ><h2 class="text-weight-bolder">
-                      {{ currency == "USD" ? "$" : "ETB" }}
+                      <!-- {{ currency == "USD" ? "$" : "ETB" }} -->
                       {{
                         !!product
                           ? currency == "USD"
-                            ? parseFloat(product.usdPrice).toFixed(2)
-                            : product.sellingPrice
+                            ? new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "USD",
+                              }).format(parseFloat(product.usdPrice).toFixed(2))
+                            : new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "ETB",
+                              }).format(product.sellingPrice)
                           : ""
                       }}
                     </h2>
                   </v-row>
-                  <v-row>
+
+                  <v-row v-if="!product">
                     <h5 class="text-decoration-line-through text-weight-normal">
                       {{ currency == "USD" ? "$" : "ETB" }}
                       {{ !!product ? product.dealerPrice : "" }}
@@ -254,7 +255,11 @@
               </v-row>
               <v-divider class="my-6"></v-divider>
               <v-row>
-                <v-col cols="12" lg="6">
+                <v-col
+                  v-if="product.productpriceoptionSet.length !== 0"
+                  cols="12"
+                  lg="6"
+                >
                   <v-card-title>Price per Quantity</v-card-title>
                   <v-card class=" text-start" color="white" flat>
                     <v-simple-table style="border:1px solid black" dense>
@@ -274,7 +279,11 @@
                     </v-simple-table>
                   </v-card>
                 </v-col>
-                <v-col cols="12" lg="6">
+                <v-col
+                  v-if="product.productSpecification.length !== 0"
+                  cols="12"
+                  lg="6"
+                >
                   <v-card-title class="mx-13 text-start"
                     >Specification</v-card-title
                   >
@@ -294,11 +303,15 @@
                         </tbody>
                       </template>
                     </v-simple-table>
-                  </v-card></v-col
-                >
+                  </v-card>
+                </v-col>
               </v-row>
               <v-row class="ma-3">
-                <p class="ma-0 mb-1" style="font-size:18px;font-weight:600">
+                <p
+                  v-if="colors.length !== 0"
+                  class="ma-0 mb-1"
+                  style="font-size:18px;font-weight:600"
+                >
                   {{ colors.length }} Colors,
                   {{ colors.length > 0 ? colors[0].productsizeSet.length : 0 }}
                   Size Available
@@ -711,12 +724,18 @@
                     class="ma-0"
                     style="font-size:22px;font-weight:900; color: #43DB80"
                   >
-                    {{ currency == "USD" ? "$" : "ETB" }}
+                    <!-- {{ currency == "USD" ? "$" : "ETB" }} -->
                     {{
                       !!product
                         ? currency == "USD"
-                          ? parseFloat(product.usdPrice).toFixed(2)
-                          : product.sellingPrice
+                          ? new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                            }).format(parseFloat(product.usdPrice).toFixed(2))
+                          : new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "ETB",
+                            }).format(product.sellingPrice.toFixed(2))
                         : ""
                     }}
                   </p>
@@ -785,7 +804,7 @@
         </v-row>
       </div>
 
-      <div class="mx-5 my-2">
+      <div class="mx-5 my-8">
         <p
           v-html="!!product ? product.description : ''"
           style="font-size:14px;"
@@ -809,10 +828,15 @@
         </v-row>
       </div>
 
-      <p class="ma-0 mb-1" style="font-size:14px;font-weight:500">
+      <p
+        v-if="colors.length"
+        class="ma-0 mb-1"
+        style="font-size:14px;font-weight:500"
+      >
         {{ colors.length }} Colors,
         {{ colors.length > 0 ? colors[0].productsizeSet.length : 0 }} Size
       </p>
+
       <v-slide-group v-model="i" active-class="success">
         <v-slide-item class="mr-2" v-for="(n, i) in colors" :key="i">
           <v-card
@@ -821,10 +845,12 @@
             height="60"
             rounded=""
             @click="sheetB = true"
-            ><v-img aspect-ratio="1" :src="n.image"></v-img>
+          >
+            <v-img aspect-ratio="1" :src="n.image"></v-img>
           </v-card>
         </v-slide-item>
       </v-slide-group>
+
       <div class="mx-5 my-2 text-start">
         <v-bottom-sheet scrollable v-model="sheetB">
           <v-sheet
@@ -928,9 +954,17 @@
         </v-bottom-sheet>
       </div>
       <v-divider></v-divider>
+
       <div class="mx-5 my-2 text-start">
-        <v-card-title>Price per Quantity</v-card-title>
-        <v-card class=" text-start" color="white" flat>
+        <v-card-title v-if="product.productpriceoptionSet.length !== 0"
+          >Price per Quantity</v-card-title
+        >
+        <v-card
+          v-if="product.productpriceoptionSet.length !== 0"
+          class=" text-start"
+          color="white"
+          flat
+        >
           <v-simple-table style="border:1px solid black" dense>
             <template v-slot:default>
               <tbody>
@@ -944,7 +978,9 @@
             </template>
           </v-simple-table>
         </v-card>
-        <p class="mb-2 ">Specification</p>
+        <p v-if="product.productSpecification.length !== 0" class="mb-2 ">
+          Specification
+        </p>
         <v-card class="text-start" color="white" flat>
           <v-simple-table style="border:1px solid black" dense>
             <template v-slot:default>
@@ -963,11 +999,10 @@
           </v-simple-table>
         </v-card>
       </div>
-      <v-divider></v-divider>
-      <div class="mx-5 my-2 text-start">
+      <!-- <div class="mx-5 my-2 text-start">
         <p class="mb-2 ">Item Description</p>
         <v-img width="100%" src=""></v-img>
-      </div>
+      </div> -->
       <v-divider></v-divider>
       <div class="mx-5 my-2 text-start">
         <h3 class="mt-3 mx-2">
@@ -990,7 +1025,6 @@
             {{ rev.comment }}
           </v-row>
         </div>
-        <h3>Review</h3>
         <v-rating v-model="rev" size="30"></v-rating>
         <v-textarea
           outlined
@@ -1030,6 +1064,7 @@
               :outlined="!following"
               :dark="following"
               @click="following = !following"
+              color="#43DB80"
               small
               ><v-icon>{{
                 following ? "mdi-minus" : "+ mdi-plus"
@@ -1068,8 +1103,8 @@
       </div>
       <v-divider></v-divider>
       <div class="mx-5 my-2 text-start">
-        <p>Recommended Items</p>
-        <v-row class="mx-0">
+        <p v-if="relatedProducts.length !== 0">Recommended Items</p>
+        <v-row v-if="relatedProducts.length !== 0" class="mx-0">
           <v-col
             cols="6"
             class="pa-0 ma-0"
@@ -1099,10 +1134,10 @@
           </v-col>
         </v-row>
       </div>
-      <v-divider class="my-3"> </v-divider>
+      <v-divider v-if="relatedProducts.length !== 0" class="my-3"> </v-divider>
       <div class="mx-5 my-2 text-start">
-        <p class="mb-5">More Items</p>
-        <v-row class="mx-0">
+        <p v-if="products.length !== 0" class="mb-5">More Items</p>
+        <v-row class="mx-0" v-if="products.length !== 0">
           <v-col
             cols="6"
             class="pa-0 ma-0 mb-3"

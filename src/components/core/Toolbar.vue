@@ -443,16 +443,35 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-select
+        <!-- <v-select
           :items="currency"
-          item-text="lang"
-          :value="lang"
           label="Currency"
           :outlined="false"
-          @click="switchCurrency(lang)"
           class="ma-2 pa-3"
           prepend-inner-icon="mdi-cash"
-        ></v-select>
+        >
+          <template v-slot:lang="lang" @click="switchCurrency(lang)">
+            {{ lang.lang }}
+          </template>
+        </v-select> -->
+        <div class="mb-5">
+          <v-list-group prepend-icon="mdi-cash">
+            <template v-slot:activator>
+              <v-list-item-title>Currency</v-list-item-title>
+            </template>
+
+            <v-list-item
+              active-class="white--text"
+              v-for="(item, i) in currency"
+              :key="`Lang${i}`"
+              :value="item.lang"
+              @click="switchCurrency(item.lang)"
+            >
+              <v-list-item-title>{{ item.name }}</v-list-item-title>
+            </v-list-item>
+          </v-list-group>
+        </div>
+
         <v-row class="mx-2 px-2">
           <v-icon>mdi-translate</v-icon>
           <LocaleChanger class="ma-2 pa-3"></LocaleChanger>
@@ -687,8 +706,9 @@ export default {
     userLogout() {
       this.$store.dispatch("userLogout");
     },
- 
+
     switchCurrency(lang) {
+      console.log(lang);
       this.$store.dispatch("setCurrency", lang);
     },
 
