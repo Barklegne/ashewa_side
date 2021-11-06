@@ -169,7 +169,7 @@ export default {
       required: true,
     },
     usdPrice: {
-      type: String,
+      type: Number,
       required: true,
     },
     sellingPrice: {

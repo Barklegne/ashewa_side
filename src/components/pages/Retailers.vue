@@ -3,7 +3,7 @@
     <v-row class="ma-0">
       <v-spacer></v-spacer>
       <v-toolbar max-width="500" class="mt-3" dark color="lighten-2 green">
-        <v-toolbar-title>Retailers</v-toolbar-title>
+        <v-toolbar-title>Vendors</v-toolbar-title>
         <v-autocomplete
           v-model="select"
           @change="

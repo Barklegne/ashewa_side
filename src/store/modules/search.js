@@ -17,7 +17,7 @@ const actions = {
       .query({
         query: gql`
         {
-          filterProducts(filter: {name: "${value.word}", startPrice: 0 ${
+          filterProducts(filter: {name: "${value.word.toLowerCase()}", startPrice: 0 ${
           value.price !== 0 ? `,endPrice: ${value.price}` : ""
         }}) {
             objects {

@@ -1029,7 +1029,7 @@
               fab
               :outlined="!following"
               :dark="following"
-              @click="following = !following"
+              @click="addFollower"
               small
               ><v-icon>{{
                 following ? "mdi-minus" : "+ mdi-plus"

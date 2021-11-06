@@ -110,13 +110,19 @@ const actions = {
       });
   },
   autoLogin({ commit }) {
-    onLogin(apolloClient, localStorage.getItem("apollo-token"));
-    const user = JSON.parse(localStorage.getItem("user"));
-    commit(types.SAVE_USER, user);
-    commit(types.SAVE_TOKEN, JSON.parse(localStorage.getItem("token")));
-    commit(types.SET_LOCALE, JSON.parse(localStorage.getItem("locale")));
-    // dispatch("getAllProducts", { page: 1, pageSize: 6 });
-    // dispatch("parentCats");
+    if (!localStorage.getItem("token")) {
+      if (VueCookies.get("vendorToken")) {
+        onLogin(apolloClient, VueCookies.get("vendorToken"));
+        commit(types.SAVE_TOKEN, VueCookies.get("vendorToken"));
+        commit(types.SET_LOCALE, JSON.parse(localStorage.getItem("locale")));
+      }
+    } else {
+      onLogin(apolloClient, localStorage.getItem("apollo-token"));
+      const user = JSON.parse(localStorage.getItem("user"));
+      commit(types.SAVE_USER, user);
+      commit(types.SAVE_TOKEN, localStorage.getItem("token"));
+      commit(types.SET_LOCALE, JSON.parse(localStorage.getItem("locale")));
+    }
   },
   userLogout({ commit }) {
     onLogout(apolloClient);
@@ -133,7 +139,7 @@ const mutations = {
   [types.SAVE_TOKEN](state, token) {
     state.token = token;
     state.isTokenSet = true;
-    VueCookies.set("token", token, "12h");
+    VueCookies.set("ecommerceToken", token, "12h", "/", ".ashewa.com");
   },
   [types.LOGOUT](state) {
     state.user = null;
@@ -142,6 +148,10 @@ const mutations = {
   },
   [types.SAVE_USER](state, user) {
     state.user = user;
+    window.localStorage.setItem(
+      "user",
+      JSON.stringify({ auth: false, ...user })
+    );
   },
 };
 

@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <v-row class="px-0 hidden-lg-and-up" justify="center"
       ><v-slide-group>
         <v-slide-item
@@ -61,7 +60,71 @@
       <v-col>
         <v-row class="mb-10">
           <div v-if="title == 'Order History'">
-          <OrderHistory></OrderHistory>
+            <OrderHistory></OrderHistory>
+          </div>
+          <div style="width:600px" class="ma-5" v-if="title == 'Affliate'">
+            <v-simple-table>
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th class="text-left">
+                      Name
+                    </th>
+                    <th class="text-left">
+                      more
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in vendors" :key="item">
+                    <td>{{ item.vendorName }}</td>
+                    <td>
+                      <v-btn @click="ven = true" icon
+                        ><v-icon>mdi-dots-vertical</v-icon></v-btn
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+            <v-dialog v-model="ven">
+              <v-card>
+                <v-simple-table>
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-left">
+                          Product Name
+                        </th>
+                        <th class="text-left">
+                          Product Id
+                        </th>
+                        <th class="text-left">
+                          link
+                        </th>
+                        <th class="text-left">
+                          status
+                        </th>
+                        <th class="text-left">
+                          action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="item in vendorData" :key="item">
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product.id }}</td>
+                        <td></td>
+                        <td>{{ item.status }}</td>
+                        <td>
+                          <v-btn @click="ven = true" text>{{ Apply }}</v-btn>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </v-card>
+            </v-dialog>
           </div>
           <div style="width:100%" v-if="title == 'User Profile'">
             <v-row class="mt-10 mx-10 text-start" justify="space-around">
@@ -148,13 +211,13 @@
               </v-col>
             </v-row>
           </div>
-          
+
           <Cart
             title="Recent Viewed Products"
             col="11"
             v-if="title == 'Cart'"
           ></Cart>
-          
+
           <WishList col="11" v-if="title == 'Wishlist'"></WishList>
         </v-row>
       </v-col>
@@ -171,6 +234,22 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters(["user"]),
+    vendors() {
+      return [
+        { vendorName: "test", vendorId: "1" },
+        { vendorName: "test1", vendorId: "1" },
+        { vendorName: "test2", vendorId: "1" },
+      ];
+    },
+    vendorData() {
+      return {
+        orderStatus: "PEN",
+        link: "",
+        product: {
+          name: "test product",
+        },
+      };
+    },
     userData() {
       return this.user !== null
         ? {
@@ -189,9 +268,15 @@ export default {
             lastName: "",
           };
     },
-    firstName(){return this.userData.firstName},
-      lastName(){return this.userData.lastName},
-      email(){return this.userData.email},
+    firstName() {
+      return this.userData.firstName;
+    },
+    lastName() {
+      return this.userData.lastName;
+    },
+    email() {
+      return this.userData.email;
+    },
   },
   components: {
     WishList,
@@ -242,6 +327,7 @@ export default {
   data() {
     return {
       image: null,
+      ven: false,
       imageUrl:
         "https://cdn1.iconfinder.com/data/icons/facebook-ui/48/additional_icons-03-512.png",
       items: [
@@ -250,9 +336,9 @@ export default {
         { title: "Cart", icon: "mdi-cart-outline" },
         { title: "Wishlist", icon: "mdi-heart-outline" },
         { title: "Logout", icon: "mdi-logout" },
+        { title: "Affliate", icon: "mdi-cash" },
       ],
       title: "Order History",
-      
     };
   },
 };

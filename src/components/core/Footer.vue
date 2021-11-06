@@ -41,12 +41,16 @@
                   v-for="(item, i) in item.subTitles"
                   :key="i"
                   :href="
-                    item.link == 'https://retailer.ashewa.com/promotions'
-                      ? 'https://retailer.ashewa.com/promotions'
+                    item.link == 'https://retailer.ashewa.com/promotions' ||
+                    'http://suppliers.ashewa.com/Blogs' ||
+                    'http://seller.ashewa.com/signup2'
+                      ? item.link
                       : ''
                   "
                   :to="
-                    item.link == 'https://retailer.ashewa.com/promotions'
+                    item.link == 'https://retailer.ashewa.com/promotions' ||
+                    'http://suppliers.ashewa.com/Blogs' ||
+                    'http://seller.ashewa.com/signup2'
                       ? ''
                       : item.link
                   "
@@ -164,7 +168,7 @@
                       :to="
                         item.link == 'https://retailer.ashewa.com/promotions'
                           ? ''
-                          : item.link
+                          : `/${item.link}`
                       "
                     >
                       <v-list-item-content class="py-0">
@@ -436,13 +440,13 @@ export default {
         {
           title: "Products",
           subTitles: [
-            { name: "New Arrival", link: "NewArrivals" },
-            { name: "Promoted Products", link: "BestProducts" },
+            { name: "New Arrival", link: "/NewArrivals" },
+            { name: "Promoted Products", link: "/BestProducts" },
             {
               name: "Products Features",
               link: "https://retailer.ashewa.com/promotions",
             },
-            { name: "How to Sell", link: "productFeatures" },
+            { name: "How to Sell", link: "/productFeatures" },
           ],
         },
         {
@@ -450,15 +454,15 @@ export default {
           subTitles: [
             {
               name: "About us",
-              link: "about",
+              link: "/about",
             },
             {
               name: "General Policy",
-              link: "policy",
+              link: "/policy",
             },
             {
               name: "Terms of use",
-              link: "termsOfUse",
+              link: "/termsOfUse",
             },
           ],
         },

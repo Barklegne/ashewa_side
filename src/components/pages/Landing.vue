@@ -91,7 +91,7 @@
       </div>
     </div>
     <landingAd></landingAd>
-    <ProductSlide class="mb-5" title="Deal of the day" :data="dealOfTheDay" />
+    <ProductSlide class="mb-5" title="New Arrivals" :data="newArrivals" />
     <SecondAd></SecondAd>
     <ProductSlide
       v-for="(n, i) in categories"
@@ -132,6 +132,9 @@ export default {
     },
     dealOfTheDay() {
       return this.$store.getters.dealOfTheDay;
+    },
+    newArrivals() {
+      return this.$store.state.product.newArrivals;
     },
     electronics() {
       return this.$store.getters.electronics;
