@@ -1063,12 +1063,8 @@
               fab
               :outlined="!following"
               :dark="following"
-<<<<<<< HEAD
-              @click="addFollower"
-=======
               @click="following = !following"
               color="#43DB80"
->>>>>>> 40e0498cccf6f0f272f5c2b978a22fc048a4bcc3
               small
               ><v-icon>{{
                 following ? "mdi-minus" : "+ mdi-plus"
