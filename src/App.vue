@@ -168,9 +168,9 @@ export default {
       this.vis = false;
       this.$router.push("/comingSoon");
     },
-    async getAllProducts() {
+    getAllProducts() {
       if (this.$store.getters.categories.length === 0) {
-        await this.$store.dispatch("getAllProducts", { page: 1, pageSize: 5 });
+        this.$store.dispatch("getAllProducts", { page: 1, pageSize: 5 });
       }
     },
     async parentCats() {

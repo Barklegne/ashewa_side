@@ -241,7 +241,6 @@ const actions = {
       });
   },
   async getNewArrivals({ commit }) {
-    commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
       .query({
         query: gql`
@@ -314,16 +313,14 @@ const actions = {
         `,
       })
       .then((response) => {
-        commit(types.SHOW_LOADING, false);
         console.log(response.data.newArrivalsPaginated.objects);
         commit(
           types.SAVE_NEW_ARRIVAL,
           response.data.newArrivalsPaginated.objects
         );
-        // commit(types.SAVE_TOKEN, response.data.tokenAuth.token);
       })
       .catch((error) => {
-        handleError(error, commit, resp);
+        console.log(error, resp);
       });
   },
   async getBestProducts({ commit }) {
