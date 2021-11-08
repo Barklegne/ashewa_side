@@ -111,6 +111,8 @@
 </template>
 
 <script>
+//import router from "@/router";
+import { mapGetters } from "vuex";
 import Toolbar from "@/components/core/Toolbar.vue";
 import Loading from "@/components/core/Loading.vue";
 import Footer from "@/components/core/Footer.vue";
@@ -156,11 +158,18 @@ export default {
     Footer,
     // TestToolbar,
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["isTokenSet", "user"]),
+  },
   created() {
     this.parentCats();
     this.$store.dispatch("getNewArrivals");
     // this.getAllProducts();
+    if (this.isTokenSet) {
+      if (!this.user.isVerified) {
+        console.log("Not Verified");
+      }
+    }
   },
   methods: {
     addSubscriber() {

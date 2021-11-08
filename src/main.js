@@ -55,4 +55,3 @@ if (window.Cypress) {
   // Only available during E2E tests
   window.app = app;
 }
-console.log("abebebe");

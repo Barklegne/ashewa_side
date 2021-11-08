@@ -11,7 +11,7 @@
       @mouseenter="mo = true"
       @mouseleave="mo = false"
       class=" white rounded-lg my-5"
-      :elevation="hover ? 20 : 6"
+      :elevation="6"
       background-color="#43DB80"
     >
       <v-card class="white">
@@ -75,59 +75,70 @@
         }}
       </p>
       <v-row>
-        <v-col cols="6">
-          <v-card-title
-            class="text-md-h6 ma-0 pa-0 pl-1  ml-3 text-subtitle-1 "
-            style="font-size:12px;font-weight:550;color:#09B750"
-            >{{ currency === "USD" ? "$" : "ETB" }}
+        <!-- <v-col cols="6"> -->
+        <v-card-title
+          class="text-md-h6 ma-0 pa-0 pl-0  ml-1 text-subtitle-1 "
+          style="font-size:8px;font-weight:500;color:#09B750"
+        >
+          <!-- {{ currency === "USD" ? "$  " : "ETB  " }} -->
+
+          <div class="ma-0 ml-5 mt-3 text-subtitle-2" style="font-weight:550">
             {{
               currency === "USD"
-                ? parseFloat(usdPrice).toFixed(2)
-                : sellingPrice
+                ? new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(parseFloat(usdPrice).toFixed(2))
+                : new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "ETB",
+                  }).format(sellingPrice)
             }}
-          </v-card-title>
-        </v-col>
-        <v-col cols="6">
-          <v-row class="pa-0 ma-0">
-            <v-col cols="4"
-              ><v-btn
-                @click="
-                  addToCart({
-                    image: productImages[0].image,
-                    price: sellingPrice,
-                    title: productName,
-                    id: productId,
-                    category: productCategory.categoryName,
-                  })
-                "
-                icon
-                style=""
-                ><v-icon size="25" style="color:#09B750;"
-                  >mdi-cart-outline</v-icon
-                ></v-btn
-              ></v-col
+          </div>
+        </v-card-title>
+        <!-- </v-col> -->
+        <!-- <v-col cols="6"> -->
+        <v-row class="pa-0 ma-0 ml-8">
+          <v-col cols="4"
+            ><v-btn
+              @click="
+                addToCart({
+                  image: productImages[0].image,
+                  price: sellingPrice,
+                  title: productName,
+                  id: productId,
+                  category: productCategory.categoryName,
+                })
+              "
+              icon
+              class="mx-auto"
+              ><v-icon size="22" style="color:#09B750;"
+                >mdi-cart-outline</v-icon
+              ></v-btn
             >
+          </v-col>
 
-            <v-col cols="6"
-              ><v-btn
-                @click="
-                  addToWish({
-                    image: productImages[0].image,
-                    price: sellingPrice,
-                    title: productName,
-                    id: productId,
-                    category: productCategory.categoryName,
-                  })
-                "
-                icon
-                style=""
-                ><v-icon size="25" style="color:#09B750;"
-                  >mdi-heart-outline</v-icon
-                ></v-btn
-              ></v-col
-            >
-          </v-row>
-        </v-col>
+          <v-col cols="4"
+            ><v-btn
+              @click="
+                addToWish({
+                  image: productImages[0].image,
+                  price: sellingPrice,
+                  title: productName,
+                  id: productId,
+                  category: productCategory.categoryName,
+                })
+              "
+              icon
+              style=""
+              ><v-icon size="22" style="color:#09B750;"
+                >mdi-heart-outline</v-icon
+              ></v-btn
+            ></v-col
+          >
+          <!-- <v-spacer></v-spacer> -->
+        </v-row>
+        <!-- </v-col> -->
       </v-row>
       <v-divider v-if="false"></v-divider>
     </v-card>

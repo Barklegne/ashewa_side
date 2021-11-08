@@ -72,6 +72,7 @@ const actions = {
                 phone
                 email
                 profilePic
+                isVerified
               }
             }
           }
@@ -109,19 +110,24 @@ const actions = {
         handleError(error, commit, resp);
       });
   },
-  autoLogin({ commit }) {
+  async autoLogin(ctx) {
     if (!localStorage.getItem("token")) {
       if (VueCookies.get("vendorToken")) {
+        const tokenE = VueCookies.get("vendorToken");
         onLogin(apolloClient, VueCookies.get("vendorToken"));
-        commit(types.SAVE_TOKEN, VueCookies.get("vendorToken"));
-        commit(types.SET_LOCALE, JSON.parse(localStorage.getItem("locale")));
+        ctx.commit(types.SAVE_TOKEN, tokenE);
+        ctx.commit(
+          types.SET_LOCALE,
+          JSON.parse(localStorage.getItem("locale"))
+        );
+        ctx.dispatch("getMe");
       }
     } else {
       onLogin(apolloClient, localStorage.getItem("apollo-token"));
       const user = JSON.parse(localStorage.getItem("user"));
-      commit(types.SAVE_USER, user);
-      commit(types.SAVE_TOKEN, localStorage.getItem("token"));
-      commit(types.SET_LOCALE, JSON.parse(localStorage.getItem("locale")));
+      ctx.commit(types.SAVE_USER, user);
+      ctx.commit(types.SAVE_TOKEN, JSON.parse(localStorage.getItem("token")));
+      ctx.commit(types.SET_LOCALE, JSON.parse(localStorage.getItem("locale")));
     }
   },
   userLogout({ commit }) {
@@ -133,13 +139,42 @@ const actions = {
       name: "login",
     });
   },
+  async getMe({ commit }) {
+    commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .query({
+        query: gql`
+          {
+            getMe {
+              id
+              firstName
+              lastName
+              username
+              phone
+              email
+              profilePic
+            }
+          }
+        `,
+      })
+      .then((res) => {
+        commit(types.SHOW_LOADING, false);
+        commit(types.SAVE_USER, res.data.getMe);
+      })
+      .catch((error) => {
+        console.log(error, "error rrr");
+        handleError(error, commit, resp);
+      });
+  },
 };
 
 const mutations = {
   [types.SAVE_TOKEN](state, token) {
     state.token = token;
     state.isTokenSet = true;
-    VueCookies.set("ecommerceToken", token, "12h", "/", ".ashewa.com");
+    VueCookies.set("token", token, "12h");
+    VueCookies.set("eccommerceToken", token, "12h", "/", ".ashewa.com");
+    window.localStorage.setItem("token", token);
   },
   [types.LOGOUT](state) {
     state.user = null;
@@ -147,6 +182,7 @@ const mutations = {
     state.isTokenSet = false;
   },
   [types.SAVE_USER](state, user) {
+    window.localStorage.setItem("user", JSON.stringify(user));
     state.user = user;
     window.localStorage.setItem(
       "user",
