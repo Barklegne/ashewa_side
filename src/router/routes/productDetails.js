@@ -8,6 +8,14 @@ export default [
       ),
   },
   {
+    path: "/Store/:id",
+    name: "VisitStore",
+    component: () =>
+      import(
+        /* webpackChunkName: "ProductDetails" */ "@/components/pages/VisitStore.vue"
+      ),
+  },
+  {
     path: "/NewArrivals",
     name: "NewArrivals",
     component: () =>

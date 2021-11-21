@@ -30,7 +30,7 @@
         <CategoryCard
           :width="250"
           :title="x.storeName"
-          image="https://www.khaoscontrol.com/wp-content/uploads/2020/06/supplier-management-header.jpg"
+          image=""
           :id="x.id"
           :supplier="true"
         />

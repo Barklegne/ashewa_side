@@ -10,11 +10,7 @@
           >
         </v-row>
 
-        <v-data-table
-          :headers="headers"
-          :items="totalCartList"
-          :items-per-page="3"
-        >
+        <v-data-table :headers="headers" :items="cartItems" :items-per-page="3">
           <template v-slot:[`item.image`]="{ item }">
             <v-img
               height="200"
@@ -46,17 +42,18 @@
               class="py-3 text-center"
               elevation="0"
             >
-              <v-btn @click="inc(item.productId)" x-small text
+              <!-- <v-btn @click="inc(item.productId)" x-small text
                 ><v-icon>mdi-arrow-up</v-icon></v-btn
-              >
-              {{ item.quantity }}
-              <v-btn @click="dec(item.productId)" x-small text
+              > -->
+              <v-chip label color="green" dark>{{ item.quantity }}</v-chip>
+
+              <!-- <v-btn @click="dec(item.productId)" x-small text
                 ><v-icon>mdi-arrow-down</v-icon></v-btn
-              >
+              > -->
             </v-card>
           </template>
           <template v-slot:[`item.action`]="{ item }">
-            <v-btn @click="removeProduct(item.productId)" small color="error">
+            <v-btn @click="removeProduct(item.id)" small color="error">
               <v-icon left dark>
                 mdi-trash-can-outline
               </v-icon>
@@ -582,8 +579,13 @@ export default {
       headers: [
         { text: "IMAGE", value: "image", sortable: false },
         { text: "PRODUCT", value: "name", sortable: false },
+
         { text: "QUANTITY", value: "quantity", sortable: false },
-        { text: "PRICE", value: "price", sortable: true },
+        {
+          text: "PRICE",
+          value: "price",
+          sortable: true,
+        },
         { text: "ACTION", value: "action", sortable: false },
       ],
       products: [
@@ -609,6 +611,10 @@ export default {
   created() {
     if (!this.$store.state.auth.isTokenSet) {
       router.push({ path: "/login" });
+    } else {
+      if (this.$store.getters.totalCartList.length == 0) {
+        this.$store.dispatch("getCartList");
+      }
     }
   },
   methods: {
@@ -617,7 +623,7 @@ export default {
       console.log("vis false");
     },
     removeProduct(id) {
-      this.$store.commit("REMOVE_PRODUCT_FROM_CART_LIST", id);
+      this.$store.dispatch("removeFromCart", id);
       //This event signifies that a successfull product was removed from cart
       this.$gtag.event("Remove from Cart", {
         event_category: "Product removed from cart",
@@ -733,6 +739,22 @@ export default {
           return this.$store.getters.totalCartList;
       }
     },
+    cartItems() {
+      return this.totalCartList.map((item) => {
+        return {
+          image: item.product.image,
+          id: item.product.id,
+          name: item.product.name,
+          price: item.product.sellingPrice,
+          quantity: item.quantity,
+          total: item.total,
+          productId: item.product.id,
+        };
+      });
+    },
+    currency() {
+      return this.$store.state.product.currency;
+    },
     vis() {
       return this.$store.state.cart.vis;
     },
@@ -793,8 +815,8 @@ export default {
     },
     total() {
       let t = 0;
-      this.$store.getters.totalCartList.forEach((element) => {
-        t = t + element.price * element.quantity;
+      this.$store.state.cart.cartItems.forEach((element) => {
+        t = t + element.product.sellingPrice * element.quantity;
       });
       return t;
     },

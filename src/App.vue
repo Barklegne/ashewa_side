@@ -1,6 +1,7 @@
 <template>
   <v-app class="myFont">
-    <Toolbar />
+    <Toolbar v-if="$route.name !== 'VisitStore'" />
+    <StoreToolbar v-else></StoreToolbar>
     <!-- <TestToolbar /> -->
     <v-dialog
       persistent
@@ -106,7 +107,8 @@
         </transition>
       </v-container>
     </v-main>
-    <Footer />
+    <Footer v-if="$route.name !== 'VisitStore'" />
+    <StoreFooter v-else></StoreFooter>
   </v-app>
 </template>
 
@@ -114,6 +116,8 @@
 //import router from "@/router";
 import { mapGetters } from "vuex";
 import Toolbar from "@/components/core/Toolbar.vue";
+import StoreToolbar from "@/components/core/StoreToolbar";
+import StoreFooter from "@/components/core/StoreFooter";
 import Loading from "@/components/core/Loading.vue";
 import Footer from "@/components/core/Footer.vue";
 // import TestToolbar from "@/components/core/testToolbar.vue";
@@ -135,7 +139,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Ashewa Market Place",
+      title: "Ashewa.com | Easy and Reliable",
       meta: [
         { name: "msapplication-TileColor", content: "#ffc40d" },
         { name: "Referrer-Policy", content: "same-origin" },
@@ -154,6 +158,8 @@ export default {
   },
   components: {
     Toolbar,
+    StoreToolbar,
+    StoreFooter,
     Loading,
     Footer,
     // TestToolbar,
@@ -165,11 +171,11 @@ export default {
     this.parentCats();
     this.$store.dispatch("getNewArrivals");
     // this.getAllProducts();
-    if (this.isTokenSet) {
-      if (!this.user.isVerified) {
-        console.log("Not Verified");
-      }
-    }
+    // if (this.isTokenSet) {
+    //   if (!this.user.isVerified) {
+    //     console.log("Not Verified");
+    //   }
+    // }
   },
   methods: {
     addSubscriber() {

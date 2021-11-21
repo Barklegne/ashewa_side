@@ -9,9 +9,7 @@
               style="width:100%;text-align:start;"
             >
               <div class="mb-4" style="font-size:20px;">CATEGORIES</div>
-              <div class="my-1" style="cursor: pointer;">
-                All Categories
-              </div>
+
               <div
                 class="my-1"
                 style="cursor: pointer;"

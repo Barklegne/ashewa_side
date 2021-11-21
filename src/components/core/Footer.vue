@@ -22,7 +22,7 @@
           <v-expansion-panel
             v-for="(item, i) in mobileFooter"
             :key="i"
-            style="background:#43DB80;margin-left:2px;"
+            style="background:#787c82;margin-left:2px;"
           >
             <v-expansion-panel-header
               class="white--text"
@@ -43,14 +43,14 @@
                   :href="
                     item.link == 'https://retailer.ashewa.com/promotions' ||
                     'http://suppliers.ashewa.com/Blogs' ||
-                    'http://seller.ashewa.com/signup2'
+                    'https://seller.ashewa.com/register'
                       ? item.link
                       : ''
                   "
                   :to="
                     item.link == 'https://retailer.ashewa.com/promotions' ||
                     'http://suppliers.ashewa.com/Blogs' ||
-                    'http://seller.ashewa.com/signup2'
+                    'https://seller.ashewa.com/register'
                       ? ''
                       : item.link
                   "
@@ -74,7 +74,7 @@
       <v-footer dark padless class="d-block text-center hidden-lg-and-down">
         <v-card
           flat
-          color="#43DB82"
+          color="#787c82"
           tile
           class="white--text text-start hidden-md-and-down"
         >
@@ -123,7 +123,7 @@
         <v-card
           flat
           tile
-          color="#43DB80"
+          color="#787c82"
           class="white--text text-center hidden-md-and-down"
         >
           <v-card-text>
@@ -142,6 +142,15 @@
 
           <v-card-text class="white--text pt-0">
             <v-row justify="center">
+              <v-col class="ma-0 pa-0" cols="6" lg="3">
+                <div style="width:100%;text-align:center">
+                  <v-img
+                    style="margin:auto auto"
+                    width="250"
+                    src="/logo.png"
+                  ></v-img>
+                </div>
+              </v-col>
               <v-col cols="6" lg="3">
                 <v-list
                   class="mx-10"
@@ -160,16 +169,7 @@
                       style="min-height:30px"
                       v-for="(item, i) in products"
                       :key="i"
-                      :href="
-                        item.link == 'https://retailer.ashewa.com/promotions'
-                          ? 'https://retailer.ashewa.com/promotions'
-                          : ''
-                      "
-                      :to="
-                        item.link == 'https://retailer.ashewa.com/promotions'
-                          ? ''
-                          : `/${item.link}`
-                      "
+                      :to="item.link"
                     >
                       <v-list-item-content class="py-0">
                         <v-list-item-title
@@ -232,41 +232,7 @@
                     style="font-size:18px;font-weight:600"
                     class="text-start pl-3 white--text  mb-1"
                   >
-                    Our E-commerce
-                  </p>
-                  <v-list-item-group>
-                    <v-list-item
-                      style="min-height:30px"
-                      v-for="(item, i) in ec"
-                      :key="i"
-                      :to="item.link"
-                    >
-                      <v-list-item-content class="py-0">
-                        <v-list-item-title
-                          ><p
-                            class="text-start mb-0"
-                            style="font-size:13px;font-weight:400"
-                          >
-                            {{ item.name }}
-                          </p>
-                        </v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list-item-group>
-                </v-list>
-              </v-col>
-              <v-col cols="6" lg="3">
-                <v-list
-                  class="mx-10"
-                  style="background-color:transparent;"
-                  dense
-                  flat
-                >
-                  <p
-                    style="font-size:18px;font-weight:600"
-                    class="text-start pl-3 white--text  mb-1"
-                  >
-                    Make Money with Us
+                    Sell on Ashewa
                   </p>
                   <v-list-item-group>
                     <v-list-item
@@ -324,7 +290,7 @@
         class="text-center"
       >
         <v-icon
-          :color="route.path == item.path ? '#66DC81' : '#383737'"
+          :color="route.path == item.path ? '#66DC81' : '#787c82'"
           style="font-size:32px"
           x-large
         >
@@ -340,7 +306,7 @@
           :style="
             route.path == item.path
               ? 'font-size:16px;color:#66DC81;'
-              : 'font-size:12px;color:#383737'
+              : 'font-size:12px;color:#787c82'
           "
           class="text-center"
         >
@@ -367,11 +333,6 @@ export default {
       products: [
         { name: "New Arrival", link: "NewArrivals" },
         { name: "Promoted Products", link: "BestProducts" },
-        {
-          name: "Products Features",
-          link: "https://retailer.ashewa.com/promotions",
-        },
-        { name: "How to Sell", link: "productFeatures" },
       ],
       about: [
         {
@@ -386,6 +347,8 @@ export default {
           name: "Terms of use",
           link: "termsOfUse",
         },
+        { name: "Shipping Policy", link: "shipping-policy" },
+        { name: "Privacy Policy", link: "privacy-policy" },
       ],
       ec: [
         { name: "Vendor/Supplier", link: "/vendor-supplier" },
@@ -398,13 +361,18 @@ export default {
           name: "Sell products on Ashewa",
           link: "/sell-on-products-on-ashewa",
         },
-        { name: "Sell on Ashewa Business", link: "/sell-on-ashewa-business" },
-        { name: "Blog  on Ashewa", link: "http://seller.ashewa.com/blogs" },
         {
-          name: "Become an Affiliate",
-          link: "http://seller.ashewa.com/signup2",
+          name: "Vendors",
+          link: "/retailers",
         },
-        { name: "Become a Seller", link: "http://seller.ashewa.com/signup2" },
+        {
+          name: "Suplliers",
+          link: "/suppliers",
+        },
+        {
+          name: "How to Sell",
+          link: "https://seller.ashewa.com/howtosell",
+        },
       ],
       grow: ["Ashewa story", "Community", "Blog", "Job Vacancy", "Contact"],
       footerAll: [
@@ -442,10 +410,7 @@ export default {
           subTitles: [
             { name: "New Arrival", link: "/NewArrivals" },
             { name: "Promoted Products", link: "/BestProducts" },
-            {
-              name: "Products Features",
-              link: "https://retailer.ashewa.com/promotions",
-            },
+
             { name: "How to Sell", link: "/productFeatures" },
           ],
         },

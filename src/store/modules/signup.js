@@ -22,7 +22,7 @@ const actions = {
               id
               phone
               profilePic
-              isVerified
+              
             }
           }
         }

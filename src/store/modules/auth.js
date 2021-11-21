@@ -61,41 +61,44 @@ const actions = {
     const resp = await apolloClient
       .mutate({
         mutation: gql`
-          mutation{
-            tokenAuth(username: "${payload.email}", password: "${payload.password}") {
-              token
-              user{
-                id
-                firstName
-                lastName
-                username
-                phone
-                email
-                profilePic
-                isVerified
+          mutation {
+            userAuth(username: "${payload.email}", password: "${payload.password}") {
+              payload {
+                token
+                user {
+                  id
+                  firstName
+                  lastName
+                  username
+                  phone
+                  email
+                  profilePic
+                }
               }
             }
           }
         `,
       })
       .then((response) => {
-        console.log({ auth: false, ...response.data.tokenAuth.user });
-        onLogin(apolloClient, response.data.tokenAuth.token);
+        console.log({ auth: false, ...response.data.userAuth.payload.user });
+        onLogin(apolloClient, response.data.userAuth.payload.token);
         window.localStorage.setItem(
           "user",
-          JSON.stringify({ auth: false, ...response.data.tokenAuth.user })
+          JSON.stringify({
+            auth: false,
+            ...response.data.userAuth.payload.user,
+          })
         );
         window.localStorage.setItem(
           "token",
-          JSON.stringify(response.data.tokenAuth.token)
+          JSON.stringify(response.data.userAuth.payload.token)
         );
-
         commit(types.SAVE_USER, {
           auth: false,
-          ...response.data.tokenAuth.user,
+          ...response.data.userAuth.payload.user,
         });
-        commit(types.SAVE_TOKEN, response.data.tokenAuth.token);
-        console.log(response.data.tokenAuth);
+        commit(types.SAVE_TOKEN, response.data.userAuth.payload.token);
+        console.log(response.data.userAuth.payload);
         // dispatch("getAllProducts", { page: 1, pageSize: 6 });
         // dispatch("parentCats");
         buildSuccess("Successfully logged in", commit);

@@ -2,15 +2,14 @@
   <div>
     <v-row
       class="ma-0 hidden-md-and-down"
-      style="height:140px;background-color:#43DB80"
+      style="height:140px;background-color:#9da8d1"
     >
       <v-col cols="2" class="ma-0 pa-0">
         <div>
           <v-img
-            src="/images/logo.png"
+            src="https://fundacja2act.org/wp-content/uploads/2020/02/sample-logo-white.png"
             style="margin:auto auto;cursor:pointer"
             width="150"
-            height="140"
             @click="
               $router.push({
                 path: `/`,
@@ -27,92 +26,14 @@
           justify="space-around"
         >
           <v-spacer></v-spacer>
-          <v-col
-            style="background-color:white;height:50px"
-            class="pa-0 rounded-pill"
-            cols="6"
+          <v-col cols="6"
+            ><h1
+              class="text-center white--text"
+              style="text-transform:uppercase"
+            >
+              {{ this.$route.params.id }}
+            </h1></v-col
           >
-            <v-row class="ma-0 pa-0">
-              <v-menu
-                :close-on-content-click="false"
-                open-on-click
-                bottom
-                offset-y
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <div class="dropDown" dark v-bind="attrs" v-on="on">
-                    <div class="pl-3">
-                      Filter
-                    </div>
-                    <v-icon color="#b5b5b5">
-                      mdi-chevron-down
-                    </v-icon>
-                  </div>
-                </template>
-                <div
-                  class="pa-5"
-                  style="width:400px;background-color:white;height:200px;border"
-                >
-                  <v-row>
-                    <v-slider
-                      v-model="price"
-                      class="mt-5"
-                      label="Maximum Price"
-                      color="#43DB80"
-                      thumb-color="#43DB80"
-                      tick-labels=""
-                      :min="0"
-                      :max="10000"
-                    ></v-slider>
-                    <p style="font-size:15px;font-weight:600" class="mt-5">
-                      {{ price }} birr
-                    </p>
-                  </v-row>
-                  <v-row align="center" justify="center ">
-                    <v-chip-group column multiple active-class="primary--text">
-                      <v-chip label v-for="tag in tags" :key="tag">
-                        {{ tag }}
-                      </v-chip>
-                    </v-chip-group>
-                  </v-row>
-                </div>
-              </v-menu>
-              <v-text-field
-                solo
-                dense
-                light
-                height="50px"
-                v-model="searchF"
-                placeholder="I'm shopping for..."
-              ></v-text-field>
-              <v-btn
-                style="background-color:white"
-                elevation="0"
-                @click="startSpeechToTxt"
-                height="50px"
-                tile
-              >
-                <v-icon>{{
-                  recording ? "mdi-record" : "mdi-microphone"
-                }}</v-icon>
-              </v-btn>
-              <v-btn
-                :href="
-                  `/search/${JSON.stringify({
-                    price: price,
-                    word: searchF,
-                  })}`
-                "
-                color="#4DBA87"
-                dark
-                height="50px"
-                tile
-                class="rounded-r-xl"
-              >
-                <v-icon>mdi-magnify</v-icon>
-              </v-btn>
-            </v-row>
-          </v-col>
           <v-spacer></v-spacer>
           <v-col sm="3">
             <div class="iconsList">
@@ -129,13 +50,12 @@
                     ></router-link
                   >
                 </div>
-
                 <v-spacer></v-spacer>
                 <div
                   @mouseenter="color2 = 'white'"
                   @mouseleave="color2 = 'black'"
                 >
-                  <router-link :to="{ path: 'wishList' }">
+                  <router-link :to="{ path: '/wishList' }">
                     <v-badge
                       bottom
                       overlap
@@ -157,7 +77,7 @@
                   @mouseenter="color3 = 'white'"
                   @mouseleave="color3 = 'black'"
                 >
-                  <router-link :to="{ path: 'cart' }">
+                  <router-link :to="{ path: '/cart' }">
                     <v-badge
                       bottom
                       overlap
@@ -245,59 +165,24 @@
           class="ma-0"
           style="height:60px;border-top: 1px solid #b5b5b5"
         >
-          <v-col cols="2" style="height:60px;border-top:2px solid black;">
-            <v-menu open-on-hover bottom offset-y>
-              <template v-slot:activator="{ on, attrs }">
-                <div style="font-weight:600" dark v-bind="attrs" v-on="on">
-                  <div class="pl-2 py-1">
-                    {{ $t("toolbar.SHOP BY CATEGORY") }}
-                  </div>
-                </div>
-              </template>
-
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in categories"
-                  :key="index"
-                  @click="
-                    $router.push({
-                      path: `/subcategory/${item.id}`,
-                    })
-                  "
-                >
-                  <v-list-item-title>{{ item.name }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-col>
           <v-spacer></v-spacer>
-          <v-col v-for="(n, i) in 3" :key="i" style="">
-            <router-link
+          <v-col style="width:50px" v-for="(n, i) in 4" :key="i">
+            <div
               :style="
-                $route.path == links[i].path
-                  ? 'text-decoration:none;font-weight:900'
-                  : 'text-decoration:none;font-weight:500'
+                tab == links[i].path
+                  ? 'color:black;text-decoration:none;font-weight:900;cursor:pointer'
+                  : 'color:black;text-decoration:none;font-weight:500;cursor:pointer'
               "
-              :to="{ path: links[i].path }"
-              active-class="primary--text"
+              class="text-center"
+              dark
+              @click="changeTab(links[i].path)"
             >
-              <div style="color:black;" dark>
-                {{ $t(`toolbar.${links[i].name}`) }}
-              </div>
-            </router-link>
-          </v-col>
-
-          <v-spacer></v-spacer>
-          <v-col class="hidden-sm-and-down">
-            <div style="width:120px;">
-              <a
-                href="https://seller.ashewa.com/howtosell"
-                style="width:120px;font-weight:600;cursor:pointer;text-decoration:none;color:black"
-              >
-                {{ $t("toolbar.SELL ON ASHEWA") }}
-              </a>
+              {{ links[i].name }}
             </div>
           </v-col>
+
+          <v-spacer></v-spacer>
+          <v-col class="hidden-sm-and-down"> </v-col>
           <v-divider light vertical style="color:black;"></v-divider>
           <v-col>
             <LocaleChanger></LocaleChanger>
@@ -336,7 +221,7 @@
     </v-row>
     <v-row
       class=" ma-0 pa-0 hidden-lg-and-up"
-      style="height:60px;background-color:#43DB80"
+      style="height:60px;background-color:#9da8d1"
     >
       <v-col cols="1" class="hidden-lg-and-up">
         <span>
@@ -386,7 +271,7 @@
         <v-row style="margin-left:-30px; margin-top:-10px">
           <v-col cols="12">
             <span @mouseenter="color3 = 'white'" @mouseleave="color3 = 'black'">
-              <router-link :to="{ path: 'cart' }">
+              <router-link :to="{ path: '/cart' }">
                 <v-badge
                   bottom
                   overlap
@@ -594,10 +479,10 @@ export default {
         },
       ],
       links: [
-        { name: "HOME", path: "/" },
-        // { name: "SERVICES", path: "/services" },
-        { name: "RETAILERS", path: "/retailers" },
-        { name: "SUPPLIERS", path: "/suppliers" },
+        { name: "Home", path: 4 },
+        { name: "All Products", path: 0 },
+        { name: "New Arrivals", path: 1 },
+        { name: "About", path: 2 },
       ],
     };
   },
@@ -612,6 +497,9 @@ export default {
     ]),
     currencyNow() {
       return this.$store.state.product.currency;
+    },
+    tab() {
+      return this.$store.state.product.tab;
     },
     admin() {
       return this.user !== null ? this.user.role === "admin" : false;
@@ -712,7 +600,9 @@ export default {
     userLogout() {
       this.$store.dispatch("userLogout");
     },
-
+    changeTab(tab) {
+      this.$store.commit("CHANGE_TAB", tab);
+    },
     switchCurrency(lang) {
       console.log(lang);
       this.$store.dispatch("setCurrency", lang);

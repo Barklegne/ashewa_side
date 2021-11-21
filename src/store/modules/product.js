@@ -20,9 +20,158 @@ const getters = {
 };
 
 const actions = {
+  async getVendorInformation(ctx, id) {
+    ctx.commit(types.SAVE_ALL_VENDOR_PRODUCTS_LOADING);
+    const resp = await apolloClient
+      .query({
+        query: gql`
+          {
+            vendorInfo(storeName: "${id}") {
+              id
+              storeName
+              description
+              storeCover
+              location
+              phone
+              email
+              videoUrl
+              domain
+              country
+              region
+              subCity
+              woreda
+              vendorgallerySet{
+                image
+              }
+              socialLinks{
+                facebook
+                telegram
+                youtube
+              }
+              vendorfooter{
+                ourService
+                tradeService
+                ourProducts
+                whoWeAre
+              }
+            }
+          }
+        `,
+      })
+      .then((response) => {
+        console.log(response.data.vendorInfo);
+        ctx.commit(types.SAVE_ALL_VENDOR_INFO, response.data.vendorInfo);
+        ctx.dispatch("getAllVendorProducts", {
+          id: response.data.vendorInfo.id,
+          page: 1,
+        });
+      })
+      .catch((error) => {
+        handleError(error, ctx.commit, resp);
+        ctx.commit(types.SAVE_ALL_VENDOR_PRODUCTS_LOADING);
+      });
+  },
+  async getAllVendorProducts({ commit }, val) {
+    const resp = await apolloClient
+      .query({
+        query: gql`
+          {
+            vendorProducts(vendorId: "${val.id}",page:${val.page}) {
+              page
+              pages
+              hasNext
+              hasPrev
+              totalObjects
+              objects {
+                name
+                stockAmount
+                usdPrice
+                id
+                image
+                productpriceoptionSet {
+                  id
+                  quantity
+                  discount
+                }
+                productrateSet {
+                  id
+                  user {
+                    username
+                    id
+                  }
+                  rate
+                  comment
+                }
+                productcolorSet {
+                  id
+                  name
+                  image
+                  productsizeSet {
+                    id
+                    name
+                    quantity
+                  }
+                }
+                supplierDomain
+                vendor {
+                  domain
+                  storeName
+                  id
+                  phone
+                  followerSet {
+                    user {
+                      id
+                    }
+                    id
+                  }
+                }
+                sellingPrice
+                productimageSet {
+                  image
+                }
+                discount
+                description
+                category {
+                  id
+                  name
+                  image
+                  subcategorySet {
+                    name
+                    id
+                  }
+                }
+                subcategory {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        `,
+      })
+      .then((response) => {
+        console.log(response.data.vendorProducts.objects);
+        commit(
+          types.SAVE_ALL_VENDOR_PRODUCTS,
+          response.data.vendorProducts.objects
+        );
+        commit(types.SAVE_ALL_VENDOR_PRODUCTS_LOADING);
+      })
+      .catch((error) => {
+        handleError(error, commit, resp);
+        commit(types.SAVE_ALL_VENDOR_PRODUCTS_LOADING);
+      });
+  },
   async addSubscriber(ctx, value) {
     ctx.commit(types.SHOW_LOADING, true);
-
+    console.log(`mutation {
+      addEmailSubscription(input: { email: "${value}" }) {
+        payload {
+          id
+          email
+        }
+      }
+    }`);
     const resp = await apolloClient
       .mutate({
         mutation: gql`
@@ -38,8 +187,8 @@ const actions = {
       })
       .then((res) => {
         ctx.commit(types.SHOW_LOADING, false);
-        ctx.state.email = res.data.addEmailSubscription.payload.email;
-        ctx.state.vis = true;
+        ctx.commit(types.SUCCESS, { msg: "Thanks for subscribing  " });
+        console.log(res);
       })
       .catch((error) => {
         handleError(error, ctx.commit, resp);
@@ -415,6 +564,7 @@ const actions = {
             
               getProductsById(id: "${id.id}") {
                 name
+                stockAmount
                 usdPrice
     id
     image
@@ -648,12 +798,28 @@ const mutations = {
   [types.SAVE_BEST_PRODUCTS](state, value) {
     state.bestProducts = value;
   },
+  [types.SAVE_ALL_VENDOR_INFO](state, value) {
+    state.vendorInfo = value;
+  },
+  [types.SAVE_ALL_VENDOR_PRODUCTS](state, value) {
+    state.vendorProducts = value;
+  },
+  [types.SAVE_ALL_VENDOR_PRODUCTS_LOADING](state) {
+    state.loading = !state.loading;
+  },
+  [types.CHANGE_TAB](state, value) {
+    state.tab = value;
+  },
 };
 
 const state = {
   products: [],
+  tab: 0,
+  loading: false,
   newArrivals: [],
+  vendorProducts: [],
   bestProducts: [],
+  vendorInfo: {},
   currency: "ETB",
   vis: false,
   email: "",

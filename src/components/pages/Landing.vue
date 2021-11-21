@@ -90,8 +90,7 @@
         </v-slide-group>
       </div>
     </div>
-    <landingAd></landingAd>
-    <ProductSlide class="mb-5" title="New Arrivals" :data="newArrivals" />
+    <!-- <landingAd></landingAd> -->
     <SecondAd></SecondAd>
     <ProductSlide
       v-for="(n, i) in categories"
@@ -99,7 +98,9 @@
       :title="n.name"
       :data="n.productSet"
     />
+    <ProductSlide class="mb-5" title="New Arrivals" :data="newArrivals" />
     <ThirdAd></ThirdAd>
+    <SuccessMessage></SuccessMessage>
   </div>
 </template>
 
@@ -108,8 +109,9 @@ import FirstAd from "../advertisement/FirstAd.vue";
 import SecondAd from "../advertisement/SecondAd.vue";
 import ThirdAd from "../advertisement/ThirdAd.vue";
 import ProductSlide from "../product/ProductSlide.vue";
+import SuccessMessage from "@/components/common/SuccessMessage";
 // import CategoryCard from "../category/CategoryCard.vue";
-import LandingAd from "../advertisement/Landing.vue";
+// import LandingAd from "../advertisement/Landing.vue";
 
 export default {
   components: {
@@ -118,7 +120,8 @@ export default {
     ThirdAd,
     ProductSlide,
     // CategoryCard,
-    LandingAd,
+    // LandingAd,
+    SuccessMessage,
   },
   computed: {
     categories() {

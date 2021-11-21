@@ -64,6 +64,7 @@
             addToCart({
               image: productImages[0].image,
               price: sellingPrice,
+              usdPrice: usdPrice,
               title: productName,
               id: `${productId}`,
               category: productCategory.name,
@@ -71,13 +72,20 @@
           "
           icon
           class="hover-icon"
+          large
           style=""
-          ><v-icon small>mdi-cart-outline</v-icon></v-btn
+          ><v-icon>mdi-cart-outline</v-icon></v-btn
         >
         <v-dialog v-model="dialog" max-width="1000px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" icon class="hover-icon" style=""
-              ><v-icon small>mdi-eye-outline</v-icon></v-btn
+            <v-btn
+              v-bind="attrs"
+              large
+              v-on="on"
+              icon
+              class="hover-icon"
+              style=""
+              ><v-icon>mdi-eye-outline</v-icon></v-btn
             >
           </template>
           <v-card style="padding-bottom:20px">
@@ -200,6 +208,7 @@
                           addToCart({
                             image: productImages[0].image,
                             price: sellingPrice,
+                            usdPrice: usdPrice,
                             title: productName,
                             id: `${productId}`,
                             category: productCategory.name,
@@ -270,7 +279,7 @@
             </v-row>
           </v-card>
         </v-dialog>
-        <v-btn
+        <!-- <v-btn
           @click="
             addToWish({
               image: productImages[0].image,
@@ -287,7 +296,7 @@
         >
         <v-btn icon class="hover-icon" style=""
           ><v-icon small>mdi-chart-box-outline</v-icon></v-btn
-        >
+        > -->
       </v-row>
     </v-card>
   </div>
@@ -431,22 +440,12 @@ export default {
       if (!this.$store.state.auth.isTokenSet) {
         this.$router.push({ path: "/login" });
       } else {
-        console.log(this.totalCartList);
-        if (this.totalCartList.find((p) => p.productId == product.id)) {
-          console.log("here");
-          var foundIndex = this.totalCartList.findIndex(
-            (x) => x.productId == product.id
-          );
-          this.$store.commit("INCREMENT_QUANTITY_CART", foundIndex);
-        } else {
-          // this.$store.commit("ADD_PRODUCT_TO_CART_LIST", product);
-          this.$store.dispatch("addToCart", product);
-          //This event signifies that a successfull add to cart
-          this.$gtag.event("Add to Cart", {
-            event_category: "Product added to cart",
-            event_label: "Add to Cart",
-          });
-        }
+        this.$store.dispatch("addToCart", product);
+        //This event signifies that a successfull add to cart
+        this.$gtag.event("Add to Cart", {
+          event_category: "Product added to cart",
+          event_label: "Add to Cart",
+        });
       }
       this.$router.push({ path: "/cart" });
     },

@@ -13,7 +13,7 @@
         </h2>
         <div class="mt-4">
           <v-btn
-            href="https://seller.ashewa.com/signup2"
+            href="https://seller.ashewa.com/register"
             large
             tile
             color="#43DB80"
@@ -104,7 +104,7 @@
     </div>
     <v-btn
       dark
-      href="https://seller.ashewa.com/signup2"
+      href="https://seller.ashewa.com/register"
       large
       tile
       color="#43DB80"

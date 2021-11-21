@@ -82,9 +82,40 @@ const actions = {
         handleError(error, ctx.commit, resp);
       });
   },
+  async getCartList({ commit }) {
+    commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .query({
+        query: gql`
+          {
+            userCart {
+              id
+              quantity
+              product {
+                id
+                name
+                image
+                sellingPrice
+                productimageSet {
+                  image
+                }
+              }
+            }
+          }
+        `,
+      })
+      .then((res) => {
+        commit(types.SET_CART_LIST, res.data.userCart);
+        commit(types.SHOW_LOADING, false);
+      })
+      .catch((error) => {
+        handleError(error, commit, resp);
+      });
+  },
   async addToCart(ctx, value) {
+    debugger;
     ctx.commit(types.SHOW_LOADING, true);
-
+    debugger;
     const resp = await apolloClient
       .mutate({
         mutation: gql`
@@ -95,26 +126,45 @@ const actions = {
             ) {
               payload {
                 id
-                product {
-                  id
-                  name
+              quantity
+              product {
+                id
+                name
+                image
+                sellingPrice
+                productimageSet {
+                  image
                 }
+              }
               }
             }
           }
         `,
       })
       .then((resp) => {
+        ctx.commit(types.SET_CART_LIST, resp.data.addToCart.payload);
         ctx.commit(types.SHOW_LOADING, false);
-        ctx.commit(types.ADD_PRODUCT_TO_CART_LIST, {
-          id: value.id,
-          title: value.title,
-          category: value.category,
-          price: value.price,
-          image: value.image,
-          quantity: value.quantity ? value.quantity : 1,
-        });
-        console.log(resp.data.addToCart.payload);
+      })
+      .catch((error) => {
+        handleError(error, ctx.commit, resp);
+      });
+  },
+  async removeFromCart(ctx, value) {
+    ctx.commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            clearCart(productId: "${value}") {
+              payload
+            }
+          }
+        `,
+      })
+      .then((resp) => {
+        console.log(resp.data.clearCart.payload);
+        ctx.commit(types.SET_CART_LIST, []);
+        ctx.commit(types.SHOW_LOADING, false);
       })
       .catch((error) => {
         handleError(error, ctx.commit, resp);
@@ -407,10 +457,8 @@ const actions = {
 };
 
 const mutations = {
-  [types.REMOVE_PRODUCT_FROM_CART_LIST](state, value) {
-    state.cartItems = state.cartItems.filter(function(product) {
-      return product.productId != value;
-    });
+  SET_CART_LIST(state, value) {
+    Vue.set(state, "cartItems", value);
   },
   [types.SET_DELIVERY](state, value) {
     state.deliveryItems = value;
@@ -498,6 +546,7 @@ const state = {
   success: false,
   text: "",
   orderHistory: [],
+  cartList: [],
 };
 
 export default {

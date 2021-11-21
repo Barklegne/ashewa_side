@@ -70,6 +70,7 @@
               ? addToCart({
                   image: product.productimageSet[0].image,
                   price: product.sellingPrice,
+                  usdPrice: product.usdPrice,
                   title: product.name,
                   id: product.id,
                   category: product.category.name,
@@ -117,6 +118,12 @@
               </div>
             </v-slide-item>
           </v-slide-group>
+          <v-row class="mt-5">
+            <h3 class="mr-4">Stoke Amount:</h3>
+            <v-chip label dark color="#09b750">{{
+              !!product ? product.stockAmount : ""
+            }}</v-chip>
+          </v-row>
         </v-col>
         <v-col>
           <v-col>
@@ -166,6 +173,7 @@
                   class="text-caption text-start"
                 ></p>
               </v-row>
+
               <v-row align="center" justify="center">
                 <v-col cols="6" md="2">Unit Price:</v-col>
                 <v-col cols="6" md="3">
@@ -229,6 +237,7 @@
                       addToCart({
                         image: product.productimageSet[0].image,
                         price: product.sellingPrice,
+                        usdPrice: product.usdPrice,
                         title: product.name,
                         id: product.id,
                         category: product.category.name,
@@ -244,10 +253,10 @@
                     dark
                     elevation="0"
                     color="success"
-                    :href="
-                      product.vendor.domain
-                        ? `${product.vendor.domain}`
-                        : `${product.supplierDomain}`
+                    @click="
+                      $router.push({
+                        path: `/store/${product.vendor.storeName}`,
+                      })
                     "
                     >Visit Store</v-btn
                   >
@@ -326,7 +335,12 @@
                       height="60"
                       rounded=""
                       @click="vis = true"
-                      ><v-img aspect-ratio="1" :src="n.image"></v-img>
+                      ><v-img
+                        aspect-ratio="1"
+                        :src="
+                          `http://api.ashewa.com/media/prod-image${n.image}`
+                        "
+                      ></v-img>
                     </v-card>
                   </v-slide-item>
                 </v-slide-group>
@@ -1175,6 +1189,7 @@
         </v-row>
       </div>
     </div>
+    <ErrorMessage />
   </div>
 </template>
 
@@ -1193,7 +1208,6 @@ export default {
       model: 0,
       sheetB: false,
       items: ["Overview", "Customer Reviews", "Specification"],
-
       prices: [],
       desserts: [],
       text:
@@ -1217,7 +1231,7 @@ export default {
   },
   created() {
     this.getProduct();
-    this.getRelatedProduct();
+    // this.getRelatedProduct();
   },
   computed: {
     ...mapGetters(["isTokenSet"]),
@@ -1451,16 +1465,7 @@ export default {
       if (!this.$store.state.auth.isTokenSet) {
         this.$router.push({ path: "/login" });
       } else {
-        console.log(this.totalCartList);
-        if (this.totalCartList.find((p) => p.productId == product.id)) {
-          console.log("here");
-          var foundIndex = this.totalCartList.findIndex(
-            (x) => x.productId == product.id
-          );
-          this.$store.commit("INCREMENT_QUANTITY_CART", foundIndex);
-        } else {
-          this.$store.dispatch("addToCart", product);
-        }
+        this.$store.dispatch("addToCart", product);
       }
       this.$router.push({ path: "/cart" });
     },
