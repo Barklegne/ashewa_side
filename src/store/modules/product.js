@@ -26,7 +26,7 @@ const actions = {
       .query({
         query: gql`
           {
-            vendorInfo(storeName: "${id}") {
+            vendorInfo(vendorName: "${id}") {
               id
               storeName
               description
@@ -101,16 +101,6 @@ const actions = {
                   }
                   rate
                   comment
-                }
-                productcolorSet {
-                  id
-                  name
-                  image
-                  productsizeSet {
-                    id
-                    name
-                    quantity
-                  }
                 }
                 supplierDomain
                 vendor {
@@ -342,16 +332,7 @@ const actions = {
                   rate
                   comment
                 }
-                productcolorSet{
-                  id
-                  name
-                  image
-                  productsizeSet{
-                    id
-                    name
-                    quantity
-                  }
-                }
+                size
                 supplierDomain
                 vendor {
                   storeName
@@ -414,16 +395,7 @@ const actions = {
                   rate
                   comment
                 }
-                productcolorSet {
-                  id
-                  name
-                  image
-                  productsizeSet {
-                    id
-                    name
-                    quantity
-                  }
-                }
+
                 supplierDomain
                 vendor {
                   domain
@@ -498,16 +470,7 @@ const actions = {
                   rate
                   comment
                 }
-                productcolorSet {
-                  id
-                  name
-                  image
-                  productsizeSet {
-                    id
-                    name
-                    quantity
-                  }
-                }
+
                 supplierDomain
                 vendor {
                   domain
@@ -566,6 +529,7 @@ const actions = {
                 name
                 stockAmount
                 usdPrice
+                size
     id
     image
     productpriceoptionSet {
@@ -582,16 +546,7 @@ const actions = {
       rate
       comment
     }
-    productcolorSet {
-      id
-      name
-      image
-      productsizeSet {
-        id
-        name
-        quantity
-      }
-    }
+    
     supplierDomain
     vendor {
       domain
@@ -665,16 +620,7 @@ const actions = {
                   rate
                   comment
                 }
-                productcolorSet{
-                  id
-                  name
-                  image
-                  productsizeSet{
-                    id
-                    name
-                    quantity
-                  }
-                }
+                size
                 supplierDomain
                 vendor {
                   domain

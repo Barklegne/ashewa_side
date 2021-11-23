@@ -124,6 +124,10 @@
               !!product ? product.stockAmount : ""
             }}</v-chip>
           </v-row>
+          <v-row class="mt-5">
+            <h3 class="mr-4">Size:</h3>
+            <v-chip label dark>{{ !!product ? product.size : "" }}</v-chip>
+          </v-row>
         </v-col>
         <v-col>
           <v-col>
@@ -1259,9 +1263,6 @@ export default {
       return 0;
     },
     colors() {
-      if (this.product.productcolorSet.length > 0) {
-        return this.product.productcolorSet;
-      }
       return [];
     },
     product() {

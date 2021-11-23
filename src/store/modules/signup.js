@@ -4,6 +4,8 @@ import { createProvider } from "../../vue-apollo";
 import { handleError } from "@/utils/utils.js";
 import { gql } from "graphql-tag";
 
+//function to change image to base64
+
 let apolloClient = createProvider().defaultClient;
 
 const actions = {
@@ -13,16 +15,13 @@ const actions = {
       .mutate({
         mutation: gql`
         mutation {
-          userSignup(username: "${payload.userName}", email: "${payload.email}", firstName: "${payload.firstName}", lastName: "${payload.lastName}", phone: "${payload.phone}", password: "${payload.password}", profilePic: "") {
+          userSignup(username: "${payload.userName}", email: "${payload.email}", firstName: "${payload.firstName}", lastName: "${payload.lastName}", phone: "${payload.phone}", password: "${payload.password}") {
             payload {
               username
               firstName
               lastName
-              isStaff
               id
               phone
-              profilePic
-              
             }
           }
         }

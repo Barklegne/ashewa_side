@@ -1,7 +1,7 @@
 <template>
   <v-footer dark padless>
     <v-card
-      color="#9da8d1"
+      color="#787c82"
       style="width:100%"
       flat
       tile

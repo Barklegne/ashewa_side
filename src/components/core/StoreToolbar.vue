@@ -2,7 +2,7 @@
   <div>
     <v-row
       class="ma-0 hidden-md-and-down"
-      style="height:140px;background-color:#9da8d1"
+      style="height:140px;background-color:#43DB80"
     >
       <v-col cols="2" class="ma-0 pa-0">
         <div>
@@ -18,6 +18,7 @@
           ></v-img>
         </div>
       </v-col>
+
       <v-col class="ma-0 pa-0" cols="10">
         <v-row
           class="ma-0"
@@ -26,14 +27,92 @@
           justify="space-around"
         >
           <v-spacer></v-spacer>
-          <v-col cols="6"
-            ><h1
-              class="text-center white--text"
-              style="text-transform:uppercase"
-            >
-              {{ this.$route.params.id }}
-            </h1></v-col
+          <v-col
+            style="background-color:white;height:50px"
+            class="pa-0 rounded-pill"
+            cols="6"
           >
+            <v-row class="ma-0 pa-0">
+              <v-menu
+                :close-on-content-click="false"
+                open-on-click
+                bottom
+                offset-y
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <div class="dropDown" dark v-bind="attrs" v-on="on">
+                    <div class="pl-3">
+                      Filter
+                    </div>
+                    <v-icon color="#b5b5b5">
+                      mdi-chevron-down
+                    </v-icon>
+                  </div>
+                </template>
+                <div
+                  class="pa-5"
+                  style="width:400px;background-color:white;height:200px;border"
+                >
+                  <v-row>
+                    <v-slider
+                      v-model="price"
+                      class="mt-5"
+                      label="Maximum Price"
+                      color="#43DB80"
+                      thumb-color="#43DB80"
+                      tick-labels=""
+                      :min="0"
+                      :max="10000"
+                    ></v-slider>
+                    <p style="font-size:15px;font-weight:600" class="mt-5">
+                      {{ price }} birr
+                    </p>
+                  </v-row>
+                  <v-row align="center" justify="center ">
+                    <v-chip-group column multiple active-class="primary--text">
+                      <v-chip label v-for="tag in tags" :key="tag">
+                        {{ tag }}
+                      </v-chip>
+                    </v-chip-group>
+                  </v-row>
+                </div>
+              </v-menu>
+              <v-text-field
+                solo
+                dense
+                light
+                height="50px"
+                v-model="searchF"
+                placeholder="I'm shopping for..."
+              ></v-text-field>
+              <v-btn
+                style="background-color:white"
+                elevation="0"
+                @click="startSpeechToTxt"
+                height="50px"
+                tile
+              >
+                <v-icon>{{
+                  recording ? "mdi-record" : "mdi-microphone"
+                }}</v-icon>
+              </v-btn>
+              <v-btn
+                :href="
+                  `/search/${JSON.stringify({
+                    price: price,
+                    word: searchF,
+                  })}`
+                "
+                color="#4DBA87"
+                dark
+                height="50px"
+                tile
+                class="rounded-r-xl"
+              >
+                <v-icon>mdi-magnify</v-icon>
+              </v-btn>
+            </v-row>
+          </v-col>
           <v-spacer></v-spacer>
           <v-col sm="3">
             <div class="iconsList">
@@ -221,7 +300,7 @@
     </v-row>
     <v-row
       class=" ma-0 pa-0 hidden-lg-and-up"
-      style="height:60px;background-color:#9da8d1"
+      style="height:60px;background-color:#43DB80"
     >
       <v-col cols="1" class="hidden-lg-and-up">
         <span>
@@ -482,7 +561,7 @@ export default {
         { name: "Home", path: 4 },
         { name: "All Products", path: 0 },
         { name: "New Arrivals", path: 1 },
-        { name: "About", path: 2 },
+        { name: "Company Profile", path: 2 },
       ],
     };
   },

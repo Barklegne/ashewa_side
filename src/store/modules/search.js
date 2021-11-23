@@ -34,16 +34,7 @@ const actions = {
                 rate
                 comment
               }
-              productcolorSet {
-                id
-                name
-                image
-                productsizeSet {
-                  id
-                  name
-                  quantity
-                }
-              }
+              
               supplierDomain
               vendor {
                 domain
