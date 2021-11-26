@@ -98,22 +98,6 @@
               : 'col-md-9 col-sm-9 col-xs-12'
           "
         >
-          <v-row dense>
-            <!-- <v-col cols="12" sm="8" class="pl-6 pt-6">
-              <small>Showing 1-12 of 200 products</small>
-            </v-col> -->
-            <v-col cols="12" sm="4">
-              <v-select
-                class="pa-0"
-                v-model="select"
-                :items="options"
-                style="margin-bottom: -20px;"
-                outlined
-                dense
-              ></v-select>
-            </v-col>
-          </v-row>
-
           <v-divider class="my-2"></v-divider>
 
           <div class="row text-center">
@@ -189,7 +173,13 @@
 export default {
   computed: {
     vendorProducts() {
-      return this.$store.state.product.vendorProducts;
+      //map where image value is not null
+      return this.$store.state.product.vendorProducts.reduce((acc, cur) => {
+        if (cur.image) {
+          acc.push(cur);
+        }
+        return acc;
+      }, []);
     },
   },
   data: () => ({

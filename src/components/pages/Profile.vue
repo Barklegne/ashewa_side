@@ -336,7 +336,7 @@ export default {
         { title: "Cart", icon: "mdi-cart-outline" },
         { title: "Wishlist", icon: "mdi-heart-outline" },
         { title: "Logout", icon: "mdi-logout" },
-        { title: "Affliate", icon: "mdi-cash" },
+        // { title: "Affliate", icon: "mdi-cash" },
       ],
       title: "Order History",
     };

@@ -160,7 +160,12 @@ export default {
       return this.$store.state.product.loading;
     },
     vendorProducts() {
-      return this.$store.state.product.vendorProducts;
+      return this.$store.state.product.vendorProducts.reduce((acc, cur) => {
+        if (cur.image) {
+          acc.push(cur);
+        }
+        return acc;
+      }, []);
     },
     catagories() {
       function arrayUnique(array) {

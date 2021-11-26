@@ -117,7 +117,7 @@
           <v-col sm="3">
             <div class="iconsList">
               <v-row>
-                <div
+                <!-- <div
                   @mouseenter="color1 = 'white'"
                   @mouseleave="color1 = 'black'"
                 >
@@ -128,9 +128,9 @@
                       ></v-badge
                     ></router-link
                   >
-                </div>
+                </div> -->
 
-                <v-spacer></v-spacer>
+                <!-- <v-spacer></v-spacer>
                 <div
                   @mouseenter="color2 = 'white'"
                   @mouseleave="color2 = 'black'"
@@ -150,7 +150,7 @@
                       ></v-badge
                     ></router-link
                   >
-                </div>
+                </div> -->
 
                 <v-spacer></v-spacer>
                 <div

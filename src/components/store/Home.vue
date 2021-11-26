@@ -3,6 +3,7 @@
     <v-carousel hide-delimiters>
       <v-carousel-item
         v-for="(n, i) in vendorImageGallerySet"
+        gradient="to bottom, rgba(0,0,0,.5), rgba(0,0,0,.5)"
         :key="i"
         :src="n"
       >
@@ -15,7 +16,7 @@
       </v-carousel-item>
     </v-carousel>
     <div class="pl-4 pr-4 row">
-      <div class="col-md-6 col-sm-6 col-xs-12">
+      <div v-if="vendorProducts.length > 0" class="col-md-6 col-sm-6 col-xs-12">
         <v-card>
           <v-img
             :src="
@@ -44,7 +45,7 @@
           </v-img>
         </v-card>
       </div>
-      <div class="col-md-6 col-sm-6 col-xs-12">
+      <div v-if="vendorProducts.length > 1" class="col-md-6 col-sm-6 col-xs-12">
         <v-card>
           <v-img
             :src="
@@ -125,7 +126,10 @@
                 class="col-12 col-md-3 col-sm-6 col-xs-6 text-center"
               >
                 <v-hover v-slot:default="{ hover }" open-delay="200">
-                  <v-card :elevation="hover ? 16 : 2">
+                  <v-card
+                    v-if="vendorProducts[i].image"
+                    :elevation="hover ? 16 : 2"
+                  >
                     <v-img
                       class="white--text align-end"
                       height="200px"
@@ -235,19 +239,16 @@ export default {
       return this.$store.state.product.vendorInfo;
     },
     vendorProducts() {
-      return this.$store.state.product.vendorProducts;
+      return this.$store.state.product.vendorProducts.reduce((acc, cur) => {
+        if (cur.image) {
+          acc.push(cur);
+        }
+        return acc;
+      }, []);
     },
     vendorImageGallerySet() {
-      // if()
-      console.log(
-        this.$store.state.product.vendorInfo.vendorgallerySet.length == 0
-          ? this.vendorProducts[0].image
-          : this.$store.state.product.vendorgallerySet.length == 0
-      );
       return this.$store.state.product.vendorInfo.vendorgallerySet.length == 0
-        ? [
-            "https://loving-leavitt-9cb65b.netlify.app/static/img/slider2.b3a6509.jpg",
-          ]
+        ? [this.vendorInfo.storeCover]
         : this.$store.state.product.vendorgallerySet.length == 0;
     },
   },

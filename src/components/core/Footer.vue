@@ -323,10 +323,10 @@ export default {
   data() {
     return {
       email: "",
-      icons: ["mdi-facebook", "mdi-twitter", "mdi-telegram", "mdi-instagram"],
+      icons: ["mdi-facebook", "mdi-telegram", "mdi-instagram"],
       lnk: [
         "https://facebook.com/ashewabusiness",
-        "",
+
         "https://t.me/ashewatechnologies",
         "https://instagram.com/ashewagroup",
       ],

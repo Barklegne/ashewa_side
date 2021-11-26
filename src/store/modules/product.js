@@ -551,6 +551,7 @@ const actions = {
     vendor {
       domain
       storeName
+      isSupplier
       id
       phone
       followerSet {

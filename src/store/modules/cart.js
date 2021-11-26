@@ -24,23 +24,20 @@ const actions = {
               objects {
                 id
                 price
-                products {
-                  id
-                  name
-                  productimageSet {
-                    image
+                orders {
+                  product {
+                    id
+                    name
+                    productimageSet {
+                      image
+                    }
                   }
+                  quantity
                 }
                 paid
                 reference
                 paymentMethod
                 status
-                deliveryOption {
-                  provider {
-                    name
-                    phone
-                  }
-                }
               }
             }
           }
@@ -61,15 +58,16 @@ const actions = {
         query: gql`
           {
             deliveryOptions {
+              id
               provider {
-                name
                 id
+                name
+                phone
+                address
+                totalPrice
+                totalDistance
+                estimatedTime
               }
-              userLocation
-              vendorLocation
-              estimatedTime
-              totalDistance
-              deliveryPrice
             }
           }
         `,
@@ -88,7 +86,7 @@ const actions = {
       .query({
         query: gql`
           {
-            userCart {
+            getCart {
               id
               quantity
               product {
@@ -105,7 +103,7 @@ const actions = {
         `,
       })
       .then((res) => {
-        commit(types.SET_CART_LIST, res.data.userCart);
+        commit(types.SET_CART_LIST, res.data.getCart);
         commit(types.SHOW_LOADING, false);
       })
       .catch((error) => {
@@ -156,7 +154,7 @@ const actions = {
         mutation: gql`
           mutation {
             clearCart(productId: "${value}") {
-              payload
+              cleared
             }
           }
         `,
@@ -249,25 +247,22 @@ const actions = {
     const resp = await apolloClient
       .mutate({
         mutation: gql`
-    mutation{
-      checkoutOrder(deliveryProviderId: "${value.deliveryId}", userLocation: "${value.loc}"){
-        payload{
-          order{
-            id
-            reference
-          }
-          deliveryOption{
-            provider{
-              id
-              name
+        mutation {
+          checkoutOrder(billingInfo: {country: "${value.country}", region: "${value.region}", wereda: "${value.wereda}", phone: "${value.phone}", email: "${value.email}"}, deliveryProviderId: "${value.deliveryId}") {
+            payload {
+              order {
+                id
+                reference
+              }
+              deliveryOption {
+                provider {
+                  id
+                  name
+                }
+              }
             }
-            totalDistance
-            estimatedTime
-            deliveryPrice
           }
-        }
-      }
-    }
+        }        
   `,
       })
       .then(async (r) => {
@@ -311,17 +306,17 @@ const actions = {
                 createTeleBirrTransaction(
                   orderId: "${r.data.checkoutOrder.payload.order.id}"
                 ) {
-                  payload
+                  payUrl
                 }
               }
             `,
             })
             .then((response) => {
               ctx.commit(types.SHOW_LOADING, false);
-              console.log(response.data.createTeleBirrTransaction.payload);
+              console.log(response.data.createTeleBirrTransaction.payUrl);
               ctx.commit(types.CHECKOUT_SUCCESS, {
                 a: r.data.checkoutOrder.payload.order.reference,
-                m: response.data.createTeleBirrTransaction.payload,
+                m: response.data.createTeleBirrTransaction.payUrl,
               });
             })
             .catch((error) => {

@@ -96,7 +96,7 @@
                 depressed
                 color="#09b750"
                 dark
-                @click="visF = true"
+                @click="vis = true"
               >
                 Proceed to checkout
               </v-btn>
@@ -114,10 +114,10 @@
     >
       <v-card class="pa-5">
         <h3>Delivery Information</h3>
-        <p>Name:{{ deliveryInformation.provider.name }}</p>
-        <p>Total Distance:{{ deliveryInformation.totalDistance }}</p>
+        <!-- <p>Name:{{ deliveryData }}</p> -->
+        <!-- <p>Total Distance:{{ deliveryInformation.totalDistance }}</p>
         <p>Estimated Time:{{ deliveryInformation.esT }}</p>
-        <p>Delivery Price:{{ deliveryInformation.deliveryPrice }}</p>
+        <p>Delivery Price:{{ deliveryInformation.deliveryPrice }}</p> -->
         {{
           payment === "BOA"
             ? ""
@@ -394,6 +394,89 @@
     >
       <v-card class="pa-5">
         <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
+          Address
+        </p>
+        <v-row class="ma-0">
+          <v-col class="ma-0 pa-0" cols="12" md="3">
+            <v-text-field
+              background-color="#ebe9e9"
+              class="ma-0"
+              height="50"
+              solo
+              flat
+              placeholder="Country"
+              v-model="country"
+            >
+            </v-text-field
+          ></v-col>
+          <v-spacer></v-spacer>
+          <v-col class="ma-0 pa-0" cols="12" md="3">
+            <v-text-field
+              background-color="#ebe9e9"
+              class="ma-0"
+              height="50"
+              solo
+              flat
+              placeholder="Region"
+              v-model="region"
+            >
+            </v-text-field>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col class="ma-0 pa-0" cols="12" md="3">
+            <v-text-field
+              background-color="#ebe9e9"
+              class="ma-0"
+              height="50"
+              solo
+              flat
+              placeholder="Wereda"
+              v-model="wereda"
+            >
+            </v-text-field>
+          </v-col>
+        </v-row>
+        <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
+          Email
+        </p>
+        <v-text-field
+          background-color="#ebe9e9"
+          class="ma-0"
+          height="50"
+          type="email"
+          solo
+          flat
+          placeholder="Enter your email address"
+          v-model="email"
+        >
+        </v-text-field>
+        <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
+          Phone Number
+        </p>
+        <v-text-field
+          background-color="#ebe9e9"
+          class="ma-0"
+          height="50"
+          solo
+          flat
+          placeholder="Phone Number"
+          v-model="phone"
+        >
+        </v-text-field>
+        <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
+          Full Name
+        </p>
+        <v-text-field
+          background-color="#ebe9e9"
+          class="ma-0"
+          height="50"
+          solo
+          flat
+          placeholder="Full Name"
+          v-model="fname"
+        >
+        </v-text-field>
+        <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
           Total Price
         </p>
         <div
@@ -415,9 +498,9 @@
           solo
           flat
           placeholder="Please select a delivery option"
-          item-text="lable"
+          item-text="name"
           item-value="id"
-          :items="deliveryItem"
+          :items="deliveryData"
           v-model="delivery"
         ></v-select>
         <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
@@ -445,7 +528,15 @@
             @click="checkout"
             class="mx-5"
             style="text-transform:none"
-            :disabled="!address || !delivery || !payment"
+            :disabled="
+              !delivery ||
+                !fname ||
+                !phone ||
+                !country ||
+                !region ||
+                !wereda ||
+                !email
+            "
             color="#43DB80"
             >Proceed</v-btn
           >
@@ -562,12 +653,17 @@ export default {
   data() {
     return {
       isMobile: false,
+      email: "",
+      vis: false,
       test: true,
       testF: false,
       visF: false,
       loading: false,
       fname: "",
       delivery: "",
+      country: "",
+      region: "",
+      wereda: "",
       phone: "",
       payment: "",
       user: "",
@@ -615,12 +711,14 @@ export default {
       if (this.$store.getters.totalCartList.length == 0) {
         this.$store.dispatch("getCartList");
       }
+      this.getDelivery();
     }
   },
   methods: {
     setVisFalse() {
-      this.$store.commit("SET_VIS_FALSE");
-      console.log("vis false");
+      // this.$store.commit("SET_VIS_FALSE");
+      // console.log("vis false");
+      this.vis = false;
     },
     removeProduct(id) {
       this.$store.dispatch("removeFromCart", id);
@@ -653,6 +751,11 @@ export default {
         loc: this.address,
         fname: this.fname,
         phone: this.phone,
+        delivery: this.delivery,
+        country: this.country,
+        region: this.region,
+        wereda: this.wereda,
+        email: this.email,
       });
       this.visF = false;
     },
@@ -660,8 +763,13 @@ export default {
       this.$store.dispatch("checkout", {
         deliveryId: this.delivery,
         loc: this.address,
-        payment: this.payment,
+        fname: this.fname,
         phone: this.phone,
+        country: this.country,
+        region: this.region,
+        wereda: this.wereda,
+        email: this.email,
+        payment: this.payment,
       });
       //This event signifies that a successfull checkout
       this.$gtag.event("Checkout", {
@@ -755,9 +863,6 @@ export default {
     currency() {
       return this.$store.state.product.currency;
     },
-    vis() {
-      return this.$store.state.cart.vis;
-    },
     deliveryInformation() {
       const formatDate = (dateString) => {
         const options = { year: "numeric", month: "long", day: "numeric" };
@@ -772,12 +877,12 @@ export default {
     },
     deliveryData() {
       const deliveryName = this.$store.state.cart.deliveryItems.map(
-        (delivery) => delivery.provider.id
+        (delivery) => {
+          return { id: delivery.provider.id, name: delivery.provider.name };
+        }
       );
-      const deliveryData = deliveryName.filter(
-        (thing, index, self) => index === self.findIndex((t) => t === thing)
-      );
-      return deliveryData;
+      console.log(deliveryName);
+      return deliveryName;
     },
     deliveryItem() {
       const formatDate = (dateString) => {

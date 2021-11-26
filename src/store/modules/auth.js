@@ -21,7 +21,7 @@ const actions = {
       .mutate({
         mutation: gql`
           mutation{
-            updateProfile(email: "${payload.email}",firstName: "${payload.firstName}",lastName: "${payload.lastName}",id:"${payload.id}",phone:"",profilePic:"") {
+            updateProfile(email: "${payload.email}",firstName: "${payload.firstName}",lastName: "${payload.lastName}",id:"${payload.id}",phone:"") {
               payload{
                 id
                 firstName
@@ -29,7 +29,7 @@ const actions = {
                 username
                 phone
                 email
-                profilePic
+                
               }
             }
           }
@@ -56,6 +56,58 @@ const actions = {
         handleError(error, commit, resp);
       });
   },
+  async requestPasswordReset({ commit }, email) {
+    commit(types.SHOW_LOADING, true);
+    const response = await apolloClient
+      .mutate({
+        mutation: gql`
+      mutation{
+        requestPasswordReset(email:"${email}"){
+          codeSent
+        }
+      }
+      `,
+      })
+      .then((res) => {
+        commit(types.SHOW_LOADING, false);
+        commit(types.CHANGE_RESET_PASSWORD, true);
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        handleError(error, commit, response);
+      });
+  },
+  async resetPassword({ commit }, payload) {
+    commit(types.SHOW_LOADING, true);
+    const response = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            resetPassword(code: "${payload.code}", email: "${payload.email}", newPassword: "${payload.password}") {
+              payload {
+                id
+                firstName
+                lastName
+                username
+              }
+            }
+          }
+        `,
+      })
+      .then((res) => {
+        commit(types.SHOW_LOADING, false);
+        commit(types.SUCCESS, {
+          msg: "Password reset, Please login to proceed",
+        });
+        commit(types.CHANGE_RESET_PASSWORD, false);
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        handleError(error, commit, response);
+      });
+  },
   async userLogin({ commit }, payload) {
     commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
@@ -72,7 +124,6 @@ const actions = {
                   username
                   phone
                   email
-                  profilePic
                 }
               }
             }
@@ -80,13 +131,18 @@ const actions = {
         `,
       })
       .then((response) => {
-        console.log({ auth: false, ...response.data.userAuth.payload.user });
+        console.log({
+          auth: false,
+          ...response.data.userAuth.payload.user,
+          profilePic: "",
+        });
         onLogin(apolloClient, response.data.userAuth.payload.token);
         window.localStorage.setItem(
           "user",
           JSON.stringify({
             auth: false,
             ...response.data.userAuth.payload.user,
+            profilePic: "",
           })
         );
         window.localStorage.setItem(
@@ -96,6 +152,7 @@ const actions = {
         commit(types.SAVE_USER, {
           auth: false,
           ...response.data.userAuth.payload.user,
+          profilePic: "",
         });
         commit(types.SAVE_TOKEN, response.data.userAuth.payload.token);
         console.log(response.data.userAuth.payload);
@@ -155,7 +212,6 @@ const actions = {
               username
               phone
               email
-              profilePic
             }
           }
         `,
@@ -184,6 +240,9 @@ const mutations = {
     state.token = null;
     state.isTokenSet = false;
   },
+  [types.CHANGE_RESET_PASSWORD](state, payload) {
+    state.passwordReset = payload;
+  },
   [types.SAVE_USER](state, user) {
     window.localStorage.setItem("user", JSON.stringify(user));
     state.user = user;
@@ -198,6 +257,8 @@ const state = {
   user: null,
   token: JSON.parse(!!localStorage.getItem("token")) || null,
   isTokenSet: !!localStorage.getItem("token"),
+  passwordReset: false,
+  forgotPassword: false,
 };
 
 export default {

@@ -92,6 +92,7 @@
                 <VuePhoneNumberInput
                   default-country-code="ET"
                   v-model="yourValue"
+                  :error="error"
                 />
               </v-flex>
               <v-flex>
@@ -139,15 +140,6 @@
                 </ValidationProvider>
               </v-flex>
               <v-row>
-                <v-col cols="auto" class="mr-auto">
-                  <v-btn
-                    :to="{ path: '/signup' }"
-                    small
-                    text
-                    class="btnForgotPassword"
-                    >Sign Up as Business</v-btn
-                  >
-                </v-col>
                 <v-col cols="auto">
                   <SubmitButton
                     buttonText="Signup"
@@ -213,20 +205,31 @@ export default {
         event_category: "Ashewa Form Sign Up",
         event_label: "User Sign Up",
       });
-      await this.userSignUp({
-        firstName: this.firstName,
-        lastName: this.lastName,
-        userName: this.userName,
-        email: this.email,
-        password: this.password,
-        phone: this.yourValue,
-      });
+      if (this.phone.length < 10) {
+        console.log("phone number is too short");
+        this.error = true;
+      } else {
+        this.error = false;
+        await this.userSignUp({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          userName: this.userName,
+          email: this.email,
+          password: this.password,
+          phone: this.yourValue,
+        });
+      }
     },
   },
   created() {
     if (this.$store.state.auth.isTokenSet) {
       router.push({ name: "landing" });
     }
+  },
+  computed: {
+    error() {
+      return this.yourValue.length !== 12 ? true : false;
+    },
   },
 };
 </script>

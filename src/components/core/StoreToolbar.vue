@@ -7,7 +7,11 @@
       <v-col cols="2" class="ma-0 pa-0">
         <div>
           <v-img
-            src="https://fundacja2act.org/wp-content/uploads/2020/02/sample-logo-white.png"
+            :src="
+              vendorInfo.storeCover
+                ? vendorInfo.storeCover
+                : 'https://fundacja2act.org/wp-content/uploads/2020/02/sample-logo-white.png'
+            "
             style="margin:auto auto;cursor:pointer"
             width="150"
             @click="
@@ -68,13 +72,6 @@
                       {{ price }} birr
                     </p>
                   </v-row>
-                  <v-row align="center" justify="center ">
-                    <v-chip-group column multiple active-class="primary--text">
-                      <v-chip label v-for="tag in tags" :key="tag">
-                        {{ tag }}
-                      </v-chip>
-                    </v-chip-group>
-                  </v-row>
                 </div>
               </v-menu>
               <v-text-field
@@ -117,7 +114,7 @@
           <v-col sm="3">
             <div class="iconsList">
               <v-row>
-                <div
+                <!-- <div
                   @mouseenter="color1 = 'white'"
                   @mouseleave="color1 = 'black'"
                 >
@@ -128,8 +125,8 @@
                       ></v-badge
                     ></router-link
                   >
-                </div>
-                <v-spacer></v-spacer>
+                </div> -->
+                <!-- <v-spacer></v-spacer>
                 <div
                   @mouseenter="color2 = 'white'"
                   @mouseleave="color2 = 'black'"
@@ -149,7 +146,7 @@
                       ></v-badge
                     ></router-link
                   >
-                </div>
+                </div> -->
 
                 <v-spacer></v-spacer>
                 <div
@@ -574,6 +571,9 @@ export default {
       "categories",
       "sampleCategories",
     ]),
+    vendorInfo() {
+      return this.$store.state.product.vendorInfo;
+    },
     currencyNow() {
       return this.$store.state.product.currency;
     },

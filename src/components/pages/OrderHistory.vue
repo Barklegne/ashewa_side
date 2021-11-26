@@ -43,11 +43,9 @@ export default {
         //reference
         { text: "Reference", value: "reference" },
         //deliveryName
-        { text: "Delivery Name", value: "deliveryName" },
-        //deliveryPhone
-        { text: "Delivery Phone", value: "deliveryPhone" },
+
         //paid
-        { text: "Paid", value: "paid" },
+        { text: "Payment Status", value: "paid" },
         { text: "Payment Method", value: "paymentMethod" },
       ],
     };
@@ -71,10 +69,8 @@ export default {
       const orders = this.$store.state.cart.orderHistory.map((item) => {
         return {
           id: item.id,
-          productId: item.products[0].id,
+          productId: item.orders,
           reference: item.reference,
-          deliveryName: item.deliveryOption.provider.name,
-          deliveryPhone: item.deliveryOption.provider.phone,
           totalPrice: item.price,
           status: item.status,
           paid: item.paid,

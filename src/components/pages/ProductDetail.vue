@@ -66,17 +66,15 @@
           height="100%"
           width="45%"
           @click="
-            sheetB
-              ? addToCart({
-                  image: product.productimageSet[0].image,
-                  price: product.sellingPrice,
-                  usdPrice: product.usdPrice,
-                  title: product.name,
-                  id: product.id,
-                  category: product.category.name,
-                  quantity: quantity,
-                })
-              : (sheetB = true)
+            addToCart({
+              image: product.productimageSet[0].image,
+              price: product.sellingPrice,
+              usdPrice: product.usdPrice,
+              title: product.name,
+              id: product.id,
+              category: product.category.name,
+              quantity: quantity,
+            })
           "
           >Buy now</v-btn
         >
@@ -257,10 +255,16 @@
                     dark
                     elevation="0"
                     color="success"
+                    :href="
+                      //compare how the first 10 letters of a string
+                      !product.vendor.isSupplier ? '' : product.vendor.domain
+                    "
                     @click="
-                      $router.push({
-                        path: `/store/${product.vendor.storeName}`,
-                      })
+                      !product.vendor.isSupplier
+                        ? $router.push({
+                            path: `/store/${product.vendor.storeName}`,
+                          })
+                        : ''
                     "
                     >Visit Store</v-btn
                   >
@@ -447,7 +451,7 @@
               <v-divider class="my-6"></v-divider>
               <v-row class="ma-0">
                 <v-spacer></v-spacer>
-                <v-btn
+                <!-- <v-btn
                   dark
                   elevation="0"
                   color="btn"
@@ -464,7 +468,7 @@
                     })
                   "
                   >Make Offer</v-btn
-                >
+                > -->
                 <v-btn
                   elevation="0"
                   color="btn"
@@ -478,7 +482,7 @@
                   >Call Now</v-btn
                 >
                 <!-- <a href="tel:8665562570">Call Now</a> -->
-                <v-btn
+                <!-- <v-btn
                   elevation="0"
                   color="btn"
                   style="background-color:white;color:#09b750;border:1px solid #09b750;"
@@ -492,7 +496,7 @@
                     })
                   "
                   >Chat Now
-                </v-btn>
+                </v-btn> -->
                 <v-spacer></v-spacer>
               </v-row>
               <v-divider class="my-2"></v-divider>
