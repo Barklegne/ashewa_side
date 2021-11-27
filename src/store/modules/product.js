@@ -554,6 +554,10 @@ const actions = {
       isSupplier
       id
       phone
+      user{
+        id
+        username
+      }
       followerSet {
         user {
           id

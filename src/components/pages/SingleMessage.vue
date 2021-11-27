@@ -3,14 +3,14 @@
     <div style="background-color:#F7F3F3;">
       <v-app-bar fixed dark style="font-weight:600;z-index:2000" color="#43DB80"
         ><v-icon @click="$router.go(-1)" left>mdi-arrow-left</v-icon> Ashewa
-        Store</v-app-bar
+        Store | {{this.$router.history.current.params.productName}}</v-app-bar
       >
       <v-footer style="z-index:1000" class="pa-0" fixed>
         <div style="width:100vw;height:92vh" class="mt-1">
           <Chat
             :participants="participants"
             :myself="myself"
-            :messages="messageContent"
+            :messages="messages"
             :chat-title="chatTitle"
             :placeholder="placeholder"
             :colors="colors"
@@ -53,23 +53,99 @@
 <script>
 import { Chat } from "vue-quick-chat";
 import "vue-quick-chat/dist/vue-quick-chat.css";
+import { mapGetters } from "vuex";
+import ReconnectingWebSocket from 'reconnecting-websocket';
+import gql from "graphql-tag";
 
 export default {
+  apollo: {
+  // Query with parameters 
+  messages: {
+    query: gql`query ($otherUsername: String!) {
+  messages:allChat(otherUsername: $otherUsername) {
+    content:message
+    participantId: id
+    timestamp: timestamp
+    myself:readStatus
+    user{
+      username
+    }
+    thread{
+      first{
+        id
+        username
+        profilePic
+      }
+      second{
+        id
+        username
+        profilePic
+      }
+    }
+  }
+}`,
+    variables() {
+      //console.log(this.user.username,"varrrrrrrrrrrrrrrrrrr",this.$router.history.current.params.id)
+      const OtherUsername = this.$router.history.current.params.id;
+      return {otherUsername: OtherUsername}
+    },
+  },
+
+},
   components: {
     Chat,
   },
   computed: {
+    ...mapGetters([
+      "isTokenSet",
+      "user",
+    ]),
     participants() {
-      if (this.$store.state.message.message) {
+    /*if (this.$store.state.message.message) {
         return this.$store.state.message.message.participants;
       }
-      return {};
+      return {}; */
+      const users = this.messages && this.messages[0]
+      console.log(this.messages,users,"///////////////////////")
+      if( this.messages.length != 0 ){
+              return [
+                {
+                    name: users.thread.first.username,
+                    id: users.thread.first.id,
+                    profilePicture: users.thread.first.profilePic
+                },
+                {
+                    name: users.thread.second.username,
+                    id: users.thread.second.id,
+                    profilePicture: users.thread.second.profilePic
+                }
+            ]
+      }
+    else  {
+      return [
+              {
+                    name: "him",
+                    id: "users.thread.first.id",
+                    profilePicture: ""
+                },
+                {
+                    name: this.user.username,
+                    id: this.user.id,
+                    profilePicture: ""
+                }
+            ]
+    }
     },
     myself() {
-      if (this.$store.state.message.message) {
+/*       if (this.$store.state.message.message) {
         return this.$store.state.message.message.myself;
       }
-      return {};
+      return {}; */
+      return {
+                    name: this.user.username,
+                    id: this.user.id,
+                    profilePicture: ""            
+            }  
     },
     messageContent() {
       if (this.$store.state.message.message) {
@@ -132,7 +208,7 @@ export default {
       },
       timestampConfig: {
         format: "HH:mm",
-        relative: false,
+        relative: true,
       },
       // there are other options, you can check them here
       // https://soapbox.github.io/linkifyjs/docs/options.html
@@ -141,10 +217,10 @@ export default {
           className: "myLinkClass",
           events: {
             click: function() {
-              alert("Link clicked!");
+              //alert("Link clicked!");
             },
             mouseover: function() {
-              alert("Link hovered!");
+              //alert("Link hovered!");
             },
           },
           format: function(value, type) {
@@ -158,10 +234,10 @@ export default {
           className: "othersLinkClass",
           events: {
             click: function() {
-              alert("Link clicked!");
+              //alert("Link clicked!");
             },
             mouseover: function() {
-              alert("Link hovered!");
+              //alert("Link hovered!");
             },
           },
           format: function(value, type) {
@@ -173,6 +249,49 @@ export default {
         },
       },
     };
+  },
+    created: function() {
+    //const OtherUsername = this.$router.history.current.params.id
+    //this.user = this.$store.getters.messages
+    const otherUsername = this.$router.history.current.params.id
+    console.log("Starting connection to WebSocket Server",otherUsername,this.user.id)
+    this.connection = new ReconnectingWebSocket('wss://'
+            + 'api.ashewa.com'
+            + '/ws'
+            + '/chat/'+this.user.id+'/'+otherUsername+'/')
+
+    this.connection.onmessage = (event) =>{
+      const data = JSON.parse(event.data)
+      //console.log(this.newmessages,"==========onmessage")
+      //console.log(data,"==========onmessage", data.username , this.user.username)
+      console.log(data.timestamp,data,"===-------------======-----------===",
+      data.username !== this.user.username, data.username , this.user.username, data.message)
+      
+     if(data.message === true || data.message === false){
+          console.log()
+      }
+      else if (data.username !== this.user.username && data.room_name !== "notification_room"){
+          let chatFrame = {
+                    content: 'received messages',
+                    myself: false,
+                    participantId: data.timestamp,
+                    timestamp: {year: 2019, month: 3, day: 5, hour: 20, minute: 10, second: 3, millisecond: 123},
+                 
+                }
+           chatFrame.content = data.message
+           //chatFrame.participantId = this.messages && this.messages[0].thread.second.id
+           this.messages.push(chatFrame)
+           console.log(this.messages,"this.messagesthis.messagesthis.messages")
+      }
+      //console.log(data.username,"=========",this.newmessages);
+    }
+
+    this.connection.onopen = function(event) {
+      //console.log(event)
+      console.log(event,"Successfully connected to the echo websocket server...")
+    }
+
+
   },
   methods: {
     onType: function() {
@@ -192,7 +311,24 @@ export default {
        * It's important to notice that even when your message wasn't send
        * yet to the server you have to add the message into the array
        */
-      console.log(message, "submit");
+      //console.log(this.connection, window.location.href,"submit",message,productLink,this.$router.history.current);
+      const otherUsername = this.$router.history.current.params.id
+      const productLink = this.$router.history.current.params.productLink
+      if(this.messages.some(message => !message.content.includes(productLink))){
+        ///
+      }else if(productLink !== undefined){
+         message.content = productLink +'  '+ message.content
+      }
+     
+      this.connection.send(JSON.stringify({
+                  'message': message.content ,
+                  'username': this.user.username,
+                  'timestamp': otherUsername,
+                  'room_name': "otherUsername",
+                  'user_id': this.user.id,
+      })); 
+
+
       this.messages.push(message);
 
       /*

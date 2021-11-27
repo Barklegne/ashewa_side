@@ -14,6 +14,11 @@ import "./registerServiceWorker";
 import VueGtag from "vue-gtag"; //instantiate gtag events
 import { longClickDirective } from "vue-long-click";
 
+import Notifications from 'vue-notification'
+import velocity      from 'velocity-animate'
+
+Vue.use(Notifications,{velocity})
+
 Vue.use(VueGtag, {
   //use gtag inside each components to trigger actions
   config: { id: "UA-207369427-1" }, //connect gtag events with MEASUREMENT_ID(FROM GOOGLE ANALYTICS DASHBOARD)
