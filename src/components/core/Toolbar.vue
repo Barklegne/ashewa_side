@@ -151,11 +151,12 @@
                     ></router-link
                   >
                 </div> -->
-
+                <v-spacer></v-spacer>
                 <v-spacer></v-spacer>
                 <div
                   @mouseenter="color3 = 'white'"
                   @mouseleave="color3 = 'black'"
+                  class="mr-5"
                 >
                   <router-link :to="{ path: 'cart' }">
                     <v-badge
@@ -174,7 +175,6 @@
                   >
                 </div>
 
-                <v-spacer></v-spacer>
                 <div v-if="isTokenSet">
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -184,7 +184,9 @@
                           v-if="userData.profilePic.length > 0"
                         />
                         <span v-else class="white--text text-h5">{{
-                          userData.userName[0].toUpperCase()
+                          userData.userName.length > 0
+                            ? userData.userName[0].toUpperCase()
+                            : ""
                         }}</span>
                       </v-avatar>
                     </template>

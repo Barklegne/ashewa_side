@@ -558,47 +558,83 @@
         <v-row class="my-5" justify="center">
           <v-expansion-panels accordion>
             <v-expansion-panel>
-              <v-expansion-panel-header
-                >Bank of Abyssinia</v-expansion-panel-header
-              >
+              <v-expansion-panel-header>አቢሲንያ ባንክ </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <p>
-                  Account Name: Universal Courier Service PLC
-                </p>
-                <p>Account Number: 1000327571129</p>
-                <p>Branch: Karamara Branch</p>
+                <p>Account Number: 53454108</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header>Nib Bank</v-expansion-panel-header>
+              <v-expansion-panel-header> ህብረት ባንክ </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <p>
-                  Account Name: Universal Courier Service PLC
-                </p>
-                <p>Account Number: 1000327571129</p>
-                <p>Branch: Karamara Branch</p>
+                <p>Account Number: 1450111452422028</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header>Zemen Bank</v-expansion-panel-header>
+              <v-expansion-panel-header> አዋሽ ባንክ</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <p>
-                  Account Name: Universal Courier Service PLC
-                </p>
-                <p>Account Number: 1000327571129</p>
-                <p>Branch: Karamara Branch</p>
+                <p>Account Number: 01304451622001</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header
-                >Commercial Bank of Ethiopia</v-expansion-panel-header
-              >
+              <v-expansion-panel-header>
+                አዲስ ኢንተርናሽናል ባንክ
+              </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <p>
-                  Account Name: Universal Courier Service PLC
-                </p>
-                <p>Account Number: 1000327571129</p>
-                <p>Branch: Karamara Branch</p>
+                <p>Account Number: 263668</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                የኢትዮጵያ ንግድ ባንክ
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>Account Number: 1000388040606</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header> ብርሃን ባንክ </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>Account Number: 2600110019980</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                የኦሮሚያ ህብረት ስራ ባንክ
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>Account Number: 1000090484471</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                ኦሮሚያ ኢንተርናሽናል ባንክ
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>Account Number: 1393007900001</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                ዳሽን ባንክ
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>Account Number: 5090220264021</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                ዘመን ባንክ
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>Account Number: 1455111090174017</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                አባይ ባንክ
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>Account Number: 1422117542275013</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -747,30 +783,40 @@ export default {
       });
     },
     billing() {
-      this.$store.dispatch("createBillingInformation", {
-        loc: this.address,
-        fname: this.fname,
-        phone: this.phone,
-        delivery: this.delivery,
-        country: this.country,
-        region: this.region,
-        wereda: this.wereda,
-        email: this.email,
-      });
-      this.visF = false;
+      if (this.payment == "Bank Payment") {
+        this.testF = true;
+      } else {
+        this.testF = false;
+        this.$store.dispatch("createBillingInformation", {
+          loc: this.address,
+          fname: this.fname,
+          phone: this.phone,
+          delivery: this.delivery,
+          country: this.country,
+          region: this.region,
+          wereda: this.wereda,
+          email: this.email,
+        });
+        this.visF = false;
+      }
     },
     checkout() {
-      this.$store.dispatch("checkout", {
-        deliveryId: this.delivery,
-        loc: this.address,
-        fname: this.fname,
-        phone: this.phone,
-        country: this.country,
-        region: this.region,
-        wereda: this.wereda,
-        email: this.email,
-        payment: this.payment,
-      });
+      if (this.payment == "Bank Payment") {
+        this.testF = true;
+      } else {
+        this.testF = false;
+        this.$store.dispatch("createBillingInformation", {
+          loc: this.address,
+          fname: this.fname,
+          phone: this.phone,
+          delivery: this.delivery,
+          country: this.country,
+          region: this.region,
+          wereda: this.wereda,
+          email: this.email,
+        });
+        this.visF = false;
+      }
       //This event signifies that a successfull checkout
       this.$gtag.event("Checkout", {
         event_category: "Checkout",

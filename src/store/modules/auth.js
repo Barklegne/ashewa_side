@@ -29,7 +29,6 @@ const actions = {
                 username
                 phone
                 email
-                
               }
             }
           }
@@ -156,38 +155,63 @@ const actions = {
         });
         commit(types.SAVE_TOKEN, response.data.userAuth.payload.token);
         console.log(response.data.userAuth.payload);
-        // dispatch("getAllProducts", { page: 1, pageSize: 6 });
-        // dispatch("parentCats");
         buildSuccess("Successfully logged in", commit);
         router.push({
           path: "/",
         });
-
-        // }
       })
       .catch((error) => {
         console.log(error);
         handleError(error, commit, resp);
       });
   },
-  async autoLogin(ctx) {
-    if (!localStorage.getItem("token")) {
-      if (VueCookies.get("vendorToken")) {
-        const tokenE = VueCookies.get("vendorToken");
-        onLogin(apolloClient, VueCookies.get("vendorToken"));
-        ctx.commit(types.SAVE_TOKEN, tokenE);
-        ctx.commit(
-          types.SET_LOCALE,
-          JSON.parse(localStorage.getItem("locale"))
-        );
-        ctx.dispatch("getMe");
-      }
-    } else {
-      onLogin(apolloClient, localStorage.getItem("apollo-token"));
-      const user = JSON.parse(localStorage.getItem("user"));
-      ctx.commit(types.SAVE_USER, user);
-      ctx.commit(types.SAVE_TOKEN, JSON.parse(localStorage.getItem("token")));
-      ctx.commit(types.SET_LOCALE, JSON.parse(localStorage.getItem("locale")));
+  autoLogin(ctx) {
+    if (localStorage.getItem("token")) {
+      debugger;
+      ctx.commit(types.SHOW_LOADING, true);
+      const resp = apolloClient
+        .query({
+          query: gql`
+            {
+              getMe {
+                id
+                firstName
+                lastName
+                username
+                phone
+                email
+                profilePic
+                isActive
+              }
+            }
+          `,
+        })
+        .then((response) => {
+          debugger;
+          ctx.commit(types.SAVE_USER, {
+            auth: false,
+            ...response.data.getMe,
+            profilePic: "",
+          });
+          window.localStorage.setItem(
+            "user",
+            JSON.stringify({
+              auth: false,
+              ...response.data.getMe,
+              profilePic: "",
+            })
+          );
+          ctx.commit(types.SHOW_LOADING, false);
+        })
+        .catch((error) => {
+          debugger;
+          console.log(resp);
+          console.log(error);
+          onLogout(apolloClient);
+          window.localStorage.removeItem("token");
+          window.localStorage.removeItem("user");
+          ctx.commit(types.LOGOUT);
+        });
     }
   },
   userLogout({ commit }) {

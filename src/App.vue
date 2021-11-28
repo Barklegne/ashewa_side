@@ -109,7 +109,12 @@
     </v-main>
     <Footer v-if="$route.name !== 'VisitStore'" />
     <StoreFooter v-else></StoreFooter>
-     <notifications @click.native="onClick" group="notifications" position="bottom left" animation-type="velocity"/>
+    <notifications
+      @click.native="onClick"
+      group="notifications"
+      position="bottom left"
+      animation-type="velocity"
+    />
   </v-app>
 </template>
 
@@ -122,7 +127,7 @@ import StoreFooter from "@/components/core/StoreFooter";
 import Loading from "@/components/core/Loading.vue";
 import Footer from "@/components/core/Footer.vue";
 // import TestToolbar from "@/components/core/testToolbar.vue";
-import ReconnectingWebSocket from 'reconnecting-websocket';
+import ReconnectingWebSocket from "reconnecting-websocket";
 
 export default {
   data() {
@@ -170,45 +175,50 @@ export default {
     ...mapGetters(["isTokenSet", "user"]),
   },
   created: function() {
+    this.connection = new ReconnectingWebSocket(
+      "wss://" +
+        "api.ashewa.com" +
+        "/ws" +
+        "/chat/" +
+        this.user.id +
+        "/" +
+        this.user.id +
+        "/"
+    );
 
-    this.connection = new ReconnectingWebSocket('wss://'
-            + 'api.ashewa.com'
-            + '/ws'
-            + '/chat/'+this.user.id+'/'+this.user.id+'/')
-
-    this.connection.onmessage = (event) =>{
-      const data = JSON.parse(event.data)
-      console.log(data,"Appppppppppppppppppppp===-------------======-----------===",data.room_name)
-      if(data.timestamp === this.user.id && data.message != true ){
+    this.connection.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log(
+        data,
+        "Appppppppppppppppppppp===-------------======-----------===",
+        data.room_name
+      );
+      if (data.timestamp === this.user.id && data.message != true) {
         //this.$notify.success('This is success message',{ itemClass: 'alert col-6 alert-info', iconClass: 'fa fa-lg fa-handshake-o', visibility: 10000 })
         this.$notify({
-        group: 'notifications',
-        title: 'New message',
-        text: 'message from '+ data.username,
-        type: 'success',
-        id: data.timestamp,
-        data: {id:"kkkkkkkkkkkkkkk"},
-        duration: 5000,
-      });
+          group: "notifications",
+          title: "New message",
+          text: "message from " + data.username,
+          type: "success",
+          id: data.timestamp,
+          data: { id: "kkkkkkkkkkkkkkk" },
+          duration: 5000,
+        });
 
-      //const notification = this.$store.getters.notification 
-      //notification.push({msg: data.message,id:data.timestamp})
-      //this.$store.dispatch("saveNotification", notification);
-      //console.log(this.$store.getters.notification ,"after------------------")
-
+        //const notification = this.$store.getters.notification
+        //notification.push({msg: data.message,id:data.timestamp})
+        //this.$store.dispatch("saveNotification", notification);
+        //console.log(this.$store.getters.notification ,"after------------------")
       }
-    }
+    };
     this.connection.onopen = function(event) {
-      console.log(event,"Successfully connected to the echo websocket server...")
-    }
+      console.log(
+        event,
+        "Successfully connected to the echo websocket server..."
+      );
+    };
     this.parentCats();
     this.$store.dispatch("getNewArrivals");
-    // this.getAllProducts();
-    // if (this.isTokenSet) {
-    //   if (!this.user.isVerified) {
-    //     console.log("Not Verified");
-    //   }
-    // }
   },
   methods: {
     addSubscriber() {

@@ -205,7 +205,8 @@ export default {
         event_category: "Ashewa Form Sign Up",
         event_label: "User Sign Up",
       });
-      if (this.phone.length < 10) {
+
+      if (this.yourValue.replace(/\s+/g, "").length != 10) {
         console.log("phone number is too short");
         this.error = true;
       } else {
