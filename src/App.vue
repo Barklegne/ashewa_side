@@ -175,6 +175,8 @@ export default {
     ...mapGetters(["isTokenSet", "user"]),
   },
   created: function() {
+    this.parentCats();
+    this.$store.dispatch("getNewArrivals");
     this.connection = new ReconnectingWebSocket(
       "wss://" +
         "api.ashewa.com" +
@@ -217,8 +219,6 @@ export default {
         "Successfully connected to the echo websocket server..."
       );
     };
-    this.parentCats();
-    this.$store.dispatch("getNewArrivals");
   },
   methods: {
     addSubscriber() {
