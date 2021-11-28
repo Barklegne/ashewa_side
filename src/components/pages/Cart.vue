@@ -498,9 +498,8 @@
           solo
           flat
           placeholder="Please select a delivery option"
-          item-text="name"
-          item-value="id"
-          :items="deliveryData"
+          
+          :items="['bus', 'motor-cycle', 'self-pick', 'plane']"
           v-model="delivery"
         ></v-select>
         <p class="text-subtitle-1 font-weight-bold mb-2 subTitle">
@@ -761,7 +760,7 @@ export default {
     },
     checkout() {
       this.$store.dispatch("checkout", {
-        deliveryId: this.delivery,
+        deliveryType : this.delivery,
         loc: this.address,
         fname: this.fname,
         phone: this.phone,

@@ -170,7 +170,8 @@ export default {
     ...mapGetters(["isTokenSet", "user"]),
   },
   created: function() {
-
+this.parentCats();
+    this.$store.dispatch("getNewArrivals");
     this.connection = new ReconnectingWebSocket('wss://'
             + 'api.ashewa.com'
             + '/ws'
@@ -201,8 +202,7 @@ export default {
     this.connection.onopen = function(event) {
       console.log(event,"Successfully connected to the echo websocket server...")
     }
-    this.parentCats();
-    this.$store.dispatch("getNewArrivals");
+    
     // this.getAllProducts();
     // if (this.isTokenSet) {
     //   if (!this.user.isVerified) {

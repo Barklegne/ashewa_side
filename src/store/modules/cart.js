@@ -227,39 +227,17 @@ const actions = {
   async checkout(ctx, value) {
     console.log(value);
     ctx.commit(types.SHOW_LOADING, true);
-    console.log(`
-    mutation{
-      checkoutOrder(deliveryProviderId: "${value.deliveryId}", userLocation: "${value.loc}"){
-        payload{
-          order{
-            id
-            reference
-          }
-          deliveryOption{
-            provider{
-              id
-            }
-          }
-        }
-      }
-    }
-      `);
     const resp = await apolloClient
       .mutate({
         mutation: gql`
         mutation {
-          checkoutOrder(billingInfo: {country: "${value.country}", region: "${value.region}", wereda: "${value.wereda}", phone: "${value.phone}", email: "${value.email}"}, deliveryProviderId: "${value.deliveryId}") {
+          checkoutOrder(billingInfo: {country: "${value.country}", region: "${value.region}", wereda: "${value.wereda}", phone: "${value.phone}", email: "${value.email}"}, deliveryType:"${value.deliveryType}") {
             payload {
               order {
                 id
                 reference
               }
-              deliveryOption {
-                provider {
-                  id
-                  name
-                }
-              }
+              
             }
           }
         }        
