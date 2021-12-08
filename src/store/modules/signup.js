@@ -28,10 +28,7 @@ const actions = {
         `,
       })
       .then(() => {
-        ctx.dispatch("userLogin", {
-          email: payload.userName,
-          password: payload.password,
-        });
+        ctx.dispatch("requestSignupCode", payload.email);
       })
       .catch((error) => {
         handleError(error, ctx.commit, resp);

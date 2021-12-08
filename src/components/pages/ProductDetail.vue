@@ -482,7 +482,7 @@
                   >Call Now</v-btn
                 >
                 <!-- <a href="tel:8665562570">Call Now</a> -->
-                 <v-btn
+                <!-- <v-btn
                   elevation="0"
                   color="btn"
                   style="background-color:white;color:#09b750;border:1px solid #09b750;"
@@ -496,7 +496,7 @@
                     })
                   "
                   >Chat Now
-                </v-btn> 
+                </v-btn> -->
                 <v-spacer></v-spacer>
               </v-row>
               <v-divider class="my-2"></v-divider>
@@ -775,9 +775,15 @@
                     outlined
                     color="#43DB08"
                     :href="
-                      product.vendor.domain
-                        ? `${product.vendor.domain}`
-                        : `${product.supplierDomain}`
+                      //compare how the first 10 letters of a string
+                      !product.vendor.isSupplier ? '' : product.vendor.domain
+                    "
+                    @click="
+                      !product.vendor.isSupplier
+                        ? $router.push({
+                            path: `/store/${product.vendor.storeName}`,
+                          })
+                        : ''
                     "
                     ><v-icon>mdi-store-outline</v-icon>
                     visit store
@@ -1360,9 +1366,15 @@ export default {
           },
         });
 
-         this.$router.push({  name: 'SingleMessages' ,
-                            props: true, params: { id: this.product.vendor.user.id , productName: this.product.name, productLink: window.location.href }  });
-
+        this.$router.push({
+          name: "SingleMessages",
+          props: true,
+          params: {
+            id: this.product.vendor.user.id,
+            productName: this.product.name,
+            productLink: window.location.href,
+          },
+        });
       }
     },
     inquire(data) {
@@ -1459,9 +1471,15 @@ export default {
             },
           ],
         });
-         this.$router.push({  name: 'SingleMessages' ,
-                            props: true, params: { id: this.product.vendor.user.id , productName: this.product.name, productLink: window.location.href }  });
-
+        this.$router.push({
+          name: "SingleMessages",
+          props: true,
+          params: {
+            id: this.product.vendor.user.id,
+            productName: this.product.name,
+            productLink: window.location.href,
+          },
+        });
       }
     },
     async getProduct() {

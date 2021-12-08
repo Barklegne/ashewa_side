@@ -132,7 +132,7 @@
                 <v-row>
                   <v-col class="my-0 py-0" cols="6">
                     <p class="text-subtitle-1 font-weight-bold mb-1 subTitle">
-                      First Names
+                      First Name
                     </p>
                     <v-text-field
                       background-color="#ebe9e9"

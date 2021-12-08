@@ -88,7 +88,6 @@
       <SuccessMessage />
     </v-layout>
     <v-dialog
-      persistent
       v-model="forgotPassword"
       style="background-color:red"
       width="500"
@@ -132,7 +131,6 @@
       </v-card>
     </v-dialog>
     <v-dialog
-      persistent
       v-model="resetPassword"
       style="background-color:red"
       width="500"
@@ -208,6 +206,102 @@
         </ValidationObserver>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="setRequest"
+      style="background-color:red"
+      width="500"
+      transition="dialog-bottom-transition"
+    >
+      <v-card class="pa-5">
+        <h3 class="mb-2">Verify User</h3>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <form @submit.prevent="handleSubmit(requestUserVerify)">
+            <v-layout column>
+              <v-flex>
+                <ValidationProvider rules="required|email" v-slot="{ errors }">
+                  <v-text-field
+                    id="email"
+                    name="email"
+                    label="Email"
+                    v-model="email"
+                    :error="errors.length > 0"
+                    :error-messages="errors[0]"
+                    autocomplete="off"
+                    outlined
+                    dense
+                    prepend-inner-icon="mdi-email"
+                    color="#4DBA87"
+                  ></v-text-field>
+                </ValidationProvider>
+              </v-flex>
+              <v-flex>
+                <SubmitButton
+                  class="white--text"
+                  buttonText="Send"
+                  color="#4DBA87"
+                />
+              </v-flex>
+            </v-layout>
+          </form>
+        </ValidationObserver>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      v-model="serVerify"
+      style="background-color:red"
+      width="500"
+      transition="dialog-bottom-transition"
+    >
+      <v-card class="pa-5">
+        <h3 class="mb-2">Verify User</h3>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <form @submit.prevent="handleSubmit(verifyEmailA)">
+            <v-layout column>
+              <v-flex>
+                <ValidationProvider rules="required|email" v-slot="{ errors }">
+                  <v-text-field
+                    id="email"
+                    name="email"
+                    label="Email"
+                    v-model="email"
+                    :error="errors.length > 0"
+                    :error-messages="errors[0]"
+                    autocomplete="off"
+                    outlined
+                    dense
+                    prepend-inner-icon="mdi-email"
+                    color="#4DBA87"
+                  ></v-text-field>
+                </ValidationProvider>
+              </v-flex>
+              <ValidationProvider rules="required" v-slot="{ errors }">
+                <v-text-field
+                  id="userName"
+                  name="userName"
+                  label="Code"
+                  v-model="code"
+                  :error="errors.length > 0"
+                  :error-messages="errors[0]"
+                  autocomplete="off"
+                  outlined
+                  dense
+                  prepend-inner-icon="mdi-account"
+                  color="#4DBA87"
+                >
+                </v-text-field>
+              </ValidationProvider>
+              <v-flex>
+                <SubmitButton
+                  class="white--text"
+                  buttonText="Verify"
+                  color="#4DBA87"
+                />
+              </v-flex>
+            </v-layout>
+          </form>
+        </ValidationObserver>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -233,6 +327,18 @@ export default {
   },
   methods: {
     ...mapActions(["userLogin"]),
+    async requestUserVerify() {
+      this.$store.dispatch("requestSignupCode", this.email);
+      console.log(this.email);
+    },
+    async verifyEmailA() {
+      this.$store.dispatch("verifyEmail", {
+        email: this.email,
+        code: this.code,
+        password: this.password,
+        userName: this.userName,
+      });
+    },
     async submit() {
       //This event signifies that a successfull login has happend
       this.$gtag.event("Sign In", {
@@ -264,6 +370,21 @@ export default {
   computed: {
     resetPassword() {
       return this.$store.state.auth.passwordReset;
+    },
+    setRequest() {
+      return this.verifyPage && !this.requestSent && !this.verified;
+    },
+    serVerify() {
+      return this.verifyPage && this.requestSent && !this.verified;
+    },
+    verifyPage() {
+      return this.$store.state.auth.verifyPage;
+    },
+    requestSent() {
+      return this.$store.state.auth.requestSent;
+    },
+    verify() {
+      return this.$store.state.auth.verify;
     },
   },
 };

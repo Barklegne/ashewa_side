@@ -13,8 +13,8 @@
         <v-data-table :headers="headers" :items="cartItems" :items-per-page="3">
           <template v-slot:[`item.image`]="{ item }">
             <v-img
-              height="200"
-              width="200"
+              height="100"
+              width="100"
               :lazy-src="
                 item.image[0] == 'h'
                   ? item.image
@@ -45,12 +45,30 @@
               <!-- <v-btn @click="inc(item.productId)" x-small text
                 ><v-icon>mdi-arrow-up</v-icon></v-btn
               > -->
-              <v-chip label color="green" dark>{{ item.quantity }}</v-chip>
+              <v-text-field
+                v-model="item.quantity"
+                label="Quantity"
+                type="number"
+                @change="updateCart({ id: item.id, quantity: item.quantity })"
+                class="mx-auto"
+                style="width:50px"
+              ></v-text-field>
+              <!-- <v-chip label color="green" dark>{{ item.quantity }}</v-chip> -->
 
               <!-- <v-btn @click="dec(item.productId)" x-small text
                 ><v-icon>mdi-arrow-down</v-icon></v-btn
               > -->
             </v-card>
+          </template>
+          <template v-slot:[`item.price`]="{ item }">
+            <p>
+              {{ `${item.quantity * item.price} ETB` }}
+            </p>
+          </template>
+          <template v-slot:[`item.usdPrice`]="{ item }">
+            <p>
+              {{ `$ ${item.quantity * item.usdPrice.toFixed(1)}` }}
+            </p>
           </template>
           <template v-slot:[`item.action`]="{ item }">
             <v-btn @click="removeProduct(item.id)" small color="error">
@@ -60,10 +78,10 @@
               {{ item.action }}Remove
             </v-btn>
           </template>
-        </v-data-table></v-col
-      >
+        </v-data-table>
+      </v-col>
 
-      <v-col cols="12" md="4">
+      <!-- <v-col cols="12" md="4">
         <v-col cols="12" sm="12" md="12" lg="12">
           <v-row justify="center" class="my-2">
             <v-col cols="10" class="grey lighten-2">
@@ -103,8 +121,414 @@
             </v-col>
           </v-row>
         </v-col>
+      </v-col> -->
+    </v-row>
+    <v-row class="mt-10" justify="center">
+      <v-col cols="2" class="px-0 mr-2">
+        <v-btn
+          width="100%"
+          height="50"
+          class="btn"
+          depressed
+          outlined
+          color="#09b750"
+          dark
+          @click="
+            $router.push({
+              path: `/`,
+            })
+          "
+        >
+          <v-icon large left>mdi-store</v-icon>
+          Back to Shop
+        </v-btn>
+      </v-col>
+
+      <v-col cols="3" class="px-0">
+        <v-btn
+          width="100%"
+          height="50"
+          class="btn"
+          depressed
+          color="#09b750"
+          dark
+          @click="vis = true"
+        >
+          <v-icon large left>mdi-shopping</v-icon>
+          Proceed to checkout
+        </v-btn>
       </v-col>
     </v-row>
+    <v-dialog v-model="vis">
+      <div style="background-color:white">
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <form @submit.prevent="handleSubmit(submit)">
+            <v-row class="ma-0 pa-2">
+              <v-col cols="12" md="4">
+                <h2 class="text-start">Billing Details</h2>
+                <v-divider class="mb-5"></v-divider>
+                <v-row>
+                  <v-col>
+                    <ValidationProvider rules="required" v-slot="{ errors }">
+                      <v-text-field
+                        id="firstName"
+                        name="firstName"
+                        label="First Name"
+                        v-model="firstName"
+                        :error="errors.length > 0"
+                        :error-messages="errors[0]"
+                        autocomplete="off"
+                        outlined
+                        dense
+                        color="#4DBA87"
+                        prepend-inner-icon="mdi-account-circle-outline"
+                      ></v-text-field>
+                    </ValidationProvider>
+                  </v-col>
+                  <v-col>
+                    <ValidationProvider rules="required" v-slot="{ errors }">
+                      <v-text-field
+                        id="lastName"
+                        name="lastName"
+                        label="Last Name"
+                        v-model="lastName"
+                        :error="errors.length > 0"
+                        :error-messages="errors[0]"
+                        autocomplete="off"
+                        outlined
+                        dense
+                        color="#4DBA87"
+                        prepend-inner-icon="mdi-account-circle-outline"
+                      ></v-text-field>
+                    </ValidationProvider>
+                  </v-col>
+                </v-row>
+                <ValidationProvider rules="required|email" v-slot="{ errors }">
+                  <v-text-field
+                    id="email"
+                    name="email"
+                    type="email"
+                    label="Email"
+                    v-model="email"
+                    :error="errors.length > 0"
+                    :error-messages="errors[0]"
+                    autocomplete="off"
+                    outlined
+                    dense
+                    color="#4DBA87"
+                    prepend-inner-icon="mdi-email"
+                  ></v-text-field>
+                </ValidationProvider>
+
+                <VuePhoneNumberInput
+                  default-country-code="ET"
+                  v-model="yourValue"
+                  :error="error"
+                  class="mb-6"
+                />
+                <ValidationProvider rules="required" v-slot="{ errors }">
+                  <v-autocomplete
+                    id="country"
+                    name="country"
+                    label="Country"
+                    :items="countryList"
+                    v-model="country"
+                    :error="errors.length > 0"
+                    :error-messages="errors[0]"
+                    autocomplete="off"
+                    outlined
+                    dense
+                    color="#4DBA87"
+                    prepend-inner-icon="mdi-earth"
+                  ></v-autocomplete>
+                </ValidationProvider>
+                <v-row>
+                  <v-col>
+                    <ValidationProvider rules="required" v-slot="{ errors }">
+                      <v-text-field
+                        id="region"
+                        name="region"
+                        label="Region"
+                        v-model="region"
+                        :error="errors.length > 0"
+                        :error-messages="errors[0]"
+                        autocomplete="off"
+                        outlined
+                        dense
+                        color="#4DBA87"
+                        prepend-inner-icon="mdi-home-city-outline"
+                      ></v-text-field>
+                    </ValidationProvider>
+                  </v-col>
+                  <v-col>
+                    <ValidationProvider rules="required" v-slot="{ errors }">
+                      <v-text-field
+                        id="wereda"
+                        name="wereda"
+                        label="Wereda"
+                        v-model="wereda"
+                        :error="errors.length > 0"
+                        :error-messages="errors[0]"
+                        autocomplete="off"
+                        outlined
+                        dense
+                        color="#4DBA87"
+                        prepend-inner-icon="mdi-home-circle-outline"
+                      ></v-text-field>
+                    </ValidationProvider>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col cols="12" md="4">
+                <h2 class="text-start">Order Review</h2>
+                <v-divider class="mb-5"></v-divider>
+
+                <div class="text-start">Products</div>
+                <v-divider class="mb-2"></v-divider>
+
+                <v-row
+                  class="ma-0  pa-0"
+                  style="width:100%"
+                  v-for="item in totalCartList"
+                  :key="item.id"
+                >
+                  <v-col class="text-start ma-0 pa-0" cols="12" sm="6">
+                    <div>
+                      <span>{{ item.product.name }} </span>
+                      <span>x</span>
+                      <span> {{ item.quantity }}</span>
+                    </div>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col class="text-end ma-0 pa-0" cols="12" sm="6">
+                    <div>
+                      <span class="subheading"
+                        >{{ item.quantity * item.product.sellingPrice }}
+                      </span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-divider class="mt-8"></v-divider>
+                <p
+                  v-if="!validated"
+                  class="text-start"
+                  style="color:red;font-size:12px"
+                >
+                  *Please feel all the required fields and pick a delivery
+                  method in billing details to see your order review
+                </p>
+                <v-row style="width:100%" class="ma-0 my-2 pa-0">
+                  <v-col class="text-start ma-0 pa-0" cols="12" sm="6">
+                    <div>
+                      Delivery
+                    </div>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col class=" text-end ma-0 pa-0" cols="12" sm="6">
+                    <ValidationProvider rules="required" v-slot="{ errors }">
+                      <v-select
+                        @change="handleDeliveryMethod($event)"
+                        id="delivery"
+                        name="delivery"
+                        label="Delivery Method"
+                        item-value="value"
+                        item-text="text"
+                        :items="deliveryTypes"
+                        v-model="delivery"
+                        :error="errors.length > 0"
+                        :error-messages="errors[0]"
+                        autocomplete="off"
+                        outlined
+                        dense
+                        color="#4DBA87"
+                        prepend-inner-icon="mdi-moped"
+                      ></v-select>
+                    </ValidationProvider>
+                    <div>
+                      <span class="subheading"
+                        >Delivery fee: {{ calCart ? calCart.deliveryFee : "" }}
+                      </span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+                <v-row style="width:100%" class="ma-0  pa-0">
+                  <v-col class="text-start ma-0 pa-0" cols="12" sm="6">
+                    <div>
+                      Sub-total
+                    </div>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col class=" text-end ma-0 pa-0" cols="12" sm="6">
+                    <div>
+                      <span class="subheading"
+                        >{{ calCart ? calCart.subTotal : "" }}
+                      </span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row style="width:100%" class="ma-0  pa-0">
+                  <v-col class="text-start ma-0 pa-0" cols="12" sm="6">
+                    <div>
+                      Tax
+                    </div>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col class=" text-end ma-0 pa-0" cols="12" sm="6">
+                    <div>
+                      <span class="subheading"
+                        >{{ calCart ? calCart.tax : "" }}
+                      </span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+                <v-row style="width:100%" class="ma-0  pa-0">
+                  <v-col class="text-start ma-0 pa-0" cols="12" sm="6">
+                    <div class="text-start"><strong>Total</strong></div>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col class=" text-end ma-0 pa-0" cols="12" sm="6">
+                    <div>
+                      <div class="text-end">
+                        <strong>{{ calCart ? calCart.totalPrice : "" }}</strong>
+                      </div>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col cols="12" md="4">
+                <h2 class="text-start">Payment Methods</h2>
+                <v-divider class="mb-5"></v-divider>
+                <ValidationProvider rules="required" v-slot="{ errors }">
+                  <v-radio-group
+                    :error="errors.length > 0"
+                    :error-messages="errors[0]"
+                    v-model="payment"
+                  >
+                    <template v-slot:label>
+                      <div>Please select a <strong>payment method</strong></div>
+                    </template>
+                    <v-radio value="PayPal">
+                      <template v-slot:label>
+                        <v-row align="center">
+                          <v-col md="2">
+                            <div>PayPal</div>
+                          </v-col>
+                          <v-col>
+                            <v-img
+                              src="https://1000logos.net/wp-content/uploads/2021/04/Paypal-logo.png"
+                              height="30"
+                              width="100"
+                            ></v-img>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </v-radio>
+
+                    <v-radio value="Visa">
+                      <template v-slot:label>
+                        <v-row align="center">
+                          <v-col md="1">
+                            <div>Visa</div>
+                          </v-col>
+                          <v-col>
+                            <v-img
+                              src="https://www.pikpng.com/pngl/m/80-809937_visa-png-transparent-background-visa-logo-clipart.png"
+                              height="30"
+                              width="100"
+                            ></v-img>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </v-radio>
+                    <v-radio value="MasterCard">
+                      <template v-slot:label>
+                        <v-row align="center">
+                          <v-col md="3">
+                            <div>MasterCard</div>
+                          </v-col>
+                          <v-col>
+                            <v-img
+                              src="https://brand.mastercard.com/content/dam/mccom/brandcenter/thumbnails/mastercard_hrz_pos_300px_2x.png"
+                              height="40"
+                              width="140"
+                            ></v-img>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </v-radio>
+                    <v-radio value="Telebirr">
+                      <template v-slot:label>
+                        <v-row align="center">
+                          <v-col md="2">
+                            <div>Telebirr</div>
+                          </v-col>
+                          <v-col>
+                            <v-img
+                              src="telebirr.png"
+                              height="30"
+                              width="100"
+                            ></v-img>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </v-radio>
+                    <v-radio value="Hello Cash">
+                      <template v-slot:label>
+                        <v-row align="center">
+                          <v-col md="4">
+                            <div>Hello Cash</div>
+                          </v-col>
+                          <v-col>
+                            <v-img
+                              src="hellocash.png"
+                              height="30"
+                              width="100"
+                            ></v-img>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </v-radio>
+                    <!-- <v-radio value="Mbirr">
+                      <template v-slot:label>
+                        <v-row align="center">
+                          <v-col md="2">
+                            <div>Mbirr</div>
+                          </v-col>
+                          <v-col>
+                            <v-img
+                              src="mbirr.png"
+                              height="30"
+                              width="100"
+                            ></v-img>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </v-radio> -->
+                    <v-radio value="Bank Payment">
+                      <template v-slot:label>
+                        <div>Bank Payment</div>
+                      </template>
+                    </v-radio>
+                  </v-radio-group>
+                </ValidationProvider>
+              </v-col>
+            </v-row>
+            <v-row justify="center" class="ma-0 mb-5" style="width:100%">
+              <v-col cols="auto">
+                <SubmitButton
+                  buttonText="Continue"
+                  color="#4DBA87"
+                  class="white--text"
+                  :disabled="error"
+                />
+              </v-col>
+            </v-row>
+          </form>
+        </ValidationObserver>
+      </div>
+    </v-dialog>
     <v-dialog
       persistent
       v-model="success"
@@ -386,7 +810,7 @@
     </v-dialog>
     <v-dialog
       persistent
-      v-model="vis"
+      v-model="check"
       style="background-color:red"
       :overlay-opacity="0.8"
       width="500"
@@ -512,12 +936,13 @@
           flat
           placeholder="Please select a payment method"
           :items="[
-            'BOA',
+            'PayPal',
+            'Visa',
+            'MasterCard',
             'Hello Cash',
             'Mbirr',
             'Bank Payment',
             'Telebirr',
-            'PayPal',
           ]"
           v-model="payment"
         ></v-select>
@@ -650,7 +1075,7 @@
           solo
           flat
           placeholder="Deposited by"
-          v-model="user"
+          v-model="userB"
         >
         </v-text-field>
         <v-text-field
@@ -683,59 +1108,285 @@
 <script>
 import router from "@/router";
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       isMobile: false,
-      email: "",
+      chek: false,
       vis: false,
       test: true,
       testF: false,
       visF: false,
       loading: false,
       fname: "",
+      country: "Ethiopia",
+      firstNameProxy: "null",
+      lastNameProxy: "null",
+      emailProxy: "null",
+      yourValueProxy: "-1",
       delivery: "",
-      country: "",
       region: "",
       wereda: "",
+      countryList: [
+        "Afghanistan",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antarctica",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas (the)",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda",
+        "Bhutan",
+        "Bolivia (Plurinational State of)",
+        "Bonaire, Sint Eustatius and Saba",
+        "Bosnia and Herzegovina",
+        "Botswana",
+        "Bouvet Island",
+        "Brazil",
+        "British Indian Ocean Territory (the)",
+        "Brunei Darussalam",
+        "Bulgaria",
+        "Burkina Faso",
+        "Burundi",
+        "Cabo Verde",
+        "Cambodia",
+        "Cameroon",
+        "Canada",
+        "Cayman Islands (the)",
+        "Central African Republic (the)",
+        "Chad",
+        "Chile",
+        "China",
+        "Christmas Island",
+        "Cocos (Keeling) Islands (the)",
+        "Colombia",
+        "Comoros (the)",
+        "Congo (the Democratic Republic of the)",
+        "Congo (the)",
+        "Cook Islands (the)",
+        "Costa Rica",
+        "Croatia",
+        "Cuba",
+        "Curaçao",
+        "Cyprus",
+        "Czechia",
+        "Côte d'Ivoire",
+        "Denmark",
+        "Djibouti",
+        "Dominica",
+        "Dominican Republic (the)",
+        "Ecuador",
+        "Egypt",
+        "El Salvador",
+        "Equatorial Guinea",
+        "Eritrea",
+        "Estonia",
+        "Eswatini",
+        "Ethiopia",
+        "Falkland Islands (the) [Malvinas]",
+        "Faroe Islands (the)",
+        "Fiji",
+        "Finland",
+        "France",
+        "French Guiana",
+        "French Polynesia",
+        "French Southern Territories (the)",
+        "Gabon",
+        "Gambia (the)",
+        "Georgia",
+        "Germany",
+        "Ghana",
+        "Gibraltar",
+        "Greece",
+        "Greenland",
+        "Grenada",
+        "Guadeloupe",
+        "Guam",
+        "Guatemala",
+        "Guernsey",
+        "Guinea",
+        "Guinea-Bissau",
+        "Guyana",
+        "Haiti",
+        "Heard Island and McDonald Islands",
+        "Holy See (the)",
+        "Honduras",
+        "Hong Kong",
+        "Hungary",
+        "Iceland",
+        "India",
+        "Indonesia",
+        "Iran (Islamic Republic of)",
+        "Iraq",
+        "Ireland",
+        "Isle of Man",
+        "Israel",
+        "Italy",
+        "Jamaica",
+        "Japan",
+        "Jersey",
+        "Jordan",
+        "Kazakhstan",
+        "Kenya",
+        "Kiribati",
+        "Korea (the Democratic People's Republic of)",
+        "Korea (the Republic of)",
+        "Kuwait",
+        "Kyrgyzstan",
+        "Lao People's Democratic Republic (the)",
+        "Latvia",
+        "Lebanon",
+        "Lesotho",
+        "Liberia",
+        "Libya",
+        "Liechtenstein",
+        "Lithuania",
+        "Luxembourg",
+        "Macao",
+        "Madagascar",
+        "Malawi",
+        "Malaysia",
+        "Maldives",
+        "Mali",
+        "Malta",
+        "Marshall Islands (the)",
+        "Martinique",
+        "Mauritania",
+        "Mauritius",
+        "Mayotte",
+        "Mexico",
+        "Micronesia (Federated States of)",
+        "Moldova (the Republic of)",
+        "Monaco",
+        "Mongolia",
+        "Montenegro",
+        "Montserrat",
+        "Morocco",
+        "Mozambique",
+        "Myanmar",
+        "Namibia",
+        "Nauru",
+        "Nepal",
+        "Netherlands (the)",
+        "New Caledonia",
+        "New Zealand",
+        "Nicaragua",
+        "Niger (the)",
+        "Nigeria",
+        "Niue",
+        "Norfolk Island",
+        "Northern Mariana Islands (the)",
+        "Norway",
+        "Oman",
+        "Pakistan",
+        "Palau",
+        "Palestine, State of",
+        "Panama",
+        "Papua New Guinea",
+        "Paraguay",
+        "Peru",
+        "Philippines (the)",
+        "Pitcairn",
+        "Poland",
+        "Portugal",
+        "Puerto Rico",
+        "Qatar",
+        "Republic of North Macedonia",
+        "Romania",
+        "Russian Federation (the)",
+        "Rwanda",
+        "Réunion",
+        "Saint Barthélemy",
+        "Saint Helena, Ascension and Tristan da Cunha",
+        "Saint Kitts and Nevis",
+        "Saint Lucia",
+        "Saint Martin (French part)",
+        "Saint Pierre and Miquelon",
+        "Saint Vincent and the Grenadines",
+        "Samoa",
+        "San Marino",
+        "Sao Tome and Principe",
+        "Saudi Arabia",
+        "Senegal",
+        "Serbia",
+        "Seychelles",
+        "Sierra Leone",
+        "Singapore",
+        "Sint Maarten (Dutch part)",
+        "Slovakia",
+        "Slovenia",
+        "Solomon Islands",
+        "Somalia",
+        "South Africa",
+        "South Georgia and the South Sandwich Islands",
+        "South Sudan",
+        "Spain",
+        "Sri Lanka",
+        "Sudan (the)",
+        "Suriname",
+        "Svalbard and Jan Mayen",
+        "Sweden",
+        "Switzerland",
+        "Syrian Arab Republic",
+        "Taiwan",
+        "Tajikistan",
+        "Tanzania, United Republic of",
+        "Thailand",
+        "Timor-Leste",
+        "Togo",
+        "Tokelau",
+        "Tonga",
+        "Trinidad and Tobago",
+        "Tunisia",
+        "Turkey",
+        "Turkmenistan",
+        "Turks and Caicos Islands (the)",
+        "Tuvalu",
+        "Uganda",
+        "Ukraine",
+        "United Arab Emirates (the)",
+        "United Kingdom of Great Britain and Northern Ireland (the)",
+        "United States Minor Outlying Islands (the)",
+        "United States of America (the)",
+        "Uruguay",
+        "Uzbekistan",
+        "Vanuatu",
+        "Venezuela (Bolivarian Republic of)",
+        "Viet Nam",
+        "Virgin Islands (British)",
+        "Virgin Islands (U.S.)",
+        "Wallis and Futuna",
+        "Western Sahara",
+        "Yemen",
+        "Zambia",
+        "Zimbabwe",
+        "Åland Islands",
+      ],
       phone: "",
       payment: "",
-      user: "",
+      userB: "",
       reference: "",
       transaction: "",
       t: false,
       key: "AIzaSyCVZffDCQLlsX9vz9TGBg0h8aZkG5eIUoY",
       address: "",
-      headers: [
-        { text: "IMAGE", value: "image", sortable: false },
-        { text: "PRODUCT", value: "name", sortable: false },
-
-        { text: "QUANTITY", value: "quantity", sortable: false },
-        {
-          text: "PRICE",
-          value: "price",
-          sortable: true,
-        },
-        { text: "ACTION", value: "action", sortable: false },
-      ],
-      products: [
-        {
-          image:
-            "http://45.76.97.89:3000/uploads/1e1f0f78e33d4ce7828d21465e84da7d.jpg",
-          name: "Lorem ipsum dolor sit amet consectetur",
-          price: "$ 106.72",
-          quantity: 1,
-          total: "$ 106.72",
-        },
-        {
-          image:
-            "http://45.76.97.89:3000/uploads/1e1f0f78e33d4ce7828d21465e84da7d.jpg",
-          name: "Lorem ipsum dolor sit amet consectetur",
-          price: "$ 106.72",
-          quantity: 1,
-          total: "$ 106.72",
-        },
-      ],
     };
   },
   created() {
@@ -745,16 +1396,84 @@ export default {
       if (this.$store.getters.totalCartList.length == 0) {
         this.$store.dispatch("getCartList");
       }
-      this.getDelivery();
+      this.$store.dispatch("getDeliveryTypes");
     }
   },
   methods: {
+    updateCart(item) {
+      this.cartItems = [];
+      this.$store.dispatch("updateCart", item);
+    },
+    async submit() {
+      if (this.payment == "Bank Payment") {
+        this.testF = true;
+      } else {
+        if (this.payment == "Visa" || this.payment == "MasterCard") {
+          this.payment = "BOA";
+        }
+        this.testF = false;
+        this.$store.dispatch("checkout", {
+          payment: this.payment,
+          fname: `${this.firstName + this.lastName}`,
+          address: `${this.country}${this.region}${this.wereda}`,
+          phone: this.yourValue.replace(/\s+/g, ""),
+          deliveryType: this.delivery,
+          country: this.country,
+          region: this.region,
+          wereda: this.wereda,
+          email: this.email,
+        });
+        this.visF = false;
+      }
+      //This event signifies that a successfull checkout
+      this.$gtag.event("Checkout", {
+        event_category: "Checkout",
+        event_label: "User Checkout Items",
+      });
+    },
+    handleDeliveryMethod(a) {
+      this.delivery = a;
+      if (
+        this.firstName &&
+        this.lastName &&
+        this.email &&
+        this.yourValue &&
+        this.country &&
+        this.region &&
+        this.wereda &&
+        this.delivery
+      ) {
+        this.$store.dispatch("calculateCart", {
+          deliveryType: this.delivery,
+          country: this.country,
+          region: this.region,
+          wereda: this.wereda,
+          email: this.email,
+          phone: this.yourValue.replace(/\s+/g, ""),
+        });
+      } else {
+        console.log("not all filled");
+      }
+    },
+    deliveryInformation() {
+      const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      };
+      return {
+        ...this.$store.state.cart.deliveryInformation,
+        esT: formatDate(
+          this.$store.state.cart.deliveryInformation.estimatedTime
+        ),
+      };
+    },
     setVisFalse() {
       // this.$store.commit("SET_VIS_FALSE");
       // console.log("vis false");
       this.vis = false;
     },
     removeProduct(id) {
+      console.log(id);
       this.$store.dispatch("removeFromCart", id);
       //This event signifies that a successfull product was removed from cart
       this.$gtag.event("Remove from Cart", {
@@ -766,11 +1485,14 @@ export default {
       await this.$store.dispatch("getDelivery");
     },
     clearSuccess() {
+      //route to profile page
+      this.vis = false;
+      router.push({ path: "/profile" });
       this.$store.commit("CLEAR_SUCCESS");
     },
     finalizeCheckout() {
       this.$store.dispatch("finalizeCheckout", {
-        user: this.user,
+        user: this.userB,
         reference: this.reference,
         transaction: this.transaction,
       });
@@ -785,11 +1507,11 @@ export default {
         this.testF = true;
       } else {
         this.testF = false;
-        this.$store.dispatch("createBillingInformation", {
+        this.$store.dispatch("checkout", {
           loc: this.address,
           fname: this.fname,
           phone: this.phone,
-          delivery: this.delivery,
+          deliveryType: this.delivery,
           country: this.country,
           region: this.region,
           wereda: this.wereda,
@@ -802,12 +1524,16 @@ export default {
       if (this.payment == "Bank Payment") {
         this.testF = true;
       } else {
+        if (this.payment == "Visa" || this.payment == "MasterCard") {
+          this.payment = "BOA";
+        }
         this.testF = false;
-        this.$store.dispatch("createBillingInformation", {
+        this.$store.dispatch("checkout", {
+          payment: this.payment,
           loc: this.address,
           fname: this.fname,
           phone: this.phone,
-          delivery: this.delivery,
+          deliveryType: this.delivery,
           country: this.country,
           region: this.region,
           wereda: this.wereda,
@@ -891,33 +1617,150 @@ export default {
           return this.$store.getters.totalCartList;
       }
     },
+
+    headers() {
+      return this.currency === "ETB"
+        ? [
+            { text: "IMAGE", value: "image", sortable: false },
+            { text: "PRODUCT", value: "name", sortable: false },
+
+            { text: "QUANTITY", value: "quantity", sortable: false },
+            {
+              text: "PRICE",
+              value: "price",
+              sortable: true,
+            },
+            { text: "ACTION", value: "action", sortable: false },
+          ]
+        : [
+            { text: "IMAGE", value: "image", sortable: false },
+            { text: "PRODUCT", value: "name", sortable: false },
+
+            { text: "QUANTITY", value: "quantity", sortable: false },
+            {
+              text: "PRICE",
+              value: "usdPrice",
+              sortable: true,
+            },
+            { text: "ACTION", value: "action", sortable: false },
+          ];
+    },
     cartItems() {
-      return this.totalCartList.map((item) => {
+      const cartItems = this.totalCartList.map((item) => {
         return {
           image: item.product.image,
-          id: item.product.id,
+          id: item.id,
           name: item.product.name,
           price: item.product.sellingPrice,
+          usdPrice: item.product.usdPrice,
           quantity: item.quantity,
           total: item.total,
           productId: item.product.id,
         };
       });
+
+      return cartItems;
     },
     currency() {
       return this.$store.state.product.currency;
     },
-    deliveryInformation() {
-      const formatDate = (dateString) => {
-        const options = { year: "numeric", month: "long", day: "numeric" };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-      };
-      return {
-        ...this.$store.state.cart.deliveryInformation,
-        esT: formatDate(
-          this.$store.state.cart.deliveryInformation.estimatedTime
-        ),
-      };
+    ...mapGetters(["isTokenSet", "user"]),
+    calCart() {
+      return this.$store.state.cart.calCart;
+    },
+    validated() {
+      if (
+        this.firstName &&
+        this.lastName &&
+        this.email &&
+        this.yourValue &&
+        this.country &&
+        this.region &&
+        this.wereda &&
+        this.delivery
+      ) {
+        if (this.calCart === null) {
+          this.$store.dispatch("calculateCart", {
+            deliveryType: this.delivery,
+            country: this.country,
+            region: this.region,
+            wereda: this.wereda,
+            email: this.email,
+            phone: this.yourValue.replace(/\s+/g, ""),
+          });
+        }
+        return true;
+      } else {
+        return false;
+      }
+    },
+    deliveryTypes() {
+      return this.$store.state.cart.deliveryTypes.map((type) => {
+        return {
+          text: `${type.method} - ${type.price} ETB`,
+          value: type.id,
+        };
+      });
+    },
+    error() {
+      return this.yourValue.replace(/\s+/g, "").length !== 10 ? true : false;
+    },
+    firstName: {
+      get() {
+        return this.firstNameProxy === "null"
+          ? this.user
+            ? this.user.firstName
+              ? this.user.firstName
+              : ""
+            : ""
+          : this.firstNameProxy;
+      },
+      set(val) {
+        this.firstNameProxy = val;
+      },
+    },
+    lastName: {
+      get() {
+        return this.lastNameProxy === "null"
+          ? this.user
+            ? this.user.lastName
+              ? this.user.lastName
+              : ""
+            : ""
+          : this.lastNameProxy;
+      },
+      set(val) {
+        this.lastNameProxy = val;
+      },
+    },
+
+    email: {
+      get() {
+        return this.emailProxy === "null"
+          ? this.user
+            ? this.user.email
+              ? this.user.email
+              : ""
+            : ""
+          : this.emailProxy;
+      },
+      set(val) {
+        this.emailProxy = val;
+      },
+    },
+    yourValue: {
+      get() {
+        return this.yourValueProxy === "-1"
+          ? this.user
+            ? this.user.phone
+              ? this.user.phone
+              : null
+            : null
+          : this.yourValueProxy;
+      },
+      set(val) {
+        this.yourValueProxy = val;
+      },
     },
     deliveryData() {
       const deliveryName = this.$store.state.cart.deliveryItems.map(

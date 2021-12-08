@@ -149,11 +149,13 @@
                 </div> -->
 
                 <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
                 <div
                   @mouseenter="color3 = 'white'"
                   @mouseleave="color3 = 'black'"
+                  class="mr-5"
                 >
-                  <router-link :to="{ path: '/cart' }">
+                  <router-link :to="{ path: 'cart' }">
                     <v-badge
                       bottom
                       overlap
@@ -170,7 +172,6 @@
                   >
                 </div>
 
-                <v-spacer></v-spacer>
                 <div v-if="isTokenSet">
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -180,7 +181,9 @@
                           v-if="userData.profilePic.length > 0"
                         />
                         <span v-else class="white--text text-h5">{{
-                          userData.userName[0].toUpperCase()
+                          userData.userName.length > 0
+                            ? userData.userName[0].toUpperCase()
+                            : ""
                         }}</span>
                       </v-avatar>
                     </template>
@@ -242,7 +245,7 @@
           style="height:60px;border-top: 1px solid #b5b5b5"
         >
           <v-spacer></v-spacer>
-          <v-col style="width:50px" v-for="(n, i) in 4" :key="i">
+          <v-col cols="2" v-for="(n, i) in 4" :key="i">
             <div
               :style="
                 tab == links[i].path

@@ -447,7 +447,6 @@ export default {
           event_label: "Add to Cart",
         });
       }
-      this.$router.push({ path: "/cart" });
     },
     increment() {
       this.quantity = parseInt(this.quantity, 10) + 1;

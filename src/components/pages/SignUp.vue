@@ -162,6 +162,45 @@
       </v-flex>
       <ErrorMessage />
     </v-layout>
+    <v-dialog
+      v-model="serVerify"
+      style="background-color:red"
+      width="500"
+      transition="dialog-bottom-transition"
+    >
+      <v-card class="pa-5">
+        <h3 class="mb-2">Verify Email</h3>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <form @submit.prevent="handleSubmit(verifyEmailA)">
+            <v-layout column>
+              <ValidationProvider rules="required" v-slot="{ errors }">
+                <v-text-field
+                  id="userName"
+                  name="userName"
+                  label="Code"
+                  v-model="code"
+                  :error="errors.length > 0"
+                  :error-messages="errors[0]"
+                  autocomplete="off"
+                  outlined
+                  dense
+                  prepend-inner-icon="mdi-account"
+                  color="#4DBA87"
+                >
+                </v-text-field>
+              </ValidationProvider>
+              <v-flex>
+                <SubmitButton
+                  class="white--text"
+                  buttonText="Verify"
+                  color="#4DBA87"
+                />
+              </v-flex>
+            </v-layout>
+          </form>
+        </ValidationObserver>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -187,10 +226,19 @@ export default {
       password: "",
       address: "",
       confirmPassword: "",
+      code: "",
     };
   },
   methods: {
     ...mapActions(["userSignUp"]),
+    async verifyEmailA() {
+      this.$store.dispatch("verifyEmail", {
+        email: this.email,
+        code: this.code,
+        password: this.password,
+        userName: this.userName,
+      });
+    },
     async submit() {
       console.log({
         firstName: this.firstName,
@@ -230,6 +278,15 @@ export default {
   computed: {
     error() {
       return this.yourValue.length !== 12 ? true : false;
+    },
+    requestSent() {
+      return this.$store.state.auth.requestSent;
+    },
+    verify() {
+      return this.$store.state.auth.verify;
+    },
+    serVerify() {
+      return this.requestSent && !this.verify;
     },
   },
 };

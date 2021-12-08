@@ -563,7 +563,7 @@ export default {
     return {
       selected: "All",
       price: 0,
-      tags: ["manufacturer", "wholeseller", "retailer", "exporter", "importer"],
+      tags: ["manufacturer", "wholeseller", "retailer"],
       runtimeTranscription_: "",
       transcription_: [],
       lang_: "en-EN",

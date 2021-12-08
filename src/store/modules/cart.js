@@ -28,6 +28,9 @@ const actions = {
                   product {
                     id
                     name
+                    image
+                    sellingPrice
+                    usdPrice
                     productimageSet {
                       image
                     }
@@ -81,6 +84,7 @@ const actions = {
       });
   },
   async getCartList({ commit }) {
+    console.log("getCartList");
     commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
       .query({
@@ -94,6 +98,7 @@ const actions = {
                 name
                 image
                 sellingPrice
+                usdPrice
                 productimageSet {
                   image
                 }
@@ -110,10 +115,28 @@ const actions = {
         handleError(error, commit, resp);
       });
   },
+  async getDeliveryTypes({ commit }) {
+    const resp = await apolloClient
+      .query({
+        query: gql`
+          {
+            deliveryTypes {
+              id
+              method
+              price
+            }
+          }
+        `,
+      })
+      .then((res) => {
+        commit(types.SET_DELIVERY_TYPES, res.data.deliveryTypes);
+      })
+      .catch((error) => {
+        handleError(error, commit, resp);
+      });
+  },
   async addToCart(ctx, value) {
-    debugger;
     ctx.commit(types.SHOW_LOADING, true);
-    debugger;
     const resp = await apolloClient
       .mutate({
         mutation: gql`
@@ -129,6 +152,7 @@ const actions = {
                 id
                 name
                 image
+                usdPrice
                 sellingPrice
                 productimageSet {
                   image
@@ -147,22 +171,59 @@ const actions = {
         handleError(error, ctx.commit, resp);
       });
   },
+  async updateCart(ctx, value) {
+    ctx.commit(types.SHOW_LOADING, true);
+    const resp = await apolloClient
+
+      .mutate({
+        mutation: gql`
+        mutation{
+          updateCart(cartId:"${value.id}",quantity:${value.quantity}) {
+            payload{
+              id
+              quantity
+              product {
+                id
+                name
+                image
+                sellingPrice
+                usdPrice
+                productimageSet {
+                  image
+                }
+              }
+            }
+          }
+        }
+        `,
+      })
+      .then((resp) => {
+        console.log(resp);
+        ctx.commit(types.addTCart, resp.data.updateCart.payload);
+        ctx.commit(types.SHOW_LOADING, false);
+        // ctx.dispatch("getCartList");
+      })
+      .catch((error) => {
+        handleError(error, ctx.commit, resp);
+      });
+  },
   async removeFromCart(ctx, value) {
     ctx.commit(types.SHOW_LOADING, true);
     const resp = await apolloClient
       .mutate({
         mutation: gql`
           mutation {
-            clearCart(productId: "${value}") {
+            clearCart(cartId: "${value}") {
               cleared
             }
           }
         `,
       })
       .then((resp) => {
-        console.log(resp.data.clearCart.payload);
-        ctx.commit(types.SET_CART_LIST, []);
+        console.log(resp.data.clearCart.cleared);
         ctx.commit(types.SHOW_LOADING, false);
+        ctx.commit(types.RITEM, { id: value });
+        // ctx.dispatch("getCartList");
       })
       .catch((error) => {
         handleError(error, ctx.commit, resp);
@@ -192,7 +253,6 @@ const actions = {
         handleError(error, ctx.commit, resp);
       });
   },
-
   async createBillingInformation(ctx, value) {
     console.log(value);
     ctx.commit(types.SHOW_LOADING, true);
@@ -237,7 +297,6 @@ const actions = {
                 id
                 reference
               }
-              
             }
           }
         }        
@@ -247,11 +306,8 @@ const actions = {
         console.log(`
         ${r.data.checkoutOrder.payload.order.reference}
       `);
-        ctx.commit(
-          types.CHECKOUT_CREATED,
-          r.data.checkoutOrder.payload.deliveryOption
-        );
         ctx.commit("SET_VIS_FALSE");
+
         if (value.payment === "BOA") {
           const res = await apolloClient
             .mutate({
@@ -334,6 +390,7 @@ const actions = {
             }
 
           }`);
+          debugger;
           const res = await apolloClient
             .mutate({
               mutation: gql`
@@ -421,6 +478,40 @@ const actions = {
               handleError(error, ctx.commit, res);
             });
         }
+        ctx.commit(types.CLEAR_ALL_CART);
+      })
+      .catch((error) => {
+        console.log("error");
+        handleError(error, ctx.commit, resp);
+      });
+  },
+  async calculateCart(ctx, value) {
+    const resp = await apolloClient
+      .mutate({
+        mutation: gql`
+          {
+            calculateCart(
+              deliveryType: "${value.deliveryType}"
+              billingInfo: {
+                country: "${value.country}"
+                region: "${value.region}"
+                wereda: "${value.wereda}"
+                phone: "${value.phone}"
+                email: "${value.email}"
+              }
+            ) {
+              totalPrice
+              totalDistance
+              deliveryFee
+              subTotal
+              tax
+            }
+          }
+        `,
+      })
+      .then((response) => {
+        console.log(response.data.calculateCart);
+        ctx.commit(types.CALCULATE_CART, response.data.calculateCart);
       })
       .catch((error) => {
         console.log("error");
@@ -433,6 +524,12 @@ const mutations = {
   SET_CART_LIST(state, value) {
     Vue.set(state, "cartItems", value);
   },
+  [types.CALCULATE_CART](state, value) {
+    state.calCart = value;
+  },
+  [types.SET_DELIVERY_TYPES](state, value) {
+    state.deliveryTypes = value;
+  },
   [types.SET_DELIVERY](state, value) {
     state.deliveryItems = value;
     state.vis = true;
@@ -440,6 +537,30 @@ const mutations = {
   [types.CHECKOUT_SUCCESS](state, value) {
     state.success = true;
     state.text = value;
+  },
+  [types.RITEM](state, value) {
+    //search and remove an item from cart
+    const cart = state.cartItems;
+    cart.forEach((item, index) => {
+      if (item.id === value.id) {
+        state.cartItems.splice(index, 1);
+      }
+    });
+    Vue.set(state, "cartItems", cart);
+    // Vue.set(state, "cartItems", []);
+  },
+  [types.CLEAR_ALL_CART](state) {
+    Vue.set(state, "cartItems", []);
+  },
+  [types.addTCart](state, value) {
+    //find and set cart item new value
+    const cart = state.cartItems;
+    cart.forEach((item, index) => {
+      if (item.id === value.id) {
+        state.cartItems[index].quantity = value.quantity;
+      }
+    });
+    Vue.set(state, "cartItems", cart);
   },
   [types.CLEAR_SUCCESS](state) {
     state.success = false;
@@ -520,6 +641,8 @@ const state = {
   text: "",
   orderHistory: [],
   cartList: [],
+  deliveryTypes: [],
+  calCart: null,
 };
 
 export default {

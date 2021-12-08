@@ -161,14 +161,15 @@ const actions = {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log({ error: error.message });
+        if (error.message === "GraphQL error: User Not Verified") {
+          commit(types.VERIFY_PAGE, true);
+        }
         handleError(error, commit, resp);
       });
   },
   autoLogin(ctx) {
     if (localStorage.getItem("token")) {
-      debugger;
-      ctx.commit(types.SHOW_LOADING, true);
       const resp = apolloClient
         .query({
           query: gql`
@@ -187,7 +188,6 @@ const actions = {
           `,
         })
         .then((response) => {
-          debugger;
           ctx.commit(types.SAVE_USER, {
             auth: false,
             ...response.data.getMe,
@@ -201,7 +201,6 @@ const actions = {
               profilePic: "",
             })
           );
-          ctx.commit(types.SHOW_LOADING, false);
         })
         .catch((error) => {
           debugger;
@@ -222,6 +221,55 @@ const actions = {
     router.push({
       name: "login",
     });
+  },
+  async requestSignupCode({ commit }, payload) {
+    commit(types.SHOW_LOADING, true);
+    const response = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            requestSignupCode(email: "${payload}") {
+              codeSent
+            }
+          }
+        `,
+      })
+      .then((res) => {
+        commit(types.SHOW_LOADING, false);
+        commit(types.REQUEST_SENT, true);
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        handleError(error, commit, response);
+      });
+  },
+  async verifyEmail(ctx, payload) {
+    ctx.commit(types.SHOW_LOADING, true);
+    const response = await apolloClient
+      .mutate({
+        mutation: gql`
+          mutation {
+            verifyUser(code: "${payload.code}", email: "${payload.email}") {
+              verified
+            }
+          }
+        `,
+      })
+      .then((res) => {
+        ctx.commit(types.SHOW_LOADING, false);
+        ctx.commit(types.SUCCESS, { msg: "User suucessfully verified" });
+        ctx.commit(types.SET_VERIFY, true);
+        console.log(res);
+        ctx.dispatch("userLogin", {
+          email: payload.userName,
+          password: payload.password,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        handleError(error, ctx.commit, response);
+      });
   },
   async getMe({ commit }) {
     commit(types.SHOW_LOADING, true);
@@ -275,6 +323,15 @@ const mutations = {
       JSON.stringify({ auth: false, ...user })
     );
   },
+  [types.VERIFY_PAGE](state, payload) {
+    state.verifyPage = payload;
+  },
+  [types.REQUEST_SENT](state, payload) {
+    state.requestSent = payload;
+  },
+  [types.SET_VERIFY](state, payload) {
+    state.verify = payload;
+  },
 };
 
 const state = {
@@ -283,6 +340,9 @@ const state = {
   isTokenSet: !!localStorage.getItem("token"),
   passwordReset: false,
   forgotPassword: false,
+  verifyPage: false,
+  requestSent: false,
+  verify: false,
 };
 
 export default {
