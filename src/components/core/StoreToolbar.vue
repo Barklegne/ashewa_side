@@ -5,21 +5,18 @@
       style="height:140px;background-color:#43DB80"
     >
       <v-col cols="2" class="ma-0 pa-0">
-        <div>
-          <v-img
-            :src="
-              vendorInfo.storeCover
-                ? vendorInfo.storeCover
-                : 'https://fundacja2act.org/wp-content/uploads/2020/02/sample-logo-white.png'
-            "
-            style="margin:auto auto;cursor:pointer"
-            width="150"
-            @click="
-              $router.push({
-                path: `/`,
-              })
-            "
-          ></v-img>
+        <div class="ml-5 mt-5">
+          <v-avatar size="100">
+            <img
+              :src="
+                vendorInfo.storeCover
+                  ? vendorInfo.storeCover
+                  : 'https://fundacja2act.org/wp-content/uploads/2020/02/sample-logo-white.png'
+              "
+              alt="logo"
+              style="margin:auto auto;cursor:pointer"
+            />
+          </v-avatar>
         </div>
       </v-col>
 

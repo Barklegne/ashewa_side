@@ -108,11 +108,7 @@
                 class="ma-1"
                 @click="toggle(i)"
               >
-                <v-img
-                  height="50px"
-                  width="50px"
-                  :src="`http://api.ashewa.com/media/${n.image}`"
-                ></v-img>
+                <v-img height="50px" width="50px" :src="`${n.image}`"></v-img>
               </div>
             </v-slide-item>
           </v-slide-group>
@@ -482,7 +478,7 @@
                   >Call Now</v-btn
                 >
                 <!-- <a href="tel:8665562570">Call Now</a> -->
-                <!-- <v-btn
+                <v-btn
                   elevation="0"
                   color="btn"
                   style="background-color:white;color:#09b750;border:1px solid #09b750;"
@@ -496,7 +492,7 @@
                     })
                   "
                   >Chat Now
-                </v-btn> -->
+                </v-btn>
                 <v-spacer></v-spacer>
               </v-row>
               <v-divider class="my-2"></v-divider>

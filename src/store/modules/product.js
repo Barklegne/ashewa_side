@@ -29,6 +29,8 @@ const actions = {
             vendorInfo(vendorName: "${id}") {
               id
               storeName
+              tradeLicence
+              tinNumber
               description
               storeCover
               location
@@ -40,6 +42,10 @@ const actions = {
               region
               subCity
               woreda
+              corebrandSet{
+                image
+                id
+              }
               vendorgallerySet{
                 image
               }

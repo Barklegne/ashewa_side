@@ -27,6 +27,7 @@
         <v-card-title>
           <span class="headline">Order Details</span>
         </v-card-title>
+        <p class="ml-5">Order ID: {{ id }}</p>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout row wrap>
@@ -98,24 +99,17 @@ export default {
   data() {
     return {
       dataD: [],
+      id: "",
       headerD: [
         { text: "Image", value: "image" },
+        { text: "Name", value: "name" },
         { text: "Quantity", value: "quantity" },
         { text: "Price", value: "price" },
       ],
       headers: [
-        {
-          text: "Order ID",
-          value: "id",
-        },
-        // { text: "Product", value: "productId" },
+        { text: "Reference", value: "reference" },
         { text: "Total Price (in Birr)", value: "totalPrice" },
         { text: "Delivery Status", value: "status" },
-        //reference
-        { text: "Reference", value: "reference" },
-        //deliveryName
-
-        //paid
         { text: "Payment Status", value: "paid" },
         { text: "More", value: "more" },
         { text: "Payment Method", value: "paymentMethod" },
@@ -157,20 +151,24 @@ export default {
     getColor(status) {
       if (status == "COMPLETED") return "green";
       else if (status == "PENDING") return "orange";
+      else if (status == "ACCEPTED") return "green";
       else if (status == true) return "green";
       else if (status == false) return "red";
       else return "red";
     },
     more(item) {
       console.log(item);
+
       this.dataD = item.productId.map((item) => {
         return {
           image: item.product.image,
+          name: item.product.name,
           quantity: item.quantity,
           price: item.product.sellingPrice,
         };
       });
       console.log(this.dataD);
+      this.id = item.id;
       this.vis = true;
     },
   },

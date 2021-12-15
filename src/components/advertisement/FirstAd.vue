@@ -1,6 +1,6 @@
 <template>
   <div id="first-ad">
-    <v-row class="hidden-md-and-down" no-gutters justify="space-between">
+    <v-row class="hidden-md-and-down" no-gutters>
       <v-col cols="12" md="8">
         <v-hover>
           <template v-slot:default="{ hover }">
@@ -65,13 +65,8 @@
         </div>
       </v-col>
     </v-row>
-    <v-row
-      class="hidden-lg-and-up"
-      no-gutters
-      justify="space-between"
-      style="max-height:420px;"
-    >
-      <v-carousel hide-delimiters :show-arrows="false" :cycle="1">
+    <v-row class="hidden-lg-and-up" no-gutters style="max-height:420px;">
+      <v-carousel hide-delimiters :show-arrows="false" :cycle="true">
         <v-carousel-item
           v-for="(item, i) in items"
           :key="i"

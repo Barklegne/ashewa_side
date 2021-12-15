@@ -333,6 +333,15 @@ const actions = {
               handleError(error, ctx.commit, res);
             });
         } else if (value.payment === "Telebirr") {
+          console.log(`
+          mutation {
+            createTeleBirrTransaction(
+              orderId: "${r.data.checkoutOrder.payload.order.id}"
+            ) {
+              payUrl
+            }
+         `);
+          debugger;
           const res = await apolloClient
             .mutate({
               mutation: gql`
@@ -451,6 +460,84 @@ const actions = {
             .catch((error) => {
               handleError(error, ctx.commit, res);
             });
+        } else if (value.payment === "Bank Payment") {
+          const re = await apolloClient
+            .mutate({
+              mutation: gql`
+                mutation {
+                  createLocalTransferTransaction(orderId: "${r.data.checkoutOrder.payload.order.id}") {
+                    payload {
+                      id
+                    }
+                  }
+                }
+              `,
+            })
+            .then((re) => {
+              console.log(re.data.createLocalTransferTransaction.payload.id);
+              const respom = apolloClient
+                .mutate({
+                  mutation: gql`
+          
+                  mutation {
+                    finalizeLocalTransferTransaction(
+                      depositedBy: "${value.depositedBy}"
+                      reference: "${value.referenceNumber}"
+                      transactionId: "${re.data.createLocalTransferTransaction.payload.id}"
+                    ) {
+                      payload {
+                        id
+                        reference
+                      }
+                    }
+                  }
+                  
+              `,
+                })
+                .then((response) => {
+                  debugger;
+                  ctx.commit(types.SHOW_LOADING, false);
+                  ctx.commit(types.CHECKOUT_SUCCESS, {
+                    a: r.data.checkoutOrder.payload.order.reference,
+                    m: response.data.confirmBankTransaction.confirmed,
+                  });
+                })
+                .catch((error) => {
+                  handleError(error, ctx.commit, respom);
+                });
+            })
+            .catch((error) => {
+              handleError(error, ctx.commit, re);
+            });
+          // const re = await apolloClient
+          //   .mutate({
+          //     mutation: gql`
+          //       mutation {
+          //         finalizeLocalTransferTransaction(
+          //           depositedBy: "${value.depositedBy}"
+          //           reference: "${value.referenceNumber}"
+          //           transactionId: "${value.transactionId}"
+          //         ) {
+          //           payload {
+          //             id
+          //             reference
+          //           }
+          //         }
+          //       }
+          //     `,
+          //   })
+          //   .then((response) => {
+          //     ctx.commit(types.SHOW_LOADING, false);
+          //     ctx.commit(types.CHECKOUT_SUCCESS, {
+          //       a: r.data.checkoutOrder.payload.order.reference,
+          //       m:
+          //         response.data.finalizeLocalTransferTransaction.payload
+          //           .reference,
+          //     });
+          //   })
+          //   .catch((error) => {
+          //     handleError(error, ctx.commit, re);
+          //   });
         } else {
           const res = await apolloClient
             .mutate({
@@ -489,24 +576,18 @@ const actions = {
     const resp = await apolloClient
       .mutate({
         mutation: gql`
-          {
-            calculateCart(
-              deliveryType: "${value.deliveryType}"
-              billingInfo: {
-                country: "${value.country}"
-                region: "${value.region}"
-                wereda: "${value.wereda}"
-                phone: "${value.phone}"
-                email: "${value.email}"
-              }
-            ) {
-              totalPrice
-              totalDistance
-              deliveryFee
-              subTotal
-              tax
-            }
+        {
+          calculateCart(deliveryType: "${value.deliveryType}", billingInfo: {country: "${value.country}", region: "${value.region}", wereda: "${value.wereda}", phone: "${value.phone}", email: "${value.email}"}) {
+            totalPrice
+            deliveryFee
+            totalPriceUsd
+            subTotal
+            taxUsd
+            subTotalUsd
+            deliveryFeeUsd
+            tax
           }
+        }        
         `,
       })
       .then((response) => {

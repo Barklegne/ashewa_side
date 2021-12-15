@@ -302,8 +302,11 @@
                   <v-spacer></v-spacer>
                   <v-col class="text-end ma-0 pa-0" cols="12" sm="6">
                     <div>
-                      <span class="subheading"
+                      <span v-if="currency === 'ETB'" class="subheading"
                         >{{ item.quantity * item.product.sellingPrice }}
+                      </span>
+                      <span v-else class="subheading"
+                        >{{ item.quantity * item.product.usdPrice.toFixed(1) }}
                       </span>
                     </div>
                   </v-col>
@@ -345,8 +348,12 @@
                       ></v-select>
                     </ValidationProvider>
                     <div>
-                      <span class="subheading"
+                      <span v-if="currency === 'ETB'" class="subheading"
                         >Delivery fee: {{ calCart ? calCart.deliveryFee : "" }}
+                      </span>
+                      <span v-else class="subheading"
+                        >Delivery fee:
+                        {{ calCart ? calCart.deliveryFeeUsd.toFixed(1) : "" }}
                       </span>
                     </div>
                   </v-col>
@@ -361,8 +368,11 @@
                   <v-spacer></v-spacer>
                   <v-col class=" text-end ma-0 pa-0" cols="12" sm="6">
                     <div>
-                      <span class="subheading"
+                      <span v-if="currency === 'ETB'" class="subheading"
                         >{{ calCart ? calCart.subTotal : "" }}
+                      </span>
+                      <span v-else class="subheading"
+                        >{{ calCart ? calCart.subTotalUsd.toFixed(1) : "" }}
                       </span>
                     </div>
                   </v-col>
@@ -376,8 +386,11 @@
                   <v-spacer></v-spacer>
                   <v-col class=" text-end ma-0 pa-0" cols="12" sm="6">
                     <div>
-                      <span class="subheading"
+                      <span v-if="currency === 'ETB'" class="subheading"
                         >{{ calCart ? calCart.tax : "" }}
+                      </span>
+                      <span v-else class="subheading"
+                        >{{ calCart ? calCart.taxUsd : "" }}
                       </span>
                     </div>
                   </v-col>
@@ -390,8 +403,13 @@
                   <v-spacer></v-spacer>
                   <v-col class=" text-end ma-0 pa-0" cols="12" sm="6">
                     <div>
-                      <div class="text-end">
+                      <div v-if="currency === 'ETB'" class="text-end">
                         <strong>{{ calCart ? calCart.totalPrice : "" }}</strong>
+                      </div>
+                      <div v-else class="text-end">
+                        <strong>{{
+                          calCart ? calCart.totalPriceUsd : ""
+                        }}</strong>
                       </div>
                     </div>
                   </v-col>
@@ -409,7 +427,7 @@
                     <template v-slot:label>
                       <div>Please select a <strong>payment method</strong></div>
                     </template>
-                    <v-radio value="PayPal">
+                    <!-- <v-radio value="PayPal">
                       <template v-slot:label>
                         <v-row align="center">
                           <v-col md="2">
@@ -424,7 +442,7 @@
                           </v-col>
                         </v-row>
                       </template>
-                    </v-radio>
+                    </v-radio> -->
 
                     <v-radio value="Visa">
                       <template v-slot:label>
@@ -549,6 +567,8 @@
             ? "Dear customer, in order to proceed with your payment, please dial *912*4# and follow the instruction on your mobile phone to pay the invoice."
             : payment === "Mbirr"
             ? `Dear customer, in order to proceed with your payment, dial *818# then select 7(other) from the menu and then select 5(pay bill) and then enter ashewa's account number after that the enter this reference number ${text.m} and confirm your transaction, payment amount, your pin respectively.`
+            : payment === "Bank Payment"
+            ? "Thank you for your Payment, we will be cheaking your payment soon!"
             : ""
         }}
         <h2>
@@ -657,7 +677,7 @@
                 type="button"
                 class="btn btn-danger mx-4"
               >
-                Cancel
+                Close
               </v-btn>
             </v-col>
           </v-row>
@@ -681,7 +701,7 @@
               type="button"
               class="btn btn-danger mx-4"
             >
-              Cancel
+              Close
             </v-btn>
           </v-col>
         </v-row>
@@ -704,7 +724,7 @@
               type="button"
               class="btn btn-danger mx-4"
             >
-              Cancel
+              Close
             </v-btn>
           </v-col>
         </v-row>
@@ -715,9 +735,9 @@
           justify="end"
         >
           <v-col cols="4">
-            <v-btn class="pa-5 my-5" color="error" @click="clearSuccess">
-              Cancel
-            </v-btn>
+            <v-btn class="pa-5 my-5" color="success" @click="clearSuccess">
+              Finish </v-btn
+            >26557\' '
           </v-col>
         </v-row>
       </v-card>
@@ -803,7 +823,7 @@
             class="mx-5"
             style="text-transform:none"
             color="error"
-            >Cancel</v-btn
+            >Close</v-btn
           >
         </v-row>
       </v-card>
@@ -968,16 +988,17 @@
             class="mx-5"
             style="text-transform:none"
             color="error"
-            >Cancel</v-btn
+            >Close</v-btn
           >
         </v-row>
       </v-card>
     </v-dialog>
     <v-dialog v-model="testF" width="500">
       <v-card v-if="payment == 'Bank Payment'" class="pa-5">
-        To pay via mobile payment, please click on "Finalize Checkout" below and
-        send the grand total for your order to one of the following supported
-        banks below as soon as possible.
+        {{
+          "Y" +
+            "OU ARE ABOUT TO PAY YOUR PAYMENT THROUGH ANY BANK YOU WANT EITHER IN YOUR WALLETS OR MANUALLY IN YOUR NEAREST BANK".toLowerCase()
+        }}
         <v-row class="my-5" justify="center">
           <v-expansion-panels accordion>
             <v-expansion-panel>
@@ -986,26 +1007,26 @@
                 <p>Account Number: 53454108</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
-            <v-expansion-panel>
+            <!-- <v-expansion-panel>
               <v-expansion-panel-header> ህብረት ባንክ </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <p>Account Number: 1450111452422028</p>
               </v-expansion-panel-content>
-            </v-expansion-panel>
+            </v-expansion-panel> -->
             <v-expansion-panel>
               <v-expansion-panel-header> አዋሽ ባንክ</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <p>Account Number: 01304451622001</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
-            <v-expansion-panel>
+            <!-- <v-expansion-panel>
               <v-expansion-panel-header>
                 አዲስ ኢንተርናሽናል ባንክ
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <p>Account Number: 263668</p>
               </v-expansion-panel-content>
-            </v-expansion-panel>
+            </v-expansion-panel> -->
             <v-expansion-panel>
               <v-expansion-panel-header>
                 የኢትዮጵያ ንግድ ባንክ
@@ -1014,7 +1035,7 @@
                 <p>Account Number: 1000388040606</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
-            <v-expansion-panel>
+            <!-- <v-expansion-panel>
               <v-expansion-panel-header> ብርሃን ባንክ </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <p>Account Number: 2600110019980</p>
@@ -1043,7 +1064,7 @@
               <v-expansion-panel-content>
                 <p>Account Number: 5090220264021</p>
               </v-expansion-panel-content>
-            </v-expansion-panel>
+            </v-expansion-panel> -->
             <v-expansion-panel>
               <v-expansion-panel-header>
                 ዘመን ባንክ
@@ -1052,53 +1073,90 @@
                 <p>Account Number: 1455111090174017</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
-            <v-expansion-panel>
+            <!-- <v-expansion-panel>
               <v-expansion-panel-header>
                 አባይ ባንክ
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <p>Account Number: 1422117542275013</p>
               </v-expansion-panel-content>
-            </v-expansion-panel>
+            </v-expansion-panel> -->
           </v-expansion-panels>
         </v-row>
-        <v-btn @click="t = true" dark color="#07a04b">Finalize Checkout</v-btn>
+        <v-btn @click="t = true" dark color="#07a04b">Order</v-btn>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="t" width="500">
-      <v-card class="pa-5">
-        <h2>Finalize Checkout</h2>
-        <v-text-field
-          background-color="#ebe9e9"
-          class="ma-0"
-          height="50"
-          solo
-          flat
-          placeholder="Deposited by"
-          v-model="userB"
-        >
-        </v-text-field>
-        <v-text-field
-          background-color="#ebe9e9"
-          class="ma-0"
-          height="50"
-          solo
-          flat
-          placeholder="Reference"
-          v-model="reference"
-        >
-        </v-text-field>
-        <v-text-field
-          background-color="#ebe9e9"
-          class="ma-0"
-          height="50"
-          solo
-          flat
-          placeholder="Transaction Id"
-          v-model="transaction"
-        >
-        </v-text-field>
-        <v-btn @click="finalizeCheckout" dark color="#07a04b">Proceed</v-btn>
+    <v-dialog v-model="t" width="600">
+      <v-card class="px-5 pb-5" color="basil">
+        <v-card-title class="text-center justify-center py-6">
+          <v-avatar v-if="tab === 0" height="100px" width="200px">
+            <img
+              src="Commercial- Bank- of- Ethiopia5c026f2aabb8f.png"
+              alt="logo"
+            />
+          </v-avatar>
+          <v-avatar v-else-if="tab === 1" height="100px" width="200px">
+            <v-img src="BOA.png"> </v-img>
+          </v-avatar>
+          <v-avatar v-else-if="tab === 2" height="100px" width="200px">
+            <v-img src="Awash.png"> </v-img>
+          </v-avatar>
+          <v-avatar v-else-if="tab === 3" height="100px" width="200px">
+            <v-img src="Zemen.png"> </v-img>
+          </v-avatar>
+        </v-card-title>
+        <p class="text-center">
+          {{
+            "T" +
+              "HIS FORM MUST BE FILLED AFTER YOU PAY FOR YOUR ORDER".toLowerCase()
+          }}
+        </p>
+        <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+          <v-tab v-for="item in items" :key="item">
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+
+        <v-tabs-items v-model="tab">
+          <v-tab-item v-for="item in items" :key="item">
+            <v-card class="pa-5">
+              <v-text-field
+                background-color="#ebe9e9"
+                class="ma-0"
+                height="50"
+                solo
+                flat
+                placeholder="Deposited by"
+                v-model="userB"
+              >
+              </v-text-field>
+
+              <!-- <v-text-field
+                background-color="#ebe9e9"
+                class="ma-0"
+                height="50"
+                solo
+                flat
+                placeholder="Transaction Id"
+                v-model="transactionId"
+              >
+              </v-text-field> -->
+              <v-text-field
+                background-color="#ebe9e9"
+                class="ma-0"
+                height="50"
+                solo
+                flat
+                placeholder="Reference"
+                v-model="reference"
+              >
+              </v-text-field>
+              <v-btn @click="finalizeCheckout" dark color="#07a04b"
+                >Proceed</v-btn
+              >
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
       </v-card>
     </v-dialog>
     <ErrorMessage />
@@ -1113,12 +1171,16 @@ export default {
   data() {
     return {
       isMobile: false,
+      check: false,
+      tab: null,
+      items: ["የኢትዮጵያ ንግድ ባንክ", "አቢሲንያ ባንክ", "አዋሽ ባንክ", "ዘመን ባንክ"],
       chek: false,
       vis: false,
       test: true,
       testF: false,
       visF: false,
       loading: false,
+      transactionId: "",
       fname: "",
       country: "Ethiopia",
       firstNameProxy: "null",
@@ -1491,15 +1553,19 @@ export default {
       this.$store.commit("CLEAR_SUCCESS");
     },
     finalizeCheckout() {
-      this.$store.dispatch("finalizeCheckout", {
-        user: this.userB,
-        reference: this.reference,
-        transaction: this.transaction,
-      });
-      //This event signifies that a successfull finilize check out
-      this.$gtag.event("Finilize Checkout", {
-        event_category: "User Finilize Checkout",
-        event_label: "Checkout Finilize",
+      this.$store.dispatch("checkout", {
+        payment: this.payment,
+        loc: this.address,
+        fname: this.fname,
+        phone: this.phone,
+        deliveryType: this.delivery,
+        country: this.country,
+        region: this.region,
+        wereda: this.wereda,
+        email: this.email,
+        referenceNumber: this.reference,
+        transactionId: this.transactionId,
+        depositedBy: this.userB,
       });
     },
     billing() {

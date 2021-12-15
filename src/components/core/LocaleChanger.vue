@@ -60,7 +60,6 @@ export default {
   },
   computed: {
     displayLocale() {
-      console.log(this);
       return this.$i18n.locale;
     },
   },

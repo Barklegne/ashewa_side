@@ -1,11 +1,11 @@
 <template>
   <div style="width:100%">
-    <v-carousel hide-delimiters>
+    <v-carousel v-if="!!vendorInfo" hide-delimiters>
       <v-carousel-item
-        v-for="(n, i) in vendorImageGallerySet"
+        v-for="n in vendorInfo.corebrandSet"
         gradient="to bottom, rgba(0,0,0,.5), rgba(0,0,0,.5)"
-        :key="i"
-        :src="n"
+        :key="n.id"
+        :src="n.image"
       >
         <v-row class="fill-height" align="center" justify="center">
           <div class="display-2 white--text pl-5 pr-5 hidden-sm-only">
