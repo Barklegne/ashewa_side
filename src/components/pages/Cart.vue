@@ -480,7 +480,7 @@
                       <template v-slot:label>
                         <v-row align="center">
                           <v-col md="2">
-                            <div>Telebirr</div>
+                            <div>telebirr</div>
                           </v-col>
                           <v-col>
                             <v-img
@@ -736,8 +736,8 @@
         >
           <v-col cols="4">
             <v-btn class="pa-5 my-5" color="success" @click="clearSuccess">
-              Finish </v-btn
-            >26557\' '
+              Finish
+            </v-btn>
           </v-col>
         </v-row>
       </v-card>
@@ -1553,6 +1553,29 @@ export default {
       this.$store.commit("CLEAR_SUCCESS");
     },
     finalizeCheckout() {
+      const ids = [
+        {
+          id: "f81fa93b-e132-4883-99d0-46d49a0adac1",
+          name: "Commericial Bank of Ethio",
+          logo: "cbe.jpg",
+        },
+        {
+          id: "637b1df1-5d5f-42e1-814d-a0fbd4a57037",
+          name: "Bank of Abyssinia",
+          logo: "bank-of-abyssinia-logo-banks-in-ethiopia.jpg",
+        },
+        {
+          id: "8cbdff72-6ce3-4d83-a0f1-33f120684fa6",
+          name: "Awash Bank",
+          logo: "",
+        },
+        {
+          id: "28769c58-173a-4996-8640-a302e9ae166d",
+          name: "Zemen Bank",
+          logo: "zemen.jpg",
+        },
+      ];
+
       this.$store.dispatch("checkout", {
         payment: this.payment,
         loc: this.address,
@@ -1566,6 +1589,7 @@ export default {
         referenceNumber: this.reference,
         transactionId: this.transactionId,
         depositedBy: this.userB,
+        bankId: ids[this.tab].id,
       });
     },
     billing() {

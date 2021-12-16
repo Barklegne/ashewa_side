@@ -478,20 +478,15 @@ const actions = {
               const respom = apolloClient
                 .mutate({
                   mutation: gql`
-          
-                  mutation {
-                    finalizeLocalTransferTransaction(
-                      depositedBy: "${value.depositedBy}"
-                      reference: "${value.referenceNumber}"
-                      transactionId: "${re.data.createLocalTransferTransaction.payload.id}"
-                    ) {
-                      payload {
-                        id
-                        reference
-                      }
+                  mutation{
+                    finalizeLocalTransferTransaction(bankId:"${value.bankId}",
+                      depositedBy:"${value.depositedBy}",
+                      orderId:"${r.data.checkoutOrder.payload.order.id}",
+                      phone:"${value.phone}",referenceNumber:"${value.referenceNumber}"){
+                      confirmed
+                      inQue
                     }
                   }
-                  
               `,
                 })
                 .then((response) => {
@@ -499,7 +494,7 @@ const actions = {
                   ctx.commit(types.SHOW_LOADING, false);
                   ctx.commit(types.CHECKOUT_SUCCESS, {
                     a: r.data.checkoutOrder.payload.order.reference,
-                    m: response.data.confirmBankTransaction.confirmed,
+                    m: response.data.finalizeLocalTransferTransaction.confirmed,
                   });
                 })
                 .catch((error) => {
