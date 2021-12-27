@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.a22f70bb339d898804b90a5365f7c8eb.js"
+  "/precache-manifest.d3a07fea9ce41ccd3725f5cfad3f7a1b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "ashewa"});
