@@ -40,8 +40,7 @@
 </template>
 
 <script>
-import ProductMobile from "../product/ProductMobile.vue";
-
+const ProductMobile = () => import("../product/ProductMobile.vue");
 export default {
   components: {
     ProductMobile,

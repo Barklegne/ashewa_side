@@ -12,13 +12,11 @@
 
               <div
                 class="my-1"
-                style="cursor: pointer;"
+                :style="selected === item.id? 'cursor: pointer;color:#43DB80':'cursor: pointer;'"
                 v-for="item in categories"
                 :key="item.id"
                 @click="
-                  $router.push({
-                    path: `/subcategory/${item.id}`,
-                  })
+                  selected = item.id
                 "
               >
                 {{ item.name }}
@@ -33,7 +31,7 @@
                 >Shop by Category
               </v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn text depressed>View All</v-btn>
+             
             </v-app-bar>
             <div class="mx-4 my-5">
               <v-row>
@@ -42,7 +40,7 @@
                   lg="3"
                   md="4"
                   sm="6"
-                  v-for="(n, i) in category.categorySet"
+                  v-for="(n, i) in selectedSubcategory.categorySet"
                   :key="i"
                 >
                   <CategoryCard :title="n.name" :image="n.image" :id="n.id" />
@@ -155,6 +153,7 @@ export default {
   },
   created() {
     //this.getFilteredProducts();
+    this.selected = this.$route.params.id
   },
   methods: {
     async getFilteredProducts() {
@@ -172,18 +171,30 @@ export default {
     category() {
       return this.$store.getters.getCategoryId(this.$route.params.id);
     },
-    dataN() {
+   dataN() {
       const d = [];
-      if (this.category.productSet) {
-        this.category.productSet.forEach((da) => {
-          if (da.productimageSet.length == 0) {
-            if (da.image) {
-              d.push({ ...da, productimageSet: [{ image: da.image }] });
+      if(this.productsFromSelected){
+      this.productsFromSelected.data.forEach((da) => {
+        if (da.productimageSet.length == 0) {
+          if (da.image) {
+            
+            if(!da.usdPrice){
+              d.push({ ...da, productimageSet: [{ image: da.image }] ,usdPrice:0});
             }
-          } else {
-            d.push(da);
+            else{
+              d.push({ ...da, productimageSet: [{ image: da.image }] });
+              }
           }
-        });
+        } else {
+          
+          if(!da.usdPrice){
+              d.push({...da,usdPrice:0});
+            }
+            else{
+              d.push(da);
+            }
+        }
+      });
       }
       return d;
     },
@@ -205,8 +216,24 @@ export default {
     sampleCategories() {
       return this.$store.getters.sampleCategories;
     },
+    parentCategoriesProducts(){
+      return this.$store.state.categories.parentCategoriesProducts
+    },
+    selectedSubcategory(){
+      return this.categories.find(item => item.id === this.selected)
+    },
+    productsFromSelected(){
+      if(this.selectedSubcategory){
+        
+      if(!this.parentCategoriesProducts.find(item => item.id === this.selected)){
+        
+        this.$store.dispatch('singleCat',{id: this.selected,name:this.selectedSubcategory.name})
+        return null
+      }
+      return this.parentCategoriesProducts.find(item => item.id === this.selected)}
+      return null
+    }
   },
-
   data() {
     return {
       sortBy: [
@@ -218,6 +245,7 @@ export default {
       ],
       checkbox1: null,
       model: null,
+      selected: ""
     };
   },
 };

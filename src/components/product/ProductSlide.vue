@@ -97,10 +97,22 @@ export default {
       this.data.forEach((da) => {
         if (da.productimageSet.length == 0) {
           if (da.image) {
-            d.push({ ...da, productimageSet: [{ image: da.image }] });
+            
+            if(!da.usdPrice){
+              d.push({ ...da, productimageSet: [{ image: da.image }] ,usdPrice:0});
+            }
+            else{
+              d.push({ ...da, productimageSet: [{ image: da.image }] });
+              }
           }
         } else {
-          d.push(da);
+          
+          if(!da.usdPrice){
+              d.push({...da,usdPrice:0});
+            }
+            else{
+              d.push(da);
+            }
         }
       });
       return d;

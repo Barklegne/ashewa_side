@@ -45,8 +45,7 @@
 </template>
 
 <script>
-import ProductMobile from "../product/ProductCard.vue";
-
+const ProductMobile = () => import("../product/ProductCard.vue");
 export default {
   components: {
     ProductMobile,

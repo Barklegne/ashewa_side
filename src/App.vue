@@ -176,7 +176,7 @@ export default {
   },
   created: function() {
     this.parentCats();
-    this.$store.dispatch("getNewArrivals");
+    
     if (this.isTokenSet) {
       if (this.$store.getters.totalCartList.length == 0) {
         this.$store.dispatch("getCartList");

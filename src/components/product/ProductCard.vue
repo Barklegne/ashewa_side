@@ -360,11 +360,11 @@ export default {
     },
     usdPrice: {
       type: Number,
-      required: true,
+      default:0
     },
     supplierDomain: {
       type: String,
-      required: true,
+      default:""
     },
     sellingPrice: {
       type: Number,

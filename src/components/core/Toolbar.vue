@@ -158,7 +158,7 @@
                   @mouseleave="color3 = 'black'"
                   class="mr-5"
                 >
-                  <router-link :to="{ path: 'cart' }">
+                  <router-link :to="{ path: '/cart' }">
                     <v-badge
                       bottom
                       overlap
@@ -388,7 +388,7 @@
         <v-row style="margin-left:-30px; margin-top:-10px">
           <v-col cols="12">
             <span @mouseenter="color3 = 'white'" @mouseleave="color3 = 'black'">
-              <router-link :to="{ path: 'cart' }">
+              <router-link :to="{ path: '/cart' }">
                 <v-badge
                   bottom
                   overlap
@@ -614,6 +614,9 @@ export default {
     ]),
     currencyNow() {
       return this.$store.state.product.currency;
+    },
+    allProducts(){
+      return this.$store.state.categories.AllProducts;
     },
     admin() {
       return this.user !== null ? this.user.role === "admin" : false;

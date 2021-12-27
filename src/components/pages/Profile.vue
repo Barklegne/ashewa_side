@@ -227,9 +227,10 @@
 </template>
 
 <script>
-import WishList from "../pages/Wishlist.vue";
-import Cart from "../pages/Cart.vue";
-import OrderHistory from "../pages/OrderHistory.vue";
+
+const WishList = () => import("../pages/Wishlist.vue");
+const Cart = () => import("../pages/Cart.vue");
+const OrderHistory = () => import("../pages/OrderHistory.vue");
 import { mapGetters } from "vuex";
 export default {
   computed: {

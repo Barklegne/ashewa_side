@@ -181,7 +181,7 @@ export default {
     },
     usdPrice: {
       type: Number,
-      required: true,
+      default: 0
     },
     sellingPrice: {
       type: Number,
@@ -195,7 +195,6 @@ export default {
       type: Array,
       required: true,
     },
-
     productName: {
       type: String,
       required: true,

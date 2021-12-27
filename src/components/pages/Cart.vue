@@ -1844,12 +1844,12 @@ export default {
           ? this.user
             ? this.user.phone
               ? this.user.phone
-              : null
-            : null
+              : ""
+            : ""
           : this.yourValueProxy;
       },
       set(val) {
-        this.yourValueProxy = val;
+        this.yourValueProxy = val ? val : "";
       },
     },
     deliveryData() {

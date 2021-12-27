@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <v-footer
       style="z-index:1000"
       class="hidden-lg-and-up pa-4"
@@ -544,102 +545,6 @@
         </v-col>
       </v-row>
 
-      <!-- <div class="mb-10 py-10" style="background-color:#F2F2F2">
-        <v-row class="mb-4">
-          <v-spacer></v-spacer>
-          <v-col cols="11">
-            <div
-              style="width:100%; background-color:white;height:50px;border-radius:5px"
-              class="text-center"
-            >
-              <h1>
-                {{
-                  !!product
-                    ? product.vendor.storeName.charAt(0).toUpperCase() +
-                      product.vendor.storeName.slice(1)
-                    : ""
-                }}
-              </h1>
-            </div>
-          </v-col>
-          <v-spacer></v-spacer>
-        </v-row>
-
-        <v-row class="mb-10" align="start">
-          <v-spacer></v-spacer>
-
-          <v-col cols="8" style="background-color:white;border-radius:5px">
-            <v-row justify="center">
-              <v-col cols="8" lg="4" style="" class="text-start">
-                <div><h4>Store Categories</h4></div>
-                <div><h5>100% Positive Feedback</h5></div>
-                <div>
-                  <h5>{{ product.vendor.followerSet.length }}</h5>
-                </div>
-                <div class="mt-5">
-                  <v-btn
-                    class="mx-1 btn"
-                    color="#09b750"
-                    rounded
-                    elevation="0"
-                    :outlined="!following"
-                    @click="addFollower"
-                    :dark="following"
-                    small
-                    >{{ following ? "Following" : "+ Follow" }}</v-btn
-                  >
-                  <v-btn
-                    class="mx-1 btn"
-                    dark
-                    color="#09b750"
-                    elevation="0"
-                    rounded
-                    small
-                    :href="
-                      product.vendor.domain
-                        ? `${product.vendor.domain}`
-                        : `${product.supplierDomain}`
-                    "
-                    >Visit Store</v-btn
-                  >
-                </div>
-              </v-col>
-
-              <v-col
-                class="mx-auto"
-                v-for="(prod, i) in relatedProducts"
-                :key="i"
-                cols="6"
-                lg="2"
-              >
-                <div v-if="prod.productimageSet.length > 0">
-                  <v-card
-                    :href="`/ProductDetails/${prod.id}`"
-                    v-if="i < 4"
-                    class="mx-auto"
-                    width="100"
-                  >
-                    <v-img
-                      :src="
-                        prod.productimageSet[0].image[0] == 'h'
-                          ? prod.productimageSet[0].image
-                          : `http://api.ashewa.com/media/${prod.productimageSet[0].image}`
-                      "
-                      height="100px"
-                    ></v-img>
-                  </v-card>
-                </div>
-                <div v-if="i < 4">
-                  <h4>{{ prod.sellingPrice }}</h4>
-                </div>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-spacer></v-spacer>
-        </v-row>
-      </div> -->
-
-      <!-- <p class="mx-5">Color</p>
       <v-row justify="start" class="mx-5">
         <v-col
           class="pa-0 pt-2"
@@ -1209,6 +1114,7 @@ export default {
   data() {
     return {
       index: 0,
+      productFound:null,
       i: 0,
       rev: 0,
       vis: false,
@@ -1240,25 +1146,33 @@ export default {
     };
   },
   created() {
-    this.getProduct();
+    // if(this.$store.state.categories.AllProducts.find(item => item.id === this.$route.params.id)){
+    //   this.productFound = this.$store.state.categories.AllProducts.find(item => item.id === this.$route.params.id)
+    // }
+    // else{
+    // this.getProduct();
+    // }
+      this.getProduct();
     // this.getRelatedProduct();
   },
   computed: {
     ...mapGetters(["isTokenSet"]),
     currency() {
+      
       return this.$store.state.product.currency;
     },
     following() {
       if (this.isTokenSet) {
-        if (!this.product) {
-          return false;
-        }
-        if (this.product.vendor.followerSet.length === 0) {
-          return false;
-        }
-        return !!this.product.vendor.followerSet.find(
-          (x) => x.user.id === this.$store.state.auth.user.id
-        );
+        // if (!this.product) {
+        //   return false;
+        // }
+        // if (this.product.vendor.followerSet.length === 0) {
+        //   return false;
+        // }
+        // return !!this.product.vendor.followerSet.find(
+        //   (x) => x.user.id === this.$store.state.auth.user.id
+        // );
+        return false;
       }
       return false;
     },
@@ -1272,6 +1186,17 @@ export default {
       return [];
     },
     product() {
+      // console.log(this.productFound)
+      // if(this.productFound){
+      //   if (this.productFound.productimageSet.length == 0) {
+      //       return {
+      //     ...this.productFound ,
+      //     productimageSet: [{ image: this.productFound.image }]
+      //     }
+      //   } else {
+      //     return this.productFound;
+      //   }
+      // }
       return this.$store.getters.productFound;
     },
     averageRating() {

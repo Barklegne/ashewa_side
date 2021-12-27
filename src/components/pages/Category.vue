@@ -119,7 +119,7 @@
               ><div class="mt-3">
                 {{
                   `${
-                    !!subCategory.productSet ? subCategory.productSet.length : 0
+                    dataN.length
                   }`
                 }}
                 Products found
@@ -150,19 +150,21 @@
 </template>
 
 <script>
-import ProductCard from "../product/ProductCard.vue";
-import ProductMobile from "../product/ProductMobile.vue";
+const ProductMobile = () => import("../product/ProductMobile.vue");
+const ProductCard = () => import("../product/ProductCard.vue");
 export default {
   components: {
     ProductCard,
     ProductMobile,
   },
   created() {
-    this.getSubCat(this.$route.params.id);
+    if(!this.subCategoriesProducts.find(item => item.id === this.$route.params.id)){
+        this.getSubCat(this.$route.params.id);
+      }
   },
   methods: {
     async getSubCat(id) {
-      await this.$store.dispatch("getSubCat", id);
+      await this.$store.dispatch("getSubCatProducts", {id:id});
     },
   },
   computed: {
@@ -172,18 +174,39 @@ export default {
       }
       return {};
     },
+    subCategoriesProducts(){
+      return this.$store.state.categories.subCategoriesProducts 
+    },
+    productsFromSelected(){  
+      if(!this.subCategoriesProducts.find(item => item.id === this.$route.params.id)){
+        return null
+      }
+      return this.subCategoriesProducts.find(item => item.id === this.$route.params.id)
+    },
     dataN() {
       const d = [];
-      if (this.subCategory.productSet) {
-        this.subCategory.productSet.forEach((da) => {
-          if (da.productimageSet.length == 0) {
-            if (da.image) {
-              d.push({ ...da, productimageSet: [{ image: da.image }] });
+      if(this.productsFromSelected){
+      this.productsFromSelected.data.forEach((da) => {
+        if (da.productimageSet.length == 0) {
+          if (da.image) {
+            
+            if(!da.usdPrice){
+              d.push({ ...da, productimageSet: [{ image: da.image }] ,usdPrice:0});
             }
-          } else {
-            d.push(da);
+            else{
+              d.push({ ...da, productimageSet: [{ image: da.image }] });
+              }
           }
-        });
+        } else {
+          
+          if(!da.usdPrice){
+              d.push({...da,usdPrice:0});
+            }
+            else{
+              d.push(da);
+            }
+        }
+      });
       }
       return d;
     },
