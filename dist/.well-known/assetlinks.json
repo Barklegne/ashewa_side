@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ashewa.twa",
+      "sha256_cert_fingerprints": [
+        "28:E3:6C:86:C5:47:CD:1D:8F:C2:7E:A1:E7:FC:B3:8A:67:E7:41:5D:87:1C:F5:7C:DF:B4:5E:7E:85:7E:C1:6C"
+      ]
+    }
+  }
+]
