@@ -43,11 +43,11 @@ const app = new Vue({
   i18n,
   render: (h) => h(App),
   apolloProvider: createProvider(),
-
   created() {
     store.dispatch("autoLogin");
   },
 }).$mount("#app");
+
 const longClickInstance = longClickDirective({ delay: 400, interval: 50 });
 
 Vue.directive("longclick", longClickInstance);
