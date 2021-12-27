@@ -1,6 +1,6 @@
 <template>
   <v-app class="myFont">
-    <h1>Test</h1>
+    <!-- <h1>Test</h1> -->
     <Toolbar v-if="$route.name !== 'VisitStore'" />
     <StoreToolbar v-else></StoreToolbar>
     <!-- <TestToolbar /> -->
